@@ -1,2 +1,2 @@
 # ab-web-addon
-A simple, but sleek, web addon for Advanced Bans.
+A simple, but sleek, web addon for AdvancedBan.
