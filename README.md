@@ -20,7 +20,8 @@ if (mysqli_connect_errno()) {
 Once you have correctly entered in your database details and table name, the addon should start working.
 ## Credit and Problems
 The site theme and framework are by Bootswatch and Bootstrap.
+The addon itself by [mathhulk](https://theartex.net).
 All credit for AdvancedBan goes to its original author, whose link can be found on the example page.
-**Issues**
+## Issues
 - Weird database loop not returning all rows
 
