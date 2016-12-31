@@ -21,6 +21,7 @@ $types = array('ban','temp_ban','mute','temp_mute','warning','temp_warning','kic
 
 if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) {
 	$types = array(strtolower($_GET['type']));
+	$type = $_GET['type'];
 }
 ?>
 <html lang="en">
@@ -101,11 +102,11 @@ if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) {
 				<div class="text-center">
 					<?php
 					if($page['number'] != 1) { //Display a previous page button if the current page is not 1.
-						echo "<a href='index.php?p=".($page['number'] - 1)."&type=".$_GET['type']."' class='btn btn-primary btn-md'>Previous Page</a>";
+						echo "<a href='index.php?p=".($page['number'] - 1).(isset($type) ? "&type=".$type : '')."' class='btn btn-primary btn-md'>Previous Page</a>";
 					}
 					
 					if(($page['count'] - 1) == $page['max']) { //Display a next page button if the total punishments is more than that of the current page.
-						echo "<a href='index.php?p=".($page['number'] + 1)."&type=".$_GET['type']."' class='btn btn-primary btn-md'>Next Page</a>";
+						echo "<a href='index.php?p=".($page['number'] + 1).(isset($type) ? "&type=".$type : '')."' class='btn btn-primary btn-md'>Next Page</a>";
 					}
 					?>
 				</div>
