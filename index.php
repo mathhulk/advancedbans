@@ -1,7 +1,7 @@
 <?php
 require('database.php');
 
-if(is_numeric($_GET['p'])) {
+if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 	$page = array(
 		'max'=>$_GET['p']*25, //The multiple is the maximum amount of results on a single page.
 		'min'=>($_GET['p'] - 1)*25,
@@ -19,7 +19,7 @@ if(is_numeric($_GET['p'])) {
 
 $types = array('ban','temp_ban','mute','temp_mute','warning','temp_warning','kick');
 
-if(in_array(strtolower($_GET['type']),$types)) {
+if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) {
 	$types = array(strtolower($_GET['type']));
 }
 ?>
