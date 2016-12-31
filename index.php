@@ -5,12 +5,16 @@ if(is_numeric($_GET['p'])) {
 	$page = array(
 		'max'=>$_GET['p']*25, //The multiple is the maximum amount of results on a single page.
 		'min'=>($_GET['p'] - 1)*25,
-		'number'=>$_GET['p']);
+		'number'=>$_GET['p'],
+		'posts'=>0,
+		'count'=>0);
 }else{
 	$page = array(
 		'max'=>'25', //The maximum amount of results on a single page.
 		'min'=>'0',
-		'number'=>'1');
+		'number'=>'1'),
+		'posts'=>0,
+		'count'=>0);
 }
 
 $types = array('ban','temp_ban','mute','temp_mute','warning','temp_warning','kick');
@@ -74,21 +78,21 @@ if(in_array(strtolower($_GET['type']),$types)) {
 					<tbody>
 						<?php
 						$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
-						$count = 0; $posts = 0; //Set the main count and posts count to 0.
 						
 						while($row = mysqli_fetch_array($result)) { //Fetch colums from each row of the MYSQL database.
-							if($count < $page['max'] && $count >= $page['min'] && strpos($row['name'],'.') == FALSE && in_array(strtolower($row['punishmentType']),$types)) { 
-								$count = $count + 1; //For some reason, $count++ won't work. *shrugs*
+							if($page['count'] < $page['max'] && $page['count'] >= $page['min'] && strpos($row['name'],'.') == FALSE && in_array(strtolower($row['punishmentType']),$types)) { 
+								$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
 								echo "<tr><td>".$row['name']."</td><td>".$row['uuid']."</td><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".str_replace('_','-',$row['punishmentType'])."</td></tr>";
-								$posts = $posts + 1;
+								$page['posts'] = $page['posts'] + 1;
 							} else {
-								$count = $count + 1;
-								if($count >= $page['max']) {
+								$page['count'] = $page['count'] + 1;
+								if($page['count'] >= $page['max']) {
 									break;
 								}
 							}
 						}
-						if($posts == 0) { //Display an error if no punishments could be found.
+						
+						if($page['posts'] == 0) { //Display an error if no punishments could be found.
 							echo "<tr><td>---</td><td>---</td><td>No punishments could be located.</td><td>---</td><td>---</td></tr>";
 						}
 						?>
@@ -99,7 +103,8 @@ if(in_array(strtolower($_GET['type']),$types)) {
 					if($page['number'] != 1) { //Display a previous page button if the current page is not 1.
 						echo "<a href='index.php?p=".($page['number'] - 1)."&type=".$_GET['type']."' class='btn btn-primary btn-md'>Previous Page</a>";
 					}
-					if(($count - 1) == $page['max']) { //Display a next page button if the total punishments is more than that of the current page.
+					
+					if(($page['count'] - 1) == $page['max']) { //Display a next page button if the total punishments is more than that of the current page.
 						echo "<a href='index.php?p=".($page['number'] + 1)."&type=".$_GET['type']."' class='btn btn-primary btn-md'>Next Page</a>";
 					}
 					?>
