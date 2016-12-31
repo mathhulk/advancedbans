@@ -12,7 +12,7 @@ if(is_numeric($_GET['p'])) {
 	$page = array(
 		'max'=>'25', //The maximum amount of results on a single page.
 		'min'=>'0',
-		'number'=>'1'),
+		'number'=>'1',
 		'posts'=>0,
 		'count'=>0);
 }
