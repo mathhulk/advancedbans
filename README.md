@@ -24,5 +24,5 @@ The site theme and framework are by Bootswatch and Bootstrap.
 The addon itself by [mathhulk](https://theartex.net).
 All credit for AdvancedBan goes to its original author, whose link can be found on the example page.
 ## Issues
-- Weird database loop not returning all rows
+- None
 
