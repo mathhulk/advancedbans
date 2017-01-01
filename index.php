@@ -1,7 +1,7 @@
 <?php
 require('database.php');
 
-if(is_numeric($_GET['p'])) {
+if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 	$page = array(
 		'max'=>$_GET['p']*25, //The multiple is the maximum amount of results on a single page.
 		'min'=>($_GET['p'] - 1)*25,
@@ -19,8 +19,9 @@ if(is_numeric($_GET['p'])) {
 
 $types = array('ban','temp_ban','mute','temp_mute','warning','temp_warning','kick');
 
-if(in_array(strtolower($_GET['type']),$types)) {
+if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) {
 	$types = array(strtolower($_GET['type']));
+	$type = $_GET['type'];
 }
 ?>
 <html lang="en">
@@ -77,7 +78,8 @@ if(in_array(strtolower($_GET['type']),$types)) {
 					</thead>
 					<tbody>
 						<?php
-						$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
+						if(!isset($type)) $result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
+						else $result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType = '" . $type . "' ORDER BY id DESC"); //Grab data from the MYSQL database.
 						
 						while($row = mysqli_fetch_array($result)) { //Fetch colums from each row of the MYSQL database.
 							if($page['count'] < $page['max'] && $page['count'] >= $page['min'] && strpos($row['name'],'.') == FALSE && in_array(strtolower($row['punishmentType']),$types)) { 
@@ -101,11 +103,11 @@ if(in_array(strtolower($_GET['type']),$types)) {
 				<div class="text-center">
 					<?php
 					if($page['number'] != 1) { //Display a previous page button if the current page is not 1.
-						echo "<a href='index.php?p=".($page['number'] - 1)."&type=".$_GET['type']."' class='btn btn-primary btn-md'>Previous Page</a>";
+						echo "<a href='index.php?p=".($page['number'] - 1).(isset($type) ? "&type=".$type : '')."' class='btn btn-primary btn-md'>Previous Page</a>";
 					}
 					
 					if(($page['count'] - 1) == $page['max']) { //Display a next page button if the total punishments is more than that of the current page.
-						echo "<a href='index.php?p=".($page['number'] + 1)."&type=".$_GET['type']."' class='btn btn-primary btn-md'>Next Page</a>";
+						echo "<a href='index.php?p=".($page['number'] + 1).(isset($type) ? "&type=".$type : '')."' class='btn btn-primary btn-md'>Next Page</a>";
 					}
 					?>
 				</div>
