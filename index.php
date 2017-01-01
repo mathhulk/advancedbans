@@ -78,8 +78,11 @@ if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) {
 					</thead>
 					<tbody>
 						<?php
-						if(!isset($type)) $result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
-						else $result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType = '" . $type . "' ORDER BY id DESC"); //Grab data from the MYSQL database.
+						if(!isset($type)) {
+							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
+						} else {
+							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType = '" . $type . "' ORDER BY id DESC"); //Grab data from the MYSQL database.
+						}
 						
 						while($row = mysqli_fetch_array($result)) { //Fetch colums from each row of the MYSQL database.
 							if($page['count'] < $page['max'] && $page['count'] >= $page['min'] && strpos($row['name'],'.') == FALSE && in_array(strtolower($row['punishmentType']),$types)) { 
