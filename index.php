@@ -16,13 +16,6 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 		'posts'=>0,
 		'count'=>0);
 }
-
-$types = array('ban','temp_ban','mute','temp_mute','warning','temp_warning','kick');
-
-if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) {
-	$types = array(strtolower($_GET['type']));
-	$type = $_GET['type'];
-}
 ?>
 <html lang="en">
 	<head>
@@ -60,9 +53,20 @@ if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) {
 		
 		<div class="container">
 			<div class="jumbotron">
-				<h1><br><?php echo $info['title']; ?></h1>
+				<h1><br><?php echo $info['title']; ?></h1> 
 				<p><?php echo $info['description']; ?></p>
 				<p><a href="index.php" class="btn btn-primary btn-md">All</a><a href="index.php?type=ban" class="btn btn-primary btn-md">Bans</a><a href="index.php?type=kick" class="btn btn-primary btn-md">Kicks</a><a href="index.php?type=temp_ban" class="btn btn-primary btn-md">Temp-Bans</a><a href="index.php?type=mute" class="btn btn-primary btn-md">Mutes</a><a href="index.php?type=temp_mute" class="btn btn-primary btn-md">Temp-Mutes</a><a href="index.php?type=warning" class="btn btn-primary btn-md">Warnings</a><a href="index.php?type=temp_warning" class="btn btn-primary btn-md">Temp-Warnings</a></p>
+			</div>
+			
+			<div class="jumbotron">
+				<form method="post" action="index.php">
+					<div class="input-group">
+						<input type="text" maxlength="50" name="user" class="form-control" placeholder="Search for...">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Submit</button>
+						</span>
+					</div>
+				</form>
 			</div>
 			
 			<div class="jumbotron">
@@ -78,14 +82,23 @@ if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) {
 					</thead>
 					<tbody>
 						<?php
-						if(!isset($type)) {
-							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
+						$types = array('ban','temp_ban','mute','temp_mute','warning','temp_warning','kick'); //List the types of punishments.
+
+						if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) { //Check to see if the type is in the list of types.
+							$type = stripslashes($_GET['type']); $type = mysqli_real_escape_string($type); //Prevent SQL injection by sanitising and escaping the string.
+							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".$type."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific type is specified.
+						} elseif(isset($_GET['user'])) {
+							$user = stripslashes($_GET['user']); $type = mysqli_real_escape_string($user); //Prevent SQL injection by sanitising and escaping the string.
+							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
+						} elseif($_POST && isset($_POST['user'])) {
+							$user = stripslashes($_POST['user']); $type = mysqli_real_escape_string($user); //Prevent SQL injection by sanitising and escaping the string.
+							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
 						} else {
-							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType = '" . $type . "' ORDER BY id DESC"); //Grab data from the MYSQL database.
+							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
 						}
 						
 						while($row = mysqli_fetch_array($result)) { //Fetch colums from each row of the MYSQL database.
-							if($page['count'] < $page['max'] && $page['count'] >= $page['min'] && strpos($row['name'],'.') == FALSE && in_array(strtolower($row['punishmentType']),$types)) { 
+							if($page['count'] < $page['max'] && $page['count'] >= $page['min'] && strpos($row['name'],'.') == FALSE && strpos($row['uuid'],'.') == FALSE) { //Prevent showing IP addresses to improve security for the users.
 								$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
 								echo "<tr><td>".$row['name']."</td><td>".$row['uuid']."</td><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".str_replace('_','-',$row['punishmentType'])."</td></tr>";
 								$page['posts'] = $page['posts'] + 1;
