@@ -85,13 +85,13 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 						$types = array('ban','temp_ban','mute','temp_mute','warning','temp_warning','kick'); //List the types of punishments.
 
 						if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) { //Check to see if the type is in the list of types.
-							$type = stripslashes($_GET['type']); $type = mysqli_real_escape_string($type); //Prevent SQL injection by sanitising and escaping the string.
+							$type = stripslashes($_GET['type']); $type = mysqli_real_escape_string($con,$type); //Prevent SQL injection by sanitising and escaping the string.
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".$type."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific type is specified.
 						} elseif(isset($_GET['user'])) {
-							$user = stripslashes($_GET['user']); $type = mysqli_real_escape_string($user); //Prevent SQL injection by sanitising and escaping the string.
+							$user = stripslashes($_GET['user']); $user = mysqli_real_escape_string($con,$user); //Prevent SQL injection by sanitising and escaping the string.
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
 						} elseif($_POST && isset($_POST['user'])) {
-							$user = stripslashes($_POST['user']); $type = mysqli_real_escape_string($user); //Prevent SQL injection by sanitising and escaping the string.
+							$user = stripslashes($_POST['user']); $user = mysqli_real_escape_string($con,$user); //Prevent SQL injection by sanitising and escaping the string.
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
 						} else {
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
