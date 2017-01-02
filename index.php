@@ -29,24 +29,24 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 		<nav class="navbar navbar-default navbar-fixed-top">
 		  <div class="container">
 			<div class="navbar-header">
-			  <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			  </button>
-			  <a class="navbar-brand" href="#"><?php echo $info['title']; ?></a>
+				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href=""><?php echo $info['title']; ?></a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			  <ul class="nav navbar-nav">
-				<li class="active"><a href="#">Punishments</a></li>
-				<li><a href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
-				<li><a href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
-			  </ul>
-			  <ul class="nav navbar-nav navbar-right">
-				<li><a href="https://theartex.net">made by mathhulk</a></li>
-			  </ul>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="">Punishments</a></li>
+					<li><a href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
+					<li><a href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="https://theartex.net">made by mathhulk</a></li>
+				</ul>
 			</div>
 		  </div>
 		</nav>
