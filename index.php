@@ -16,11 +16,14 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 		'posts'=>0,
 		'count'=>0);
 }
+
+$types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning','kick'); //List the types of punishments.
 ?>
 <html lang="en">
 	<head>
 		<title><?php echo $info['title']; ?></title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/<?php echo $info['theme']; ?>/bootstrap.min.css" rel="stylesheet">
@@ -55,7 +58,19 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 			<div class="jumbotron">
 				<h1><br><?php echo $info['title']; ?></h1> 
 				<p><?php echo $info['description']; ?></p>
-				<p><a href="index.php" class="btn btn-primary btn-md">All</a><a href="index.php?type=ban" class="btn btn-primary btn-md">Bans</a><a href="index.php?type=kick" class="btn btn-primary btn-md">Kicks</a><a href="index.php?type=temp_ban" class="btn btn-primary btn-md">Temp-Bans</a><a href="index.php?type=mute" class="btn btn-primary btn-md">Mutes</a><a href="index.php?type=temp_mute" class="btn btn-primary btn-md">Temp-Mutes</a><a href="index.php?type=warning" class="btn btn-primary btn-md">Warnings</a><a href="index.php?type=temp_warning" class="btn btn-primary btn-md">Temp-Warnings</a></p>
+				<p>
+					<?php
+					foreach($types as $type) { //Loop through the types of punishments.
+						$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".strtoupper($type)."'"); $rows = mysqli_num_rows($result); //Grab the number of rows per punishment type.
+						$url = "index.php?type=".$type; //Grab the URL for each type.
+						if($type == 'all') { //If the type is all...
+							$url = "index.php"; //...set the URL to the same page.
+							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."`"); $rows = mysqli_num_rows($result); //Grab the number of rows per punishment type.
+						}
+						echo '<a href="'.$url.'" class="btn btn-primary btn-md">'.ucwords(str_replace('_','-',$type)).($type != "all" ? "s" : "").' <span class="badge">'.$rows.'</span></a></a>'; //Print the resulting punishment type on the page.
+					}
+					?>
+				</p>
 			</div>
 			
 			<div class="jumbotron">
@@ -74,17 +89,16 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 					<thead>
 						<tr>
 							<th>Username</th>
-							<th>UUID</th>
 							<th>Reason</th>
 							<th>Operator</th>
+							<th>Date</th>
+							<th>End</th>
 							<th>Type</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php
-						$types = array('ban','temp_ban','mute','temp_mute','warning','temp_warning','kick'); //List the types of punishments.
-
-						if(isset($_GET['type']) && in_array(strtolower($_GET['type']),$types)) { //Check to see if the type is in the list of types.
+						if(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types)) { //Check to see if the type is in the list of types.
 							$type = stripslashes($_GET['type']); $type = mysqli_real_escape_string($con,$type); //Prevent SQL injection by sanitising and escaping the string.
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".$type."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific type is specified.
 						} elseif(isset($_GET['user'])) {
@@ -100,7 +114,11 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 						while($row = mysqli_fetch_array($result)) { //Fetch colums from each row of the MYSQL database.
 							if($page['count'] < $page['max'] && $page['count'] >= $page['min'] && strpos($row['name'],'.') == FALSE && strpos($row['uuid'],'.') == FALSE) { //Prevent showing IP addresses to improve security for the users.
 								$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
-								echo "<tr><td>".$row['name']."</td><td>".$row['uuid']."</td><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".str_replace('_','-',$row['punishmentType'])."</td></tr>";
+								$end = date("F jS, Y", $row['end'] / 1000)."<br><span class='badge'>".date("g:i A", $row['end'] / 1000); //Grab the end time as a data.
+								if($row['end'] == '-1') { //If the end time isn't set...
+									$end = 'Not Evaluated'; //...set the end time to N/A.
+								}
+								echo "<tr><td>".$row['name']."</td><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".date("F jS, Y", $row['start'] / 1000)."<br><span class='badge'>".date("g:i A", $row['start'] / 1000)."</span></td><td>".$end."</td><td>".ucwords(strtolower(str_replace('_','-',$row['punishmentType'])))."</td></tr>";
 								$page['posts'] = $page['posts'] + 1;
 							} else {
 								$page['count'] = $page['count'] + 1;
