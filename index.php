@@ -114,7 +114,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 						while($row = mysqli_fetch_array($result)) { //Fetch colums from each row of the MYSQL database.
 							if($page['count'] < $page['max'] && $page['count'] >= $page['min'] && strpos($row['name'],'.') == FALSE && strpos($row['uuid'],'.') == FALSE) { //Prevent showing IP addresses to improve security for the users.
 								$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
-								$end = date("F jS, Y", $row['end'] / 1000)."<br><span class='badge'>".date("g:i A", $row['end'] / 1000); //Grab the end time as a data.
+								$end = date("F jS, Y", $row['end'] / 1000)."<br><span class='badge'>".date("g:i A", $row['end'] / 1000)."</span>"; //Grab the end time as a data.
 								if($row['end'] == '-1') { //If the end time isn't set...
 									$end = 'Not Evaluated'; //...set the end time to N/A.
 								}
