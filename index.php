@@ -100,8 +100,8 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 					<tbody>
 						<?php
 						if(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types)) { //Check to see if the type is in the list of types.
-							$type = stripslashes($_GET['type']); $type = mysqli_real_escape_string($con,$type); //Prevent SQL injection by sanitising and escaping the string.
-							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".$type."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific type is specified.
+							$punishment = stripslashes($_GET['type']); $punishment = mysqli_real_escape_string($con,$punishment); //Prevent SQL injection by sanitising and escaping the string.
+							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".$punishment."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific type is specified.
 						} elseif(isset($_GET['user'])) {
 							$user = stripslashes($_GET['user']); $user = mysqli_real_escape_string($con,$user); //Prevent SQL injection by sanitising and escaping the string.
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
@@ -112,6 +112,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
 						}
 						
+						$rows = mysqli_num_rows($result); //Grab the amount of results to be used in pagination.
 						while($row = mysqli_fetch_array($result)) { //Fetch colums from each row of the MYSQL database.
 							if($page['count'] < $page['max'] && $page['count'] >= $page['min'] && strpos($row['name'],'.') == FALSE && strpos($row['uuid'],'.') == FALSE) { //Prevent showing IP addresses to improve security for the users.
 								$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
@@ -119,7 +120,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 								if($row['end'] == '-1') { //If the end time isn't set...
 									$end = 'Not Evaluated'; //...set the end time to N/A.
 								}
-								echo "<tr><td>".$row['name']."</td><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".date("F jS, Y", $row['start'] / 1000)."<br><span class='badge'>".date("g:i A", $row['start'] / 1000)."</span></td><td>".$end."</td><td>".ucwords(strtolower(str_replace('_','-',$row['punishmentType'])))."</td></tr>";
+								echo "<tr><td><img src='https://crafatar.com/renders/head/".$row['uuid']."?scale=2&default=MHF_Steve&overlay' alt='".$row['name']."'>".$row['name']."</td><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".date("F jS, Y", $row['start'] / 1000)."<br><span class='badge'>".date("g:i A", $row['start'] / 1000)."</span></td><td>".$end."</td><td>".ucwords(strtolower(str_replace('_','-',$row['punishmentType'])))."</td></tr>";
 								$page['posts'] = $page['posts'] + 1;
 							} else {
 								$page['count'] = $page['count'] + 1;
@@ -136,15 +137,24 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 					</tbody>
 				</table>
 				<div class="text-center">
-					<?php
-					if($page['number'] != 1) { //Display a previous page button if the current page is not 1.
-						echo "<a href='index.php?p=".($page['number'] - 1).(isset($type) ? "&type=".$type : '')."' class='btn btn-primary btn-md'>Previous Page</a>";
-					}
-					
-					if(($page['count'] - 1) == $page['max']) { //Display a next page button if the total punishments is more than that of the current page.
-						echo "<a href='index.php?p=".($page['number'] + 1).(isset($type) ? "&type=".$type : '')."' class='btn btn-primary btn-md'>Next Page</a>";
-					}
-					?>
+					<ul class='pagination'>
+						<?php
+						if($page['number'] != 1) { //Display a previous page button if the current page is not 1.
+							echo "<li><a href='index.php?p=".($page['number'] - 1).(isset($punishment) ? "&type=".$punishment : '')."'>&laquo; Previous Page</a></li>";
+						}
+						$pages = substr(($rows / 25),0,1); $pagination = 1; //Fetch the number of regular pages.
+						if($rows % 25 != 0) {
+							$pages = $pages + 1; //Add one more page if the content will not fit on the number of regular pages.
+						}
+						while($pages != 0) {
+							echo "<li ".($pagination == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pagination.(isset($punishment) ? "&type=".$punishment : '')."'>".$pagination."</a></li>"; //Display the pagination.
+							$pagination = $pagination + 1; $pages = $pages - 1;
+						}
+						if(($page['count'] - 1) == $page['max']) { //Display a next page button if the total punishments is more than that of the current page.
+							echo "<li><a href='index.php?p=".($page['number'] + 1).(isset($punishment) ? "&type=".$punishment : '')."'>Next Page &raquo;</a></li>";
+						}
+						?>
+					</ul>
 				</div>
 			</div>
 		</div>
