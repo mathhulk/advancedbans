@@ -27,6 +27,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/<?php echo $info['theme']; ?>/bootstrap.min.css" rel="stylesheet">
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	</head>
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top">
@@ -129,7 +130,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 						}
 						
 						if($page['posts'] == 0) { //Display an error if no punishments could be found.
-							echo "<tr><td>---</td><td>---</td><td>No punishments could be located.</td><td>---</td><td>---</td></tr>";
+							echo "<tr><td>---</td><td>No punishments could be located.</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
 						}
 						?>
 					</tbody>
