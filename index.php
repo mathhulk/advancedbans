@@ -75,7 +75,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 			</div>
 			
 			<div class="jumbotron">
-				<form method="post" action="index.php">
+				<form method="post" action="user.php">
 					<div class="input-group">
 						<input type="text" maxlength="50" name="user" class="form-control" placeholder="Search for...">
 						<span class="input-group-btn">
@@ -102,12 +102,6 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 						if(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types)) { //Check to see if the type is in the list of types.
 							$punishment = stripslashes($_GET['type']); $punishment = mysqli_real_escape_string($con,$punishment); //Prevent SQL injection by sanitising and escaping the string.
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".$punishment."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific type is specified.
-						} elseif(isset($_GET['user'])) {
-							$user = stripslashes($_GET['user']); $user = mysqli_real_escape_string($con,$user); //Prevent SQL injection by sanitising and escaping the string.
-							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
-						} elseif($_POST && isset($_POST['user'])) {
-							$user = stripslashes($_POST['user']); $user = mysqli_real_escape_string($con,$user); //Prevent SQL injection by sanitising and escaping the string.
-							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
 						} else {
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ORDER BY id DESC"); //Grab data from the MYSQL database.
 						}
@@ -150,7 +144,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 							echo "<li ".($pagination == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pagination.(isset($punishment) ? "&type=".$punishment : '')."'>".$pagination."</a></li>"; //Display the pagination.
 							$pagination = $pagination + 1; $pages = $pages - 1;
 						}
-						if(($page['count'] - 1) == $page['max']) { //Display a next page button if the total punishments is more than that of the current page.
+						if($page['count'] == $page['max']) { //Display a next page button if the total punishments is more than that of the current page.
 							echo "<li><a href='index.php?p=".($page['number'] + 1).(isset($punishment) ? "&type=".$punishment : '')."'>Next Page &raquo;</a></li>";
 						}
 						?>
