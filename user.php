@@ -99,10 +99,6 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 			
 			<div class="jumbotron">
 				<div class="row">
-					<div class="col-md-4 col-sm-12 text-center">
-						<h2><?php echo $user; ?></h2>
-						<br><img src="https://crafatar.com/renders/body/<?php echo $uuid['uuid']; ?>" alt="Skin Profile"></img>
-					</div>
 					<div class="col-md-8 col-sm-12">
 						<table class="table table-striped table-hover">
 							<thead>
@@ -124,6 +120,13 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 										if($row['end'] == '-1') { //If the end time isn't set...
 											$end = 'Not Evaluated'; //...set the end time to N/A.
 										}
+										
+										if($row['punishmentType'] == 'BAN' && !isset($banned)) { //If a ban record exists for the user, set the user to banned.
+											$banned = "<small><br><br><span class='badge'>Permanently Banned</span></small>";
+										} elseif($row['punishmentType'] == 'TEMP_BAN' && !isset($banned)) { //If a temporary ban record exists for the user, set the user to temporarily banned.
+											$banned = "<small><br><br><span class='badge'>Banned until ".date("F jS, Y", $row['start'] / 1000)." at ".date("g:i A", $row['start'] / 1000)."</span></small>";
+										}
+										
 										echo "<tr><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".date("F jS, Y", $row['start'] / 1000)."<br><span class='badge'>".date("g:i A", $row['start'] / 1000)."</span></td><td>".$end."</td><td>".ucwords(strtolower(str_replace('_','-',$row['punishmentType'])))."</td></tr>";
 										$page['posts'] = $page['posts'] + 1;
 									} else {
@@ -160,6 +163,19 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 								?>
 							</ul>
 						</div>
+					</div>
+					<div class="col-md-4 col-sm-12 text-center">
+						<h2>
+							<?php
+							echo $user."";
+							if(isset($banned)) { //Check to see if a temporary or permanent ban record is set for the user.
+								echo $banned; //If so, display it.
+							} else {
+								echo "<small><br><br><span class='badge'>Not Banned</span></small>"; //If not, display otherwise.
+							}
+							?>
+						</h2>
+						<br><img src="https://crafatar.com/renders/body/<?php echo $uuid['uuid']; ?>" alt="Skin Profile"></img>
 					</div>
 				</div>
 			</div>
