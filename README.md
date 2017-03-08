@@ -47,10 +47,29 @@ if (mysqli_connect_errno()) {
 ```
 Once you have correctly entered in your database details and table name, the addon should start working.
 
+## Adding IP-Bans
+To add IP bans, you must first remove both of the following comparisons from the database queries:
+```
+WHERE punishmentType!='IP_BAN'
+
+AND punishmentType!='IP_BAN'
+```
+I would suggest using a text editor, such as Notepad++, to easily search for and replace both of these comparisons in both the user.php and index.php files.
+
+After removing those comparisons, you must then add the "ip_ban" punishment to the list of punishments for both the user.php and index.php files:
+```php
+$types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning','kick','ip_ban');
+```
+
 ## Credit and Problems
 The site theme and framework are by Bootswatch and Bootstrap.
 The addon itself by [mathhulk](https://theartex.net).
 All credit for AdvancedBan goes to its original author, whose link can be found on the example page.
+All credit for WebSender goes to its original author, whose link can be found below.
+
+To execute commands, you must download and enable the [WebSender](https://www.spigotmc.org/resources/websender-send-command-with-php-bungee-and-bukkit-support.33909/) plugin on the server you wish to execute commands from.
+
+Please be careful, as this grants users FULL access to ALL commands.
 
 ## Issues
 - None
