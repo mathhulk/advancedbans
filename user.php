@@ -1,5 +1,4 @@
 <?php
-ob_start();
 require('database.php');
 
 if(isset($_GET['user'])) {
@@ -69,12 +68,18 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="index.php">Punishments</a></li>
-					<li><a href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
-					<li><a href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
+					<li class="active"><a href="">Punishments</a></li>
+					<li><a href="admin">Dashboard</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="https://theartex.net">made by mathhulk</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Credits <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
+							<li><a href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
+							<li><a href="https://theartex.net">mathhulk</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		  </div>

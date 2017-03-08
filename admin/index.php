@@ -1,6 +1,24 @@
 <?php
-require('database.php');
+require('../database.php');
 
+if(!isset($_SESSION['id']) || !in_array($_SESSION['username'],$info['admin']['accounts'])) { //Require the user to be logged in to view this page.
+	header('Location: logout.php'); //Prompt the user to log in if they are not.
+}
+
+$log = new SQLite3("log.sqlite"); //Connect to or create the log database.
+$query = 'CREATE TABLE IF NOT EXISTS commands (id INTEGER PRIMARY KEY AUTOINCREMENT, command VARCHAR(1000) NOT NULL, username VARCHAR(100) NOT NULL, trn_date DATETIME NOT NULL)'; $result = $log->query($query); //Create a table to save commands to. 
+	
+if($_POST && isset($_SESSION['id'])) { //Check if a command was executed and the visitor is logged in.
+    $cmd = new WebsenderAPI($info['admin']['host'],$info['admin']['password'],$info['admin']['port']); //Connect to the server via WebSender.
+    if($cmd->connect()) { //Attempt a connection to the server via WebSender.
+        $cmd->sendCommand($_POST['command']); //Execute the command via WebSender.
+		$query = "INSERT INTO commands (username, command, trn_date) VALUES ('".$_SESSION['username']."', '".$_POST['command']."', '".date('Y-m-d H:i:s')."')"; $result = $log->query($query); //Log the executed command.
+    } else {
+        $announce = "An error occurred while connecting to the server"; //Display the error to the user.
+	}
+    $cmd->disconnect(); //Disconnect from the server via WebSender.
+}
+	
 if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 	$page = array(
 		'max'=>$_GET['p']*25, //The multiple is the maximum amount of results on a single page.
@@ -16,8 +34,6 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 		'posts'=>0,
 		'count'=>0);
 }
-
-$types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning','kick'); //List the types of punishments.
 ?>
 <html lang="en">
 	<head>
@@ -44,8 +60,13 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="">Punishments</a></li>
-					<li><a href="admin">Dashboard</a></li>
+					<li><a href="../">Punishments</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $_SESSION['username']; ?> <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="logout.php">Logout</a></li>
+						</ul>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
@@ -65,27 +86,20 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 			<div class="jumbotron">
 				<h1><br><?php echo $info['title']; ?></h1> 
 				<p><?php echo $info['description']; ?></p>
-				<p>
-					<?php
-					foreach($types as $type) { //Loop through the types of punishments.
-						$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".strtoupper($type)."'"); $rows = mysqli_num_rows($result); //Grab the number of rows per punishment type.
-						$url = "index.php?type=".$type; //Grab the URL for each type.
-						if($type == 'all') { //If the type is all...
-							$url = "index.php"; //...set the URL to the same page.
-							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType!='IP_BAN'"); $rows = mysqli_num_rows($result); //Grab the number of rows per punishment type.
-						}
-						echo '<a href="'.$url.'" class="btn btn-primary btn-md">'.ucwords(str_replace('_','-',$type)).($type != "all" ? "s" : "").' <span class="badge">'.$rows.'</span></a></a>'; //Print the resulting punishment type on the page.
-					}
-					?>
-				</p>
 			</div>
 			
+			<?php
+			if(isset($announce)) {
+				echo '<div class="alert alert-dismissible alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error:</strong> '.$announce.'</div>';
+			}
+			?>
+			
 			<div class="jumbotron">
-				<form method="post" action="user.php">
+				<form method="post" action="index.php">
 					<div class="input-group">
-						<input type="text" maxlength="50" name="user" class="form-control" placeholder="Search for...">
+						<input type="text" maxlength="1000" name="command" class="form-control" placeholder="say Hello World">
 						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit">Submit</button>
+							<button class="btn btn-default" type="submit">Execute</button>
 						</span>
 					</div>
 				</form>
@@ -96,24 +110,16 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 					<thead>
 						<tr>
 							<th>Username</th>
-							<th>Reason</th>
-							<th>Operator</th>
-							<th>Date</th>
-							<th>End</th>
-							<th>Type</th>
+							<th>Command</th>
+							<th class="text-right">Date</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php
-						if(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types)) { //Check to see if the type is in the list of types.
-							$punishment = stripslashes($_GET['type']); $punishment = mysqli_real_escape_string($con,$punishment); //Prevent SQL injection by sanitising and escaping the string.
-							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".$punishment."' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific type is specified.
-						} else {
-							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType!='IP_BAN' ORDER BY id DESC"); //Grab data from the MYSQL database.
-						}
+						$query = 'SELECT * FROM commands ORDER BY id DESC'; $result = $log->query($query); //Create a table to save the log to. 
 						
-						$rows = mysqli_num_rows($result); //Grab the amount of results to be used in pagination.
-						while($row = mysqli_fetch_array($result)) { //Fetch colums from each row of the MYSQL database.
+						$rows = $log->query("SELECT COUNT(*) as count FROM commands"); $rows = $rows->fetchArray(); $rows = $rows['count']; //Grab the amount of results to be used in pagination.
+						while($row = $result->fetchArray()) { //Fetch colums from each row of the database.
 							if($page['count'] < $page['max'] && $page['count'] >= $page['min']) {
 								$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
 								
@@ -122,18 +128,11 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 								$time_zone = json_decode($time_zone, true);
 								$time_zone = $time_zone['time_zone'];
 														
-								$end_date = new DateTime(gmdate('F jS, Y g:i A', $row['end'] / 1000));
-								$end_date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
-								
-								$start_date = new DateTime(gmdate('F jS, Y g:i A', $row['start'] / 1000));
-								$start_date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
+								$date = new DateTime(gmdate('F jS, Y g:i A', strtotime($row['trn_date'])));
+								$date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
 								//End timezone API.
 								
-								$end = $end_date->format("F jS, Y")."<br><span class='badge'>".$end_date->format("g:i A")."</span>"; //Grab the end time as a data.
-								if($row['end'] == '-1') { //If the end time isn't set...
-									$end = 'Not Evaluated'; //...set the end time to N/A.
-								}
-								echo "<tr><td><img src='https://crafatar.com/renders/head/".$row['uuid']."?scale=2&default=MHF_Steve&overlay' alt='".$row['name']."'>".$row['name']."</td><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".$start_date->format("F jS, Y")."<br><span class='badge'>".$start_date->format("g:i A")."</span></td><td>".$end."</td><td>".ucwords(strtolower(str_replace('_','-',$row['punishmentType'])))."</td></tr>";
+								echo "<tr><td>".$row['username']."</td><td>".$row['command']."</td><td class='text-right'>".$date->format("F jS, Y")."<br><span class='badge'>".$date->format("g:i A")."</span></td></tr>";
 								$page['posts'] = $page['posts'] + 1;
 							} else {
 								$page['count'] = $page['count'] + 1;
@@ -144,7 +143,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 						}
 						
 						if($page['posts'] == 0) { //Display an error if no punishments could be found.
-							echo "<tr><td>---</td><td>No punishments could be listed on this page.</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
+							echo "<tr><td>---</td><td>No commands could be listed on this page.</td><td class='text-right'>---</td></tr>";
 						}
 						?>
 					</tbody>
