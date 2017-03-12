@@ -11,12 +11,16 @@ if(!empty($_SESSION['id'])) {
 	$json = httpPost("https://www.theartex.net/cloud/api/index.php",$params);
 	$json = json_decode($json, true);
 	if($json['status'] == 'success' && in_array($_POST['username'],$info['admin']['accounts'])) {
-		$_SESSION['id'] = $json['data']['id'];
-		$_SESSION['username'] = $json['data']['username'];
-		$_SESSION['val'] = $json['data']['val'];
-		$_SESSION['role'] = $json['data']['role'];
-		$_SESSION['key'] = $json['data']['key'];
-		header('Location: index.php');
+		if($json['banned'] == 'yes' || $json['active'] == 'no') {
+			$announce = $json['data']['username']." is either banned or deactivated";
+		} else {
+			$_SESSION['id'] = $json['data']['id'];
+			$_SESSION['username'] = $json['data']['username'];
+			$_SESSION['val'] = $json['data']['val'];
+			$_SESSION['role'] = $json['data']['role'];
+			$_SESSION['key'] = $json['data']['key'];
+			header('Location: index.php');
+		}
 	} else {
 		$announce = "Incorrect username or password";
 	}
