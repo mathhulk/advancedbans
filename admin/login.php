@@ -1,6 +1,7 @@
 <?php
 require('../database.php');
 
+//DEVELOPER API
 if(!empty($_SESSION['id'])) {
 	header('Location: index.php');
 } elseif(!empty($_POST['username']) && !empty($_POST['password'])) {

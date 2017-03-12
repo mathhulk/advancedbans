@@ -26,7 +26,11 @@ if (mysqli_connect_errno()) {
 	die('Failed to connect to database.'); //Restrict access to any page if no connection is established.
 }
 
-//THE FOLLOWING SECTION SHOULD NOT BE EDITED
+//------------------------------------------------------
+//THE FOLLOWING SECTION DOES NOT REQUIRE CHANGES
+//------------------------------------------------------
+
+//DEVELOPER API
 if(!empty($_SESSION['id'])) {
 	$params = array(
 		'sec'=>'login',

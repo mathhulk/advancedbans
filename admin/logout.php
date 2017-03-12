@@ -1,5 +1,5 @@
 <?php
 session_start();
-session_destroy();
+session_destroy(); //Destroy the current login session.
 header('Location: login.php');
 ?>

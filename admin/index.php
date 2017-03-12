@@ -116,7 +116,7 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 					</thead>
 					<tbody>
 						<?php
-						$query = 'SELECT * FROM commands ORDER BY id DESC'; $result = $log->query($query); //Create a table to save the log to. 
+						$query = 'SELECT * FROM commands ORDER BY id DESC'; $result = $log->query($query); //Select the commands from the SQLite database.
 						
 						$rows = $log->query("SELECT COUNT(*) as count FROM commands"); $rows = $rows->fetchArray(); $rows = $rows['count']; //Grab the amount of results to be used in pagination.
 						while($row = $result->fetchArray()) { //Fetch colums from each row of the database.
@@ -142,7 +142,7 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 							}
 						}
 						
-						if($page['posts'] == 0) { //Display an error if no punishments could be found.
+						if($page['posts'] == 0) { //Display an error if no commands could be found.
 							echo "<tr><td>---</td><td>No commands could be listed on this page.</td><td class='text-right'>---</td></tr>";
 						}
 						?>
