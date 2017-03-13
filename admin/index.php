@@ -154,12 +154,11 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 						if($page['number'] != 1) { //Display a previous page button if the current page is not 1.
 							echo "<li><a href='index.php?p=".($page['number'] - 1).(isset($punishment) ? "&type=".$punishment : '')."'>&laquo; Previous Page</a></li>";
 						}
-						$pages = substr(($rows / 25),0,1); $pagination = 1; //Fetch the number of regular pages.
-						$pages_ = substr(($rows / 25),0,1); $pagination = 1; //Quick fix to get the number of pages for the next page button.
+						$pages = floor($rows / 25); $pagination = 1; //Fetch the number of regular pages.
 						if($rows % 25 != 0) {
 							$pages = $pages + 1; //Add one more page if the content will not fit on the number of regular pages.
-							$pages_ = $pages_ + 1; //Quick fix to get the number of pages for the next page button.
 						}
+						$pages_ = $pages; //Quick fix to get the number of pages for the next page button.
 						while($pages != 0) {
 							echo "<li ".($pagination == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pagination.(isset($punishment) ? "&type=".$punishment : '')."'>".$pagination."</a></li>"; //Display the pagination.
 							$pagination = $pagination + 1; $pages = $pages - 1;
