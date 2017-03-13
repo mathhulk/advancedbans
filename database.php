@@ -26,11 +26,12 @@ if (mysqli_connect_errno()) {
 	die('Failed to connect to database.'); //Restrict access to any page if no connection is established.
 }
 
-//------------------------------------------------------
-//THE FOLLOWING SECTION DOES NOT REQUIRE CHANGES
-//------------------------------------------------------
+//-----------------------------------------------------------------------------------
+// (!) The following portion of the database.php file does not require changes. (!)
+//-----------------------------------------------------------------------------------
 
-//DEVELOPER API
+
+//Use the developer API from theartex.net for user authentication checks.
 if(!empty($_SESSION['id'])) {
 	$params = array(
 		'sec'=>'login',
@@ -53,6 +54,7 @@ if(!empty($_SESSION['id'])) {
 	}
 }
 
+//API post function to allow easy use of the developer API.
 function httpPost($url,$params) {
  
     $ch = curl_init();  
@@ -75,7 +77,7 @@ function httpPost($url,$params) {
 	return $output;
 }
 
-//ALL CREDIT FOR WEBSENDER GOES TO ITS ORIGINAL AUTHOR, MEDIARISE
+//WebSender API.
 class WebsenderAPI{
 	
 	public $timeout = 30;
