@@ -39,8 +39,14 @@ if(!empty($_SESSION['id'])) {
 		'password'=>$_SESSION['val']);
 	$json = httpPost("https://www.theartex.net/cloud/api/index.php",$params);
 	$json = json_decode($json, true);
-	if($json['data']['val'] != $_SESSION['val'] || $json['data']['role'] != $_SESSION['role'] || $json['data']['banned'] == 'yes') {
-		header('Location: logout.php');
+	if($json['data']['banned'] == "no" && $json['data']['active'] == "yes") {
+		$_SESSION['id'] = $json['data']['id'];
+		$_SESSION['username'] = $json['data']['username'];
+		$_SESSION['val'] = $json['data']['val'];
+		$_SESSION['role'] = $json['data']['role'];
+		$_SESSION['key'] = $json['data']['key'];
+	} else {
+		session_destroy();
 	}
 	$params = array(
 		'sec'=>'session',
