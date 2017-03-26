@@ -11,17 +11,8 @@ if(isset($_GET['user'])) {
 	header('Location: index.php'); //Transfer the visitor back to the main page if no user is specified.
 }
 
-//Start cURL
-$ch = curl_init();  
-curl_setopt($ch,CURLOPT_URL,"https://api.mcuuid.com/json/uuid/".$user);
-curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-curl_setopt($ch,CURLOPT_USERAGENT,"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2672.0 Safari/537.36"); 
-$output = curl_exec($ch);
-curl_close($ch);
-//End cURL
-
-$uuid = json_decode($output,true); //Decode the JSON response from the API.
-if($uuid['success'] == 'false') {
+$uuid = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$user),true); //Decode the JSON response from the API.
+if($uuid['status'] != 'success') {
 	header('Location: index.php'); //Transfer the visitor back to the main page if UUID conversion failed.
 }
 
@@ -193,7 +184,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 							}
 							?>
 						</h2>
-						<br><img src="https://crafatar.com/renders/body/<?php echo $uuid['uuid']; ?>" alt="Skin Profile"></img>
+						<br><img src="https://crafatar.com/renders/body/<?php echo $uuid['data']['uuid']; ?>" alt="Skin Profile"></img>
 					</div>
 				</div>
 			</div>
