@@ -121,6 +121,11 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 								$time_zone = file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']); //Get the timezone of the visitor.
 								$time_zone = json_decode($time_zone, true);
 								$time_zone = $time_zone['time_zone'];
+								if(!in_array($time_zone, timezone_identifiers_list())) {
+									$time_zone = file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']); //Get the timezone of the server if the visitor's isn't valid.
+									$time_zone = json_decode($time_zone, true);
+									$time_zone = $time_zone['time_zone'];
+								}
 														
 								$end_date = new DateTime(gmdate('F jS, Y g:i A', $row['end'] / 1000));
 								$end_date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.

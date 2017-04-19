@@ -127,6 +127,11 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 								$time_zone = file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']); //Get the timezone of the visitor.
 								$time_zone = json_decode($time_zone, true);
 								$time_zone = $time_zone['time_zone'];
+								if(!in_array($time_zone, timezone_identifiers_list())) {
+									$time_zone = file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']); //Get the timezone of the server if the visitor's isn't valid.
+									$time_zone = json_decode($time_zone, true);
+									$time_zone = $time_zone['time_zone'];
+								}
 														
 								$date = new DateTime(gmdate('F jS, Y g:i A', strtotime($row['trn_date'])));
 								$date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
