@@ -3,7 +3,7 @@ session_start(); //Sessions data is saved for accounts.
 ob_start(); //Static content loads first.
 //This is required for account data to be saved.
 
-$con = mysqli_connect("host","username","password","database"); 
+$con = mysqli_connect("host","username","password","database");
 //Enter your MYSQL details here.
 
 $info = array(
@@ -16,8 +16,8 @@ $info = array(
 	
 	'admin'=>array(
 		'host'=>'127.0.0.1', //The host of your server.
-		'port'=>'9876', //The port of your server. This is the port you set in the WebSender configuration file.
-		'password'=>'password123', //The password of your server. This is the password you set in the WebSender configuration file.
+		'port'=>'1234', //The port of your server. This is the port you set in the WebSender configuration file.
+		'password'=>'****', //The password of your server. This is the password you set in the WebSender configuration file.
 		'accounts'=>array('test') //The list of users that can log in to the dashboard. These must be active accounts from https://theartex.net.
 		)
 	);

@@ -2,7 +2,7 @@
 require('../database.php');
 
 if(!isset($_SESSION['id']) || !in_array($_SESSION['username'],$info['admin']['accounts'])) { //Require the user to be logged in to view this page.
-	header('Location: logout.php'); //Prompt the user to log in if they are not.
+	header('Location: logout.php'); die("Redirecting..."); //Prompt the user to log in if they are not.
 }
 
 $log = new SQLite3("log.sqlite"); //Connect to or create the log database.

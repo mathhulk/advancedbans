@@ -3,7 +3,7 @@ require('../database.php');
 
 //DEVELOPER API
 if(!empty($_SESSION['id'])) {
-	header('Location: index.php');
+	header('Location: index.php'); die("Redirecting...");
 } elseif(!empty($_POST['username']) && !empty($_POST['password'])) {
 	$params = array(
 		'sec'=>'login',
@@ -20,7 +20,7 @@ if(!empty($_SESSION['id'])) {
 			$_SESSION['val'] = $json['data']['val'];
 			$_SESSION['role'] = $json['data']['role'];
 			$_SESSION['key'] = $json['data']['key'];
-			header('Location: index.php');
+			header('Location: index.php'); die("Redirecting...");
 		}
 	} else {
 		$announce = "Incorrect username or password";

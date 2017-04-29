@@ -8,12 +8,12 @@ if(isset($_GET['user'])) {
 	$user = stripslashes($_POST['user']); $user = mysqli_real_escape_string($con,$user); //Prevent SQL injection by sanitising and escaping the string.
 	$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' AND punishmentType!='IP_BAN' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
 } else {
-	header('Location: index.php'); //Transfer the visitor back to the main page if no user is specified.
+	header('Location: index.php'); die("Redirecting..."); //Transfer the visitor back to the main page if no user is specified.
 }
 
 $uuid = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$user),true); //Decode the JSON response from the API.
 if($uuid['status'] != 'success') {
-	header('Location: index.php'); //Transfer the visitor back to the main page if UUID conversion failed.
+	header('Location: index.php'); die("Redirecting..."); //Transfer the visitor back to the main page if UUID conversion failed.
 }
 
 if(isset($_GET['p']) && is_numeric($_GET['p'])) {
