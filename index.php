@@ -118,13 +118,10 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 								$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
 								
 								//Start timezone API.
-								$time_zone = file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']); //Get the timezone of the visitor.
-								$time_zone = json_decode($time_zone, true);
-								$time_zone = $time_zone['time_zone'];
-								if(!in_array($time_zone, timezone_identifiers_list())) {
-									$time_zone = file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']); //Get the timezone of the server if the visitor's isn't valid.
-									$time_zone = json_decode($time_zone, true);
-									$time_zone = $time_zone['time_zone'];
+								$time_zone = "America/Los_Angeles";
+								$tz_api = json_decode(file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']), true);
+								if(isset($tz_api['time_zone']) && in_array($tz_api['time_zone'], timezone_identifiers_list())) {
+									$time_zone = $tz_api['time_zone'];
 								}
 														
 								$end_date = new DateTime(gmdate('F jS, Y g:i A', $row['end'] / 1000));
