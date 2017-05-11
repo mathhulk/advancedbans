@@ -4,9 +4,6 @@ require('database.php');
 if(isset($_GET['user'])) {
 	$user = stripslashes($_GET['user']); $user = mysqli_real_escape_string($con,$user); //Prevent SQL injection by sanitising and escaping the string.
 	$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' AND punishmentType!='IP_BAN' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
-} elseif($_POST && isset($_POST['user'])) {
-	$user = stripslashes($_POST['user']); $user = mysqli_real_escape_string($con,$user); //Prevent SQL injection by sanitising and escaping the string.
-	$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' AND punishmentType!='IP_BAN' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
 } else {
 	header('Location: index.php'); die("Redirecting..."); //Transfer the visitor back to the main page if no user is specified.
 }
@@ -59,7 +56,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="">Punishments</a></li>
+					<li class="active"><a href="index.php">Punishments</a></li>
 					<li><a href="admin">Dashboard</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -83,7 +80,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 			</div>
 			
 			<div class="jumbotron">
-				<form method="post" action="user.php">
+				<form method="get" action="user.php">
 					<div class="input-group">
 						<input type="text" maxlength="50" name="user" class="form-control" placeholder="Search for...">
 						<span class="input-group-btn">
@@ -156,21 +153,37 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 						<div class="text-center">
 							<ul class='pagination'>
 								<?php
-								if($page['number'] != 1) { //Display a previous page button if the current page is not 1.
-									echo "<li><a href='user.php?p=".($page['number'] - 1)."&user=".$user."'>&laquo; Previous Page</a></li>";
+								
+								//Start pagination.
+								if($page['number'] > 1) {
+									echo "<li><a href='user.php?user=".$user."&p=1'>&laquo; First</a></li>";
+									echo "<li><a href='user.php?user=".$user."&p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
 								}
-								$pages = floor($rows / 25); $pagination = 1; //Fetch the number of regular pages.
-								if($rows % 25 != 0) {
-									$pages = $pages + 1; //Add one more page if the content will not fit on the number of regular pages.
+								$pages['total'] = floor($rows / 25);
+								if($rows % 25 != 0 || $rows == 0) {
+									$pages['total'] = $pages['total'] + 1;
 								}
-								$pages_ = $pages; //Quick fix to get the number of pages for the next page button.
-								while($pages != 0) {
-									echo "<li ".($pagination == $page['number'] ? 'class="active"' : '')."><a href='user.php?p=".$pagination."&user=".$user."'>".$pagination."</a></li>"; //Display the pagination.
-									$pagination = $pagination + 1; $pages = $pages - 1;
+								if($page['number'] < 5) {
+									$pages['min'] = 1; $pages['max'] = 9;
+								} elseif($page['number'] > ($pages['total'] - 8)) {
+									$pages['min'] = $pages['total'] - 8; $pages['max'] = $pages['total'];
+								} else {
+									$pages['min'] = $page['number'] - 4; $pages['max'] = $page['number'] + 4; 
 								}
-								if($page['number'] < $pages_) { //Display a next page button if the total punishments is more than that of the current page.
-									echo "<li><a href='user.php?p=".($page['number'] + 1)."&user=".$user."'>Next Page &raquo;</a></li>";
+								if($pages['max'] > $pages['total']) {
+									$pages['max'] = $pages['total'];
 								}
+								$pages['count'] = $pages['min'];
+								while($pages['count'] <= $pages['max']) {
+									echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='user.php?user=".$user."&p=".$pages['count']."'>".$pages['count']."</a></li>";
+									$pages['count'] = $pages['count'] + 1;
+								}
+								if(($page['count'] - 1) == $page['max']) {
+									echo "<li><a href='user.php?user=".$user."&p=".($page['number'] + 1)."'>Next &raquo;</a></li>";
+									echo "<li><a href='user.php?user=".$user."&p=".$pages['total']."'>Last &raquo;</a></li>";
+								}
+								//End pagination.
+								
 								?>
 							</ul>
 						</div>

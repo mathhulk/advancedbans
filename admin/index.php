@@ -153,21 +153,37 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 				<div class="text-center">
 					<ul class='pagination'>
 						<?php
-						if($page['number'] != 1) { //Display a previous page button if the current page is not 1.
-							echo "<li><a href='index.php?p=".($page['number'] - 1).(isset($punishment) ? "&type=".$punishment : '')."'>&laquo; Previous Page</a></li>";
+						
+						//Start pagination.
+						if($page['number'] > 1) {
+							echo "<li><a href='index.php?p=1'>&laquo; First</a></li>";
+							echo "<li><a href='index.php?p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
 						}
-						$pages = floor($rows / 25); $pagination = 1; //Fetch the number of regular pages.
-						if($rows % 25 != 0) {
-							$pages = $pages + 1; //Add one more page if the content will not fit on the number of regular pages.
+						$pages['total'] = floor($rows / 25);
+						if($rows % 25 != 0 || $rows == 0) {
+							$pages['total'] = $pages['total'] + 1;
 						}
-						$pages_ = $pages; //Quick fix to get the number of pages for the next page button.
-						while($pages != 0) {
-							echo "<li ".($pagination == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pagination.(isset($punishment) ? "&type=".$punishment : '')."'>".$pagination."</a></li>"; //Display the pagination.
-							$pagination = $pagination + 1; $pages = $pages - 1;
+						if($page['number'] < 5) {
+							$pages['min'] = 1; $pages['max'] = 9;
+						} elseif($page['number'] > ($pages['total'] - 8)) {
+							$pages['min'] = $pages['total'] - 8; $pages['max'] = $pages['total'];
+						} else {
+							$pages['min'] = $page['number'] - 4; $pages['max'] = $page['number'] + 4; 
 						}
-						if($page['number'] < $pages_) { //Display a next page button if the total punishments is more than that of the current page.
-							echo "<li><a href='index.php?p=".($page['number'] + 1).(isset($punishment) ? "&type=".$punishment : '')."'>Next Page &raquo;</a></li>";
+						if($pages['max'] > $pages['total']) {
+							$pages['max'] = $pages['total'];
 						}
+						$pages['count'] = $pages['min'];
+						while($pages['count'] <= $pages['max']) {
+							echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pages['count']."'>".$pages['count']."</a></li>";
+							$pages['count'] = $pages['count'] + 1;
+						}
+						if(($page['count'] - 1) == $page['max']) {
+							echo "<li><a href='index.php?p=".($page['number'] + 1)."'>Next &raquo;</a></li>";
+							echo "<li><a href='index.php?p=".$pages['total']."'>Last &raquo;</a></li>";
+						}
+						//End pagination.
+						
 						?>
 					</ul>
 				</div>
