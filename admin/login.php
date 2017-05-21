@@ -12,7 +12,7 @@ if(!empty($_SESSION['id'])) {
 	$json = httpPost("https://www.theartex.net/cloud/api/index.php",$params);
 	$json = json_decode($json, true);
 	if($json['status'] == 'success' && in_array($_POST['username'],$info['admin']['accounts'])) {
-		if($json['banned'] == 'yes' || $json['active'] == 'no') {
+		if($json['data']['banned'] == 'yes' || $json['data']['active'] == 'no') {
 			$announce = $json['data']['username']." is either banned or deactivated";
 		} else {
 			$_SESSION['id'] = $json['data']['id'];
@@ -68,19 +68,19 @@ if(!empty($_SESSION['id'])) {
 			</div>
 		  </div>
 		</nav>
-		
+
 		<div class="container">
 			<div class="jumbotron">
-				<h1><br><?php echo $info['title']; ?></h1> 
+				<h1><br><?php echo $info['title']; ?></h1>
 				<p><?php echo $info['description']; ?></p>
 			</div>
-			
+
 			<?php
 			if(isset($announce)) {
 				echo '<div class="alert alert-dismissible alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error:</strong> '.$announce.'</div>';
 			}
 			?>
-			
+
 			<div class="row">
 				<div class="col-md-6 col-xs-12">
 					<div class="jumbotron">
