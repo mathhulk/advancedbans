@@ -6,7 +6,14 @@ if(!isset($_SESSION['id']) || !in_array($_SESSION['username'],$info['admin']['ac
 }
 
 $log = new SQLite3("log.sqlite"); //Connect to or create the log database.
-$query = 'CREATE TABLE IF NOT EXISTS commands (id INTEGER PRIMARY KEY AUTOINCREMENT, command VARCHAR(1000) NOT NULL, username VARCHAR(100) NOT NULL, trn_date DATETIME NOT NULL)'; $result = $log->query($query); //Create a table to save commands to. 
+$query = 'CREATE TABLE IF NOT EXISTS commands (id INTEGER PRIMARY KEY AUTOINCREMENT, command VARCHAR(1000) NOT NULL, username VARCHAR(100) NOT NULL, trn_date DATETIME NOT NULL)'; $result = $log->query($query); //Create a table to save commands to.
+$query = 'CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, account_name VARCHAR(1000) NOT NULL, account_id INT(11) NOT NULL, trn_date DATETIME NOT NULL)'; $result = $log->query($query); //Create a table to save account logs to. 
+$rows = $log->query("SELECT COUNT(*) as count FROM accounts WHERE account_id='".$_SESSION['id']."'"); $rows = $rows->fetchArray(); $rows = $rows['count'];
+if($rows == 1) {
+	$query = "UPDATE accounts SET account_name='".$_SESSION['username']."', trn_date='".date("Y-m-d H:i:s")."' WHERE account_id='".$_SESSION['id']."'"; $result = $log->query($query);
+} else {
+	$query = "INSERT INTO accounts (account_name, account_id, trn_date) VALUES ('".$_SESSION['username']."','".$_SESSION['id']."','".date("Y-m-d H:i:s")."')"; $result = $log->query($query);
+}
 	
 if($_POST && isset($_SESSION['id'])) { //Check if a command was executed and the visitor is logged in.
     $cmd = new WebsenderAPI($info['admin']['host'],$info['admin']['password'],$info['admin']['port']); //Connect to the server via WebSender.
@@ -61,12 +68,31 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="../">Punishments</a></li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $_SESSION['username']; ?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="logout.php">Logout</a></li>
-						</ul>
-					</li>
+					<?php
+					if(isset($_SESSION['id'])) {
+						echo '
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a>'.$_SESSION['username'].'</a></li>
+								<li><a href="logout.php">Logout</a></li>
+								<li class="divider"></li>
+								<li><a href="index.php">Dashboard</a></li>
+							</ul>
+						</li>
+						';
+					} else {
+						echo '
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="login.php">Login</a></li>
+							</ul>
+						</li>
+						';	
+
+					}
+					?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
@@ -105,87 +131,134 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 				</form>
 			</div>
 			
-			<div class="jumbotron">
-				<table class="table table-striped table-hover">
-					<thead>
-						<tr>
-							<th>Username</th>
-							<th>Command</th>
-							<th class="text-right">Date</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php
-						$query = 'SELECT * FROM commands ORDER BY id DESC'; $result = $log->query($query); //Select the commands from the SQLite database.
-						
-						$rows = $log->query("SELECT COUNT(*) as count FROM commands"); $rows = $rows->fetchArray(); $rows = $rows['count']; //Grab the amount of results to be used in pagination.
-						while($row = $result->fetchArray()) { //Fetch colums from each row of the database.
-							if($page['count'] < $page['max'] && $page['count'] >= $page['min']) {
-								$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
+			<div class="row">
+				<div class="col-md-6 col-sm-12">			
+					<div class="jumbotron">
+						<h2>Recent Executions</h2>
+						<h6>All Time</h6>
+						<br>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th>Username</th>
+									<th>Command</th>
+									<th class="text-right">Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								$query = 'SELECT * FROM commands ORDER BY id DESC'; $result = $log->query($query); //Select the commands from the SQLite database.
 								
-								//Start timezone API.
-								$time_zone = "America/Los_Angeles";
-								$tz_api = json_decode(file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']), true);
-								if(isset($tz_api['time_zone']) && in_array($tz_api['time_zone'], timezone_identifiers_list())) {
-									$time_zone = $tz_api['time_zone'];
+								$rows = $log->query("SELECT COUNT(*) as count FROM commands"); $rows = $rows->fetchArray(); $rows = $rows['count']; //Grab the amount of results to be used in pagination.
+								while($row = $result->fetchArray()) { //Fetch colums from each row of the database.
+									if($page['count'] < $page['max'] && $page['count'] >= $page['min']) {
+										$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
+										
+										//Start timezone API.
+										$time_zone = "America/Los_Angeles";
+										$tz_api = json_decode(file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']), true);
+										if(isset($tz_api['time_zone']) && in_array($tz_api['time_zone'], timezone_identifiers_list())) {
+											$time_zone = $tz_api['time_zone'];
+										}
+																
+										$date = new DateTime(gmdate('F jS, Y g:i A', strtotime($row['trn_date'])));
+										$date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
+										//End timezone API.
+										
+										echo "<tr><td>".$row['username']."</td><td>".$row['command']."</td><td class='text-right'>".$date->format("F jS, Y")."<br><span class='badge'>".$date->format("g:i A")."</span></td></tr>";
+										$page['posts'] = $page['posts'] + 1;
+									} else {
+										$page['count'] = $page['count'] + 1;
+										if($page['count'] >= $page['max']) {
+											break;
+										}
+									}
 								}
-														
-								$date = new DateTime(gmdate('F jS, Y g:i A', strtotime($row['trn_date'])));
-								$date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
-								//End timezone API.
 								
-								echo "<tr><td>".$row['username']."</td><td>".$row['command']."</td><td class='text-right'>".$date->format("F jS, Y")."<br><span class='badge'>".$date->format("g:i A")."</span></td></tr>";
-								$page['posts'] = $page['posts'] + 1;
-							} else {
-								$page['count'] = $page['count'] + 1;
-								if($page['count'] >= $page['max']) {
-									break;
+								if($page['posts'] == 0) { //Display an error if no commands could be found.
+									echo "<tr><td>---</td><td>No commands could be listed on this page.</td><td class='text-right'>---</td></tr>";
 								}
-							}
-						}
-						
-						if($page['posts'] == 0) { //Display an error if no commands could be found.
-							echo "<tr><td>---</td><td>No commands could be listed on this page.</td><td class='text-right'>---</td></tr>";
-						}
-						?>
-					</tbody>
-				</table>
-				<div class="text-center">
-					<ul class='pagination'>
-						<?php
-						
-						//Start pagination.
-						if($page['number'] > 1) {
-							echo "<li><a href='index.php?p=1'>&laquo; First</a></li>";
-							echo "<li><a href='index.php?p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
-						}
-						$pages['total'] = floor($rows / 25);
-						if($rows % 25 != 0 || $rows == 0) {
-							$pages['total'] = $pages['total'] + 1;
-						}
-						if($page['number'] < 5) {
-							$pages['min'] = 1; $pages['max'] = 9;
-						} elseif($page['number'] > ($pages['total'] - 8)) {
-							$pages['min'] = $pages['total'] - 8; $pages['max'] = $pages['total'];
-						} else {
-							$pages['min'] = $page['number'] - 4; $pages['max'] = $page['number'] + 4; 
-						}
-						if($pages['max'] > $pages['total']) {
-							$pages['max'] = $pages['total'];
-						}
-						$pages['count'] = $pages['min'];
-						while($pages['count'] <= $pages['max']) {
-							echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pages['count']."'>".$pages['count']."</a></li>";
-							$pages['count'] = $pages['count'] + 1;
-						}
-						if(($page['count'] - 1) == $page['max']) {
-							echo "<li><a href='index.php?p=".($page['number'] + 1)."'>Next &raquo;</a></li>";
-							echo "<li><a href='index.php?p=".$pages['total']."'>Last &raquo;</a></li>";
-						}
-						//End pagination.
-						
-						?>
-					</ul>
+								?>
+							</tbody>
+						</table>
+						<div class="text-center">
+							<ul class='pagination'>
+								<?php
+								
+								//Start pagination.
+								if($page['number'] > 1) {
+									echo "<li><a href='index.php?p=1'>&laquo; First</a></li>";
+									echo "<li><a href='index.php?p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
+								}
+								$pages['total'] = floor($rows / 25);
+								if($rows % 25 != 0 || $rows == 0) {
+									$pages['total'] = $pages['total'] + 1;
+								}
+								if($page['number'] < 5) {
+									$pages['min'] = 1; $pages['max'] = 9;
+								} elseif($page['number'] > ($pages['total'] - 8)) {
+									$pages['min'] = $pages['total'] - 8; $pages['max'] = $pages['total'];
+								} else {
+									$pages['min'] = $page['number'] - 4; $pages['max'] = $page['number'] + 4; 
+								}
+								if($pages['max'] > $pages['total']) {
+									$pages['max'] = $pages['total'];
+								}
+								$pages['count'] = $pages['min'];
+								while($pages['count'] <= $pages['max']) {
+									echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pages['count']."'>".$pages['count']."</a></li>";
+									$pages['count'] = $pages['count'] + 1;
+								}
+								if(($page['count'] - 1) == $page['max']) {
+									echo "<li><a href='index.php?p=".($page['number'] + 1)."'>Next &raquo;</a></li>";
+									echo "<li><a href='index.php?p=".$pages['total']."'>Last &raquo;</a></li>";
+								}
+								//End pagination.
+								
+								?>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<div class="jumbotron">
+						<h2>Recent Access</h2>
+						<h6>Past 15 Minutes</h6>
+						<br>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th>Username</th>
+									<th class="text-right">Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								$query = "SELECT * FROM accounts WHERE (trn_date BETWEEN '".date("Y-m-d H:i:s",strtotime(date("Y-m-d H:i:s")) - 900)."' AND '".date("Y-m-d H:i:s")."')"; $result = $log->query($query); //Select the commands from the SQLite database.
+								$total = 0;
+								while($row = $result->fetchArray()) { //Fetch colums from each row of the database.
+									//Start timezone API.
+									$time_zone = "America/Los_Angeles";
+									$tz_api = json_decode(file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']), true);
+									if(isset($tz_api['time_zone']) && in_array($tz_api['time_zone'], timezone_identifiers_list())) {
+										$time_zone = $tz_api['time_zone'];
+									}
+															
+									$date = new DateTime(gmdate('F jS, Y g:i A', strtotime($row['trn_date'])));
+									$date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
+									//End timezone API.
+									
+									echo "<tr><td>".$row['account_name']."</td><td class='text-right'>".$date->format("F jS, Y")."<br><span class='badge'>".$date->format("g:i A")."</span></td></tr>";
+									$total = $total + 1;
+								}
+								
+								if($total == 0) { //Display an error if no commands could be found.
+									echo "<tr><td>No users found.</td><td class='text-right'>---</td></tr>";
+								}
+								?>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
