@@ -180,8 +180,8 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 						
 						//Start pagination.
 						if($page['number'] > 1) {
-							echo "<li><a href='index.php?p=1'>&laquo; First</a></li>";
-							echo "<li><a href='index.php?p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
+							echo "<li><a href='index.php?p=1".(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types) ? "&type=".$_GET['type'] : "")."'>&laquo; First</a></li>";
+							echo "<li><a href='index.php?p=".($page['number'] - 1).(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types) ? "&type=".$_GET['type'] : "")."'>&laquo; Previous</a></li>";
 						}
 						$pages['total'] = floor($rows / 25);
 						if($rows % 25 != 0 || $rows == 0) {
@@ -199,12 +199,12 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 						}
 						$pages['count'] = $pages['min'];
 						while($pages['count'] <= $pages['max']) {
-							echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pages['count']."'>".$pages['count']."</a></li>";
+							echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pages['count'].(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types) ? "&type=".$_GET['type'] : "")."'>".$pages['count']."</a></li>";
 							$pages['count'] = $pages['count'] + 1;
 						}
 						if(($page['count'] - 1) == $page['max']) {
-							echo "<li><a href='index.php?p=".($page['number'] + 1)."'>Next &raquo;</a></li>";
-							echo "<li><a href='index.php?p=".$pages['total']."'>Last &raquo;</a></li>";
+							echo "<li><a href='index.php?p=".($page['number'] + 1).(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types) ? "&type=".$_GET['type'] : "")."'>Next &raquo;</a></li>";
+							echo "<li><a href='index.php?p=".$pages['total'].(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types) ? "&type=".$_GET['type'] : "")."'>Last &raquo;</a></li>";
 						}
 						//End pagination.
 						
