@@ -97,7 +97,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 							$url = "index.php"; //...set the URL to the same page.
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType!='IP_BAN'"); $rows = mysqli_num_rows($result); //Grab the number of rows per punishment type.
 						}
-						echo '<a href="'.$url.'" class="btn btn-primary btn-md">'.ucwords(str_replace('_','-',$type)).($type != "all" ? "s" : "").' <span class="badge">'.$rows.'</span></a></a>'; //Print the resulting punishment type on the page.
+						echo '<a href="'.$url.'" class="btn btn-primary btn-md">'.ucwords(str_replace('_','-',$type)).($type != "all" ? "s" : "").' <span class="badge">'.$rows.'</span></a>'; //Print the resulting punishment type on the page.
 					}
 					?>
 				</p>
