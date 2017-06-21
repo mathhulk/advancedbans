@@ -42,7 +42,7 @@ if(!empty($_SESSION['id'])) {
 	if($json['data']['banned'] == "no" && $json['data']['active'] == "yes") {
 		$_SESSION['id'] = $json['data']['id'];
 		$_SESSION['username'] = $json['data']['username'];
-		$_SESSION['val'] = $json['data']['val'];
+		$_SESSION['val'] = $_SESSION['val'];
 		$_SESSION['role'] = $json['data']['role'];
 		$_SESSION['key'] = $json['data']['key'];
 	} else {
