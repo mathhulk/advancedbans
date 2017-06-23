@@ -18,6 +18,12 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 }
 
 $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning','kick'); //List the types of punishments.
+
+$time_zone = "America/Los_Angeles";
+$tz_api = json_decode(file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']), true);
+if(isset($tz_api['time_zone']) && in_array($tz_api['time_zone'], timezone_identifiers_list())) {
+	$time_zone = $tz_api['time_zone'];
+}
 ?>
 <html lang="en">
 	<head>
@@ -140,13 +146,7 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 							if($page['count'] < $page['max'] && $page['count'] >= $page['min']) {
 								$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
 								
-								//Start timezone API.
-								$time_zone = "America/Los_Angeles";
-								$tz_api = json_decode(file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']), true);
-								if(isset($tz_api['time_zone']) && in_array($tz_api['time_zone'], timezone_identifiers_list())) {
-									$time_zone = $tz_api['time_zone'];
-								}
-														
+								//Start timezone API.			
 								$end_date = new DateTime(gmdate('F jS, Y g:i A', $row['end'] / 1000));
 								$end_date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
 								
