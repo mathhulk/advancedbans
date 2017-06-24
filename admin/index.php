@@ -21,7 +21,7 @@ if($_POST && isset($_SESSION['id'])) { //Check if a command was executed and the
         $cmd->sendCommand($_POST['command']); //Execute the command via WebSender.
 		$query = "INSERT INTO commands (username, command, trn_date) VALUES ('".$_SESSION['username']."', '".$_POST['command']."', '".date('Y-m-d H:i:s')."')"; $result = $log->query($query); //Log the executed command.
     } else {
-        $announce = "An error occurred while connecting to the server"; //Display the error to the user.
+        $announce = "A connection to the server could not be established"; //Display the error to the user.
 	}
     $cmd->disconnect(); //Disconnect from the server via WebSender.
 }
@@ -154,16 +154,10 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 									if($page['count'] < $page['max'] && $page['count'] >= $page['min']) {
 										$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
 										
-										//Start timezone API.
-										$time_zone = "America/Los_Angeles";
-										$tz_api = json_decode(file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']), true);
-										if(isset($tz_api['time_zone']) && in_array($tz_api['time_zone'], timezone_identifiers_list())) {
-											$time_zone = $tz_api['time_zone'];
-										}
-																
+										//Start timezone change.			
 										$date = new DateTime(gmdate('F jS, Y g:i A', strtotime($row['trn_date'])));
-										$date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
-										//End timezone API.
+										$date->setTimezone(new DateTimeZone($_SESSION['time_zone'])); //Set the timezone of the date to that of the visitor.
+										//End timezone change.
 										
 										echo "<tr><td>".$row['username']."</td><td>".$row['command']."</td><td class='text-right'>".$date->format("F jS, Y")."<br><span class='badge'>".$date->format("g:i A")."</span></td></tr>";
 										$page['posts'] = $page['posts'] + 1;
@@ -237,16 +231,11 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 								$query = "SELECT * FROM accounts WHERE (trn_date BETWEEN '".date("Y-m-d H:i:s",strtotime(date("Y-m-d H:i:s")) - 900)."' AND '".date("Y-m-d H:i:s")."')"; $result = $log->query($query); //Select the commands from the SQLite database.
 								$total = 0;
 								while($row = $result->fetchArray()) { //Fetch colums from each row of the database.
-									//Start timezone API.
-									$time_zone = "America/Los_Angeles";
-									$tz_api = json_decode(file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']), true);
-									if(isset($tz_api['time_zone']) && in_array($tz_api['time_zone'], timezone_identifiers_list())) {
-										$time_zone = $tz_api['time_zone'];
-									}
-															
+									
+									//Start timezone change.				
 									$date = new DateTime(gmdate('F jS, Y g:i A', strtotime($row['trn_date'])));
-									$date->setTimezone(new DateTimeZone($time_zone)); //Set the timezone of the date to that of the visitor.
-									//End timezone API.
+									$date->setTimezone(new DateTimeZone($_SESSION['time_zone'])); //Set the timezone of the date to that of the visitor.
+									//End timezone change.
 									
 									echo "<tr><td>".$row['account_name']."</td><td class='text-right'>".$date->format("F jS, Y")."<br><span class='badge'>".$date->format("g:i A")."</span></td></tr>";
 									$total = $total + 1;

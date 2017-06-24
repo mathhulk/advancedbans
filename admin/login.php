@@ -9,10 +9,10 @@ if(!empty($_SESSION['id'])) {
 		'sec'=>'login',
 		'username'=>$_POST['username'],
 		'password'=>$_POST['password']);
-	$json = httpPost("https://www.theartex.net/cloud/api/index.php",$params);
+	$json = httpPost("https://www.theartex.net/cloud/api/",$params);
 	$json = json_decode($json, true);
 	if($json['status'] == 'success' && in_array($_POST['username'],$info['admin']['accounts'])) {
-		if($json['banned'] == 'yes' || $json['active'] == 'no') {
+		if($json['data']['banned'] == 'yes' || $json['data']['active'] == 'no') {
 			$announce = $json['data']['username']." is either banned or deactivated";
 		} else {
 			$_SESSION['id'] = $json['data']['id'];
@@ -120,7 +120,7 @@ if(!empty($_SESSION['id'])) {
 					<div class="jumbotron">
 						<h4>Accounts</h4>
 						<hr>
-						<h5>To access the panel dashboard, please create and activate an account from <a href="https://theartex.net/system/registration.php">theartex.net</a>.</h5>
+						<h5>To access the panel dashboard, please create and activate an account from <a href="https://theartex.net/system/registration/">theartex.net</a>.</h5>
 						<h5>After successfully accessing your account, add your username to the user access list found in the <i>database.php</i> file.</h5>
 						<h5>Please remember that access to the panel may be denied if your account is banned or deactivated.</h5>
 					</div>
