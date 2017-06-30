@@ -1,8 +1,6 @@
 <?php
-require('../database.php');
-
-//DEVELOPER API
-if(!empty($_SESSION['id'])) {
+require("../database.php");
+if(isset($_SESSION['id'])) {
 	header('Location: index.php'); die("Redirecting...");
 } elseif(!empty($_POST['username']) && !empty($_POST['password'])) {
 	$params = array(
@@ -49,7 +47,6 @@ if(!empty($_SESSION['id'])) {
 				</button>
 				<a class="navbar-brand" href=""><?php echo $info['title']; ?></a>
 			</div>
-
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="../">Punishments</a></li>
@@ -91,28 +88,25 @@ if(!empty($_SESSION['id'])) {
 			</div>
 		  </div>
 		</nav>
-		
 		<div class="container">
 			<div class="jumbotron">
 				<h1><br><?php echo $info['title']; ?></h1> 
 				<p><?php echo $info['description']; ?></p>
 			</div>
-			
 			<?php
 			if(isset($announce)) {
 				echo '<div class="alert alert-dismissible alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error:</strong> '.$announce.'</div>';
 			}
 			?>
-			
 			<div class="row">
 				<div class="col-md-6 col-xs-12">
 					<div class="jumbotron">
 						<form method="post" action="">
 							<input type="text" maxlength="100" name="username" class="form-control" placeholder="Username">
-							<br /> <!-- simulate an empty line -->
+							<br />
 							<input type="password" maxlength="100" name="password" class="form-control" placeholder="Password">
-							<br /> <!-- simulate an empty line -->
-							<button type="submit" class="btn btn-primary">Access</button>
+							<br />
+							<button type="submit" class="btn btn-primary">Submit</button>
 						</form>
 					</div>
 				</div>

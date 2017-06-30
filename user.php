@@ -1,35 +1,16 @@
 <?php
-require('database.php');
-
+require("database.php");
 if(isset($_GET['user'])) {
-	$user = stripslashes($_GET['user']); $user = mysqli_real_escape_string($con,$user); //Prevent SQL injection by sanitising and escaping the string.
-	$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' AND punishmentType!='IP_BAN' ORDER BY id DESC"); //Grab data from the MYSQL database if a specific user is specified.
+	$user = mysqli_real_escape_string($con, stripslashes($_GET['user']));
+	$uuid = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$user),true);
+	if($uuid['status'] == 'error') {
+		header('Location: index.php'); die("Redirecting...");
+	} else {
+		$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' AND punishmentType!='IP_BAN' ORDER BY id DESC LIMIT ".$page['min'].", 10");
+	}
 } else {
-	header('Location: index.php'); die("Redirecting..."); //Transfer the visitor back to the main page if no user is specified.
+	header('Location: index.php'); die("Redirecting...");
 }
-
-$uuid = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$user),true); //Decode the JSON response from the API.
-if($uuid['status'] != 'success') {
-	header('Location: index.php'); die("Redirecting..."); //Transfer the visitor back to the main page if UUID conversion failed.
-}
-
-if(isset($_GET['p']) && is_numeric($_GET['p'])) {
-	$page = array(
-		'max'=>$_GET['p']*25, //The multiple is the maximum amount of results on a single page.
-		'min'=>($_GET['p'] - 1)*25,
-		'number'=>$_GET['p'],
-		'posts'=>0,
-		'count'=>0);
-}else{
-	$page = array(
-		'max'=>'25', //The maximum amount of results on a single page.
-		'min'=>'0',
-		'number'=>'1',
-		'posts'=>0,
-		'count'=>0);
-}
-
-$types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning','kick'); //List the types of punishments.
 ?>
 <html lang="en">
 	<head>
@@ -129,41 +110,25 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 							</thead>
 							<tbody>
 								<?php
-								$rows = mysqli_num_rows($result); //Grab the amount of results to be used in pagination.
-								while($row = mysqli_fetch_array($result)) { //Fetch colums from each row of the MYSQL database.
-									if($page['count'] < $page['max'] && $page['count'] >= $page['min']) {
-										$page['count'] = $page['count'] + 1; //For some reason, $page['count']++ won't work. *shrugs*
-										
-										//Start timezone change.					
+								if(mysqli_num_rows($result) == 0) {
+									echo "<tr><td>No punishments could be listed on this page.</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
+								} else {
+									while($row = mysqli_fetch_array($result)) {			
 										$end_date = new DateTime(gmdate('F jS, Y g:i A', $row['end'] / 1000));
-										$end_date->setTimezone(new DateTimeZone($_SESSION['time_zone'])); //Set the timezone of the date to that of the visitor.
-										
+										$end_date->setTimezone(new DateTimeZone($_SESSION['time_zone']));
 										$start_date = new DateTime(gmdate('F jS, Y g:i A', $row['start'] / 1000));
-										$start_date->setTimezone(new DateTimeZone($_SESSION['time_zone'])); //Set the timezone of the date to that of the visitor.
-										//End timezone change.
-										
+										$start_date->setTimezone(new DateTimeZone($_SESSION['time_zone']));
 										$end = $end_date->format("F jS, Y")."<br><span class='badge'>".$end_date->format("g:i A")."</span>"; //Grab the end time as a data.
-										if($row['end'] == '-1') { //If the end time isn't set...
-											$end = 'Not Evaluated'; //...set the end time to N/A.
+										if($row['end'] == '-1') {
+											$end = 'Not Evaluated';
 										}
-										if($row['punishmentType'] == 'BAN' && !isset($banned)) { //If a ban record exists for the user, set the user to banned.
+										if($row['punishmentType'] == 'BAN' && !isset($banned)) {
 											$banned = "<small><br><br><span class='badge'>Permanently Banned</span></small>";
-										} elseif($row['punishmentType'] == 'TEMP_BAN' && !isset($banned)) { //If a temporary ban record exists for the user, set the user to temporarily banned.
+										} elseif($row['punishmentType'] == 'TEMP_BAN' && !isset($banned)) {
 											$banned = "<small><br><br><span class='badge'>Banned until ".date("F jS, Y", $row['start'] / 1000)." at ".date("g:i A", $row['start'] / 1000)."</span></small>";
 										}
-										
 										echo "<tr><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".date("F jS, Y", $row['start'] / 1000)."<br><span class='badge'>".date("g:i A", $row['start'] / 1000)."</span></td><td>".$end."</td><td>".ucwords(strtolower(str_replace('_','-',$row['punishmentType'])))."</td></tr>";
-										$page['posts'] = $page['posts'] + 1;
-									} else {
-										$page['count'] = $page['count'] + 1;
-										if($page['count'] >= $page['max']) {
-											break;
-										}
 									}
-								}
-								
-								if($page['posts'] == 0) { //Display an error if no punishments could be found.
-									echo "<tr><td>No punishments could be located.</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
 								}
 								?>
 							</tbody>
@@ -171,12 +136,11 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 						<div class="text-center">
 							<ul class='pagination'>
 								<?php
-								
-								//Start pagination.
 								if($page['number'] > 1) {
 									echo "<li><a href='user.php?user=".$user."&p=1'>&laquo; First</a></li>";
 									echo "<li><a href='user.php?user=".$user."&p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
 								}
+								$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' AND punishmentType!='IP_BAN' ORDER BY id DESC LIMIT ".$page['min'].", 10"));
 								$pages['total'] = floor($rows / 25);
 								if($rows % 25 != 0 || $rows == 0) {
 									$pages['total'] = $pages['total'] + 1;
@@ -191,17 +155,18 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 								if($pages['max'] > $pages['total']) {
 									$pages['max'] = $pages['total'];
 								}
+								if($pages['min'] < 1) {
+									$pages['min'] = 1;
+								}
 								$pages['count'] = $pages['min'];
 								while($pages['count'] <= $pages['max']) {
 									echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='user.php?user=".$user."&p=".$pages['count']."'>".$pages['count']."</a></li>";
 									$pages['count'] = $pages['count'] + 1;
 								}
-								if(($page['count'] - 1) == $page['max']) {
+								if($rows > $page['max']) {
 									echo "<li><a href='user.php?user=".$user."&p=".($page['number'] + 1)."'>Next &raquo;</a></li>";
 									echo "<li><a href='user.php?user=".$user."&p=".$pages['total']."'>Last &raquo;</a></li>";
 								}
-								//End pagination.
-								
 								?>
 							</ul>
 						</div>
@@ -209,11 +174,11 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 					<div class="col-md-4 col-sm-12 text-center">
 						<h2>
 							<?php
-							echo $user."";
-							if(isset($banned)) { //Check to see if a temporary or permanent ban record is set for the user.
-								echo $banned; //If so, display it.
+							echo $user;
+							if(isset($banned)) {
+								echo $banned;
 							} else {
-								echo "<small><br><br><span class='badge'>Not Banned</span></small>"; //If not, display otherwise.
+								echo "<small><br><br><span class='badge'>Not Banned</span></small>";
 							}
 							?>
 						</h2>

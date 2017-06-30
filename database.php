@@ -3,7 +3,7 @@ session_start(); //Sessions data is saved for accounts.
 ob_start(); //Static content loads first.
 //This is required for account data to be saved.
 
-$con = mysqli_connect("host","username","password","database");
+$con = mysqli_connect("host", "username", "password", "database");
 //Enter your MYSQL details here.
 
 $info = array(
@@ -25,6 +25,17 @@ $info = array(
 if (mysqli_connect_errno()) {
 	die('Failed to connect to database.'); //Restrict access to any page if no connection is established.
 }
+
+//Set up a default structure for monitoring pages.
+$page = array('max'=>'25', 'min'=>'0', 'number'=>'1', 'posts'=>0, 'count'=>0); 
+
+//Set up a structure for monitoring pages based on user input.
+if(isset($_GET['p']) && is_numeric($_GET['p'])) {
+	$page = array('max'=>$_GET['p']*25,'min'=>($_GET['p'] - 1)*25,'number'=>$_GET['p'],'posts'=>0,'count'=>0); 
+}
+
+//List the types of punishments.
+$types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning','kick'); 
 
 //-----------------------------------------------------------------------------------
 // (!) The following portion of the database.php file does not require changes. (!)
