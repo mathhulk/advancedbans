@@ -1,7 +1,8 @@
 <?php
 require("../database.php");
-if(!isset($_SESSION['id']) || !in_array($_SESSION['username'],$info['admin']['accounts'])) {
-	header('Location: logout.php'); die("Redirecting...");
+
+if(!isset($_SESSION['id'])) {
+	header('Location: ../?l=in'); die("Redirecting...");
 }
 $log = new SQLite3("log.sqlite");
 $log->query('CREATE TABLE IF NOT EXISTS commands (id INTEGER PRIMARY KEY AUTOINCREMENT, command VARCHAR(1000) NOT NULL, username VARCHAR(100) NOT NULL, trn_date DATETIME NOT NULL)');
@@ -55,9 +56,9 @@ if($_POST) {
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a>'.$_SESSION['username'].'</a></li>
-								<li><a href="logout.php">Logout</a></li>
+								<li><a href="logout/">Logout</a></li>
 								<li class="divider"></li>
-								<li><a href="index.php">Dashboard</a></li>
+								<li><a href="">Dashboard</a></li>
 							</ul>
 						</li>
 						';
@@ -66,7 +67,7 @@ if($_POST) {
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="login.php">Login</a></li>
+								<li><a href="https://www.theartex.net/system/login/?red='.$info['base'].'/admin/login/'.($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "&prot=https" : "").'">Login</a></li>
 							</ul>
 						</li>
 						';	
@@ -98,7 +99,7 @@ if($_POST) {
 			}
 			?>
 			<div class="jumbotron">
-				<form method="post" action="index.php">
+				<form method="post" action="">
 					<div class="input-group">
 						<input type="text" maxlength="1000" name="command" class="form-control" placeholder="say Hello World">
 						<span class="input-group-btn">
@@ -141,8 +142,8 @@ if($_POST) {
 							<ul class='pagination'>
 								<?php
 								if($page['number'] > 1) {
-									echo "<li><a href='index.php?p=1'>&laquo; First</a></li>";
-									echo "<li><a href='index.php?p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
+									echo "<li><a href='?p=1'>&laquo; First</a></li>";
+									echo "<li><a href='?p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
 								}
 								$rows = $log->query("SELECT COUNT(*) as count FROM commands"); $rows = $rows->fetchArray(); $rows = $rows['count'];
 								$pages['total'] = floor($rows / 25);
@@ -164,12 +165,12 @@ if($_POST) {
 								}
 								$pages['count'] = $pages['min'];
 								while($pages['count'] <= $pages['max']) {
-									echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='index.php?p=".$pages['count']."'>".$pages['count']."</a></li>";
+									echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='?p=".$pages['count']."'>".$pages['count']."</a></li>";
 									$pages['count'] = $pages['count'] + 1;
 								}
 								if($rows > $page['max']) {
-									echo "<li><a href='index.php?p=".($page['number'] + 1)."'>Next &raquo;</a></li>";
-									echo "<li><a href='index.php?p=".$pages['total']."'>Last &raquo;</a></li>";
+									echo "<li><a href='?p=".($page['number'] + 1)."'>Next &raquo;</a></li>";
+									echo "<li><a href='?p=".$pages['total']."'>Last &raquo;</a></li>";
 								}
 								?>
 							</ul>

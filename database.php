@@ -3,7 +3,7 @@ session_start(); //Sessions data is saved for accounts.
 ob_start(); //Static content loads first.
 //This is required for account data to be saved.
 
-$con = mysqli_connect("host", "username", "password", "database");
+$con = mysqli_connect("host","username","password","database");
 //Enter your MYSQL details here.
 
 $info = array(
@@ -11,6 +11,7 @@ $info = array(
 	'description'=>'A simple, but sleek, web addon for AdvancedBan.', //This will be displayed under the title on all pages.
 	'theme'=>'yeti', //This is the name of the theme you wish to load. You can find a list of compatible themes at http://bootswatch.com/.
 	'table'=>'PunishmentHistory', //The table of your MYSQL database for which punishments are saved.
+	'base'=>'www.mathhulk.me/external/ab-web-addon', //DO NOT INCLUDE A TRAILING SLASH. The URL at which ab-web-addon is located. 
 	
 	//THE FOLLOWING SECTION REQUIRES WEBSENDER TO RUN (https://www.spigotmc.org/resources/websender-send-command-with-php-bungee-and-bukkit-support.33909/)
 	
@@ -43,31 +44,89 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 
 
 //Use the developer API from theartex.net for user authentication checks.
-if(!empty($_SESSION['id'])) {
+if(isset($_SESSION['id'])) {
 	$params = array(
-		'sec'=>'login',
-		'username'=>$_SESSION['username'],
-		'password'=>$_SESSION['val']);
-	$json = httpPost("https://www.theartex.net/cloud/api/",$params);
+		'sec'=>'validate',
+		'id'=>$_SESSION['id'],
+		'token'=>$_SESSION['token']);
+	$json = httpPost("https://www.theartex.net/cloud/api/", $params);
 	$json = json_decode($json, true);
-	if($json['data']['banned'] == "no" && $json['data']['active'] == "yes") {
-		$_SESSION['id'] = $json['data']['id'];
-		$_SESSION['username'] = $json['data']['username'];
-		$_SESSION['val'] = $_SESSION['val'];
-		$_SESSION['role'] = $json['data']['role'];
-		$_SESSION['key'] = $json['data']['key'];
+	if(isset($json['status']) && $json['status'] == "success") {
+		if(in_array($json['data']['username'], $info['admin']['accounts'])) {
+			$_SESSION['id'] = $json['data']['id'];
+			$_SESSION['username'] = $json['data']['username'];
+			$_SESSION['role'] = $json['data']['role'];
+			$_SESSION['email'] = $json['data']['email'];
+			if(!empty($json['data']['gravatar'])) {
+				$_SESSION['gravatar'] = $json['data']['gravatar'];
+			}
+			$_SESSION['key'] = $json['data']['key'];
+			if(!empty($json['data']['page'])) {
+				$_SESSION['page'] = $json['data']['page'];
+			}
+			if(!empty($json['data']['last_seen'])) {
+				$_SESSION['last_seen'] = $json['data']['last_seen'];
+			}
+			if($_SESSION['remember'] == "true") {
+				setcookie("id", base64_encode($_SESSION['username']), time() + (86400 * 30), "/");
+				setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
+			}
+			$params = array(
+				'sec'=>'session',
+				'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
+				'ip'=>$_SERVER['REMOTE_ADDR'],
+				'key'=>$_SESSION['key']);
+			$json = httpPost("https://www.theartex.net/cloud/api/", $params);
+		} else {
+			setcookie("id", "", time() - (86400 * 30), "/");
+			setcookie("token", "", time() - (86400 * 30), "/");
+			session_destroy();
+		}
 	} else {
+		setcookie("id", "", time() - (86400 * 30), "/");
+		setcookie("token", "", time() - (86400 * 30), "/");
 		session_destroy();
 	}
+} elseif(isset($_COOKIE['id'])) {
 	$params = array(
-		'sec'=>'session',
-		'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
-		'ip'=>$_SERVER['REMOTE_ADDR'],
-		'key'=>$_SESSION['key']);
-	$json = httpPost("https://www.theartex.net/cloud/api/",$params);
+		'sec'=>'validate',
+		'id'=>base64_decode($_COOKIE['id']),
+		'token'=>base64_decode($_COOKIE['token']));
+	$json = httpPost("https://www.theartex.net/cloud/api/", $params);
 	$json = json_decode($json, true);
-	if($json['status'] != 'success') {
-		die('An error occurred while contacting the application API: '.$json['message']);
+	if(isset($json['status']) && $json['status'] == "success") {
+		if(in_array($json['data']['username'], $info['admin']['accounts'])) {
+			$_SESSION['id'] = $json['data']['id'];
+			$_SESSION['username'] = $json['data']['username'];
+			$_SESSION['role'] = $json['data']['role'];
+			$_SESSION['email'] = $json['data']['email'];
+			if(!empty($json['data']['gravatar'])) {
+				$_SESSION['gravatar'] = $json['data']['gravatar'];
+			}
+			$_SESSION['key'] = $json['data']['key'];
+			if(!empty($json['data']['page'])) {
+				$_SESSION['page'] = $json['data']['page'];
+			}
+			if(!empty($json['data']['last_seen'])) {
+				$_SESSION['last_seen'] = $json['data']['last_seen'];
+			}
+			if($_SESSION['remember'] == "true") {
+				setcookie("id", base64_encode($_SESSION['username']), time() + (86400 * 30), "/");
+				setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
+			}
+			$params = array(
+				'sec'=>'session',
+				'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
+				'ip'=>$_SERVER['REMOTE_ADDR'],
+				'key'=>$_SESSION['key']);
+			$json = httpPost("https://www.theartex.net/cloud/api/", $params);
+		} else {
+			setcookie("id", "", time() - (86400 * 30), "/");
+			setcookie("token", "", time() - (86400 * 30), "/");
+		}
+	} else {
+		setcookie("id", "", time() - (86400 * 30), "/");
+		setcookie("token", "", time() - (86400 * 30), "/");
 	}
 }
 
