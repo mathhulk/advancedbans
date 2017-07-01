@@ -15,7 +15,7 @@ A simple, but sleek, web addon for AdvancedBan.
 - View a list of users who have recently accessed the dashboard
 - View a lit of recent command executions
 
-## Using the Addon
+## Setup
 To use ab-web-addon, you must first upload ab-web-addon to your web server.
 After your files have been uploaded, you must then fill out the necessary components in the database.php file.
 ```php
