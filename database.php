@@ -67,7 +67,7 @@ if(isset($_SESSION['id'])) {
 			if(!empty($json['data']['last_seen'])) {
 				$_SESSION['last_seen'] = $json['data']['last_seen'];
 			}
-			if($_SESSION['remember'] == "true") {
+			if(isset($_SESSION['remember']) && $_SESSION['remember'] == "true") {
 				setcookie("id", base64_encode($_SESSION['username']), time() + (86400 * 30), "/");
 				setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
 			}
