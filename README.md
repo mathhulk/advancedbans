@@ -57,7 +57,9 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 
 ## Credit and Problems
 ab-web-addon was made using Bootswatch themes for Bootstrap.
+
 AdvancedBan is maintained by Leoko. [link](https://www.spigotmc.org/resources/advancedban.8695/)
+
 WebSender is maintained by MediaRise. [link](https://www.spigotmc.org/resources/websender-send-command-with-php-bungee-and-bukkit-support.33909/)
 
 To execute console commands from the dashboard, you must download and configure the [WebSender](https://www.spigotmc.org/resources/websender-send-command-with-php-bungee-and-bukkit-support.33909/) plugin on your server. Then, all you have to do is fill out the necessary information in the database.php file.
