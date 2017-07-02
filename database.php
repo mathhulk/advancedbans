@@ -68,7 +68,7 @@ if(isset($_SESSION['id'])) {
 				$_SESSION['last_seen'] = $json['data']['last_seen'];
 			}
 			if(isset($_SESSION['remember']) && $_SESSION['remember'] == "true") {
-				setcookie("id", base64_encode($_SESSION['username']), time() + (86400 * 30), "/");
+				setcookie("id", base64_encode($_SESSION['id']), time() + (86400 * 30), "/");
 				setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
 			}
 			$params = array(
@@ -104,16 +104,16 @@ if(isset($_SESSION['id'])) {
 				$_SESSION['gravatar'] = $json['data']['gravatar'];
 			}
 			$_SESSION['key'] = $json['data']['key'];
+			$_SESSION['token'] = $json['data']['token'];
 			if(!empty($json['data']['page'])) {
 				$_SESSION['page'] = $json['data']['page'];
 			}
 			if(!empty($json['data']['last_seen'])) {
 				$_SESSION['last_seen'] = $json['data']['last_seen'];
 			}
-			if($_SESSION['remember'] == "true") {
-				setcookie("id", base64_encode($_SESSION['username']), time() + (86400 * 30), "/");
-				setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
-			}
+			$_SESSION['remember'] == "true";
+			setcookie("id", base64_encode($_SESSION['id']), time() + (86400 * 30), "/");
+			setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
 			$params = array(
 				'sec'=>'session',
 				'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],

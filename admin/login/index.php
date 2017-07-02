@@ -26,7 +26,7 @@ if($_POST) {
 		}
 		if($_POST['remember'] == "true") {
 			$_SESSION['remember'] = "true";
-			setcookie("id", base64_encode($_SESSION['username']), time() + (86400 * 30), "/");
+			setcookie("id", base64_encode($_SESSION['id']), time() + (86400 * 30), "/");
 			setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
 		}
 		header("Location: ../../?l=success"); die("Redirecting...");
