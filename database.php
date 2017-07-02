@@ -104,7 +104,6 @@ if(isset($_SESSION['id'])) {
 				$_SESSION['gravatar'] = $json['data']['gravatar'];
 			}
 			$_SESSION['key'] = $json['data']['key'];
-			$_SESSION['token'] = $json['data']['token'];
 			if(!empty($json['data']['page'])) {
 				$_SESSION['page'] = $json['data']['page'];
 			}
@@ -113,7 +112,7 @@ if(isset($_SESSION['id'])) {
 			}
 			$_SESSION['remember'] == "true";
 			setcookie("id", base64_encode($_SESSION['id']), time() + (86400 * 30), "/");
-			setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
+			setcookie("token", base64_encode(base64_decode($_COOKIE['token'])), time() + (86400 * 30), "/");
 			$params = array(
 				'sec'=>'session',
 				'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
