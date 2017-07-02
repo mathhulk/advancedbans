@@ -104,6 +104,7 @@ if(isset($_SESSION['id'])) {
 				$_SESSION['gravatar'] = $json['data']['gravatar'];
 			}
 			$_SESSION['key'] = $json['data']['key'];
+			$_SESSION['token'] = base64_decode($_COOKIE['token']);
 			if(!empty($json['data']['page'])) {
 				$_SESSION['page'] = $json['data']['page'];
 			}
