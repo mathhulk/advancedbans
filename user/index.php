@@ -56,7 +56,7 @@ if(isset($_GET['user'])) {
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="https://www.theartex.net/system/login/?red='.$info['base'].'/admin/login/'.($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "&prot=https" : "").'">Login</a></li>
+								<li><a href="https://www.theartex.net/system/login/?red='.$info['base'].'/admin/login/'.(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "&prot=https" : "").'">Login</a></li>
 							</ul>
 						</li>
 						';	
