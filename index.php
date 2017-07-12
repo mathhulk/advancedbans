@@ -219,8 +219,8 @@ require("database.php");
 						if(isset($punishment)) {
 							$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".$punishment."' ORDER BY id DESC"));
 						}
-						$pages['total'] = floor($rows / 25);
-						if($rows % 25 != 0 || $rows == 0) {
+						$pages['total'] = floor($rows / 10);
+						if($rows % 10 != 0 || $rows == 0) {
 							$pages['total'] = $pages['total'] + 1;
 						}
 						if($page['number'] < 5) {

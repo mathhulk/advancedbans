@@ -146,8 +146,8 @@ if($_POST) {
 									echo "<li><a href='?p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
 								}
 								$rows = $log->query("SELECT COUNT(*) as count FROM commands"); $rows = $rows->fetchArray(); $rows = $rows['count'];
-								$pages['total'] = floor($rows / 25);
-								if($rows % 25 != 0 || $rows == 0) {
+								$pages['total'] = floor($rows / 10);
+								if($rows % 10 != 0 || $rows == 0) {
 									$pages['total'] = $pages['total'] + 1;
 								}
 								if($page['number'] < 5) {

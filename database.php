@@ -28,11 +28,11 @@ if (mysqli_connect_errno()) {
 }
 
 //Set up a default structure for monitoring pages.
-$page = array('max'=>'25', 'min'=>'0', 'number'=>'1', 'posts'=>0, 'count'=>0); 
+$page = array('max'=>'10', 'min'=>'0', 'number'=>'1', 'posts'=>0, 'count'=>0); 
 
 //Set up a structure for monitoring pages based on user input.
 if(isset($_GET['p']) && is_numeric($_GET['p'])) {
-	$page = array('max'=>$_GET['p']*25,'min'=>($_GET['p'] - 1)*25,'number'=>$_GET['p'],'posts'=>0,'count'=>0); 
+	$page = array('max'=>$_GET['p']*10,'min'=>($_GET['p'] - 1)*10,'number'=>$_GET['p'],'posts'=>0,'count'=>0); 
 }
 
 //List the types of punishments.

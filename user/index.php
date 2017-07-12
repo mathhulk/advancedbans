@@ -139,8 +139,8 @@ if(isset($_GET['user'])) {
 									echo "<li><a href='?user=".$user."&p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
 								}
 								$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' AND punishmentType!='IP_BAN' ORDER BY id DESC LIMIT ".$page['min'].", 10"));
-								$pages['total'] = floor($rows / 25);
-								if($rows % 25 != 0 || $rows == 0) {
+								$pages['total'] = floor($rows / 10);
+								if($rows % 10 != 0 || $rows == 0) {
 									$pages['total'] = $pages['total'] + 1;
 								}
 								if($page['number'] < 5) {
