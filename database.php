@@ -3,7 +3,7 @@ session_start(); //Sessions data is saved for accounts.
 ob_start(); //Static content loads first.
 //This is required for account data to be saved.
 
-$con = mysqli_connect("149.56.106.72","mc1856","8ca8903b4e","mc1856");
+$con = mysqli_connect("host","username","password","database");
 //Enter your MYSQL details here.
 
 $info = array(
