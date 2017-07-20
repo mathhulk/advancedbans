@@ -46,8 +46,6 @@ ab-web-addon was made using Bootswatch themes for Bootstrap.
 
 AdvancedBan is maintained by Leoko. ([SpigotMC](https://www.spigotmc.org/resources/advancedban.8695/))
 
-To execute console commands from the dashboard, you must download and configure the [WebSender](https://www.spigotmc.org/resources/websender-send-command-with-php-bungee-and-bukkit-support.33909/) plugin on your server. Then, all you have to do is fill out the necessary information in the database.php file.
-
 ## Issues (please report)
 - None
 
