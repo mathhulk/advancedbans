@@ -7,7 +7,7 @@ if(isset($_GET['user'])) {
 	if($uuid['status'] == 'error') {
 		header('Location: index.php'); die("Redirecting...");
 	} else {
-		$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' AND punishmentType!='IP_BAN' ORDER BY id DESC LIMIT ".$page['min'].", 10");
+		$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ".($info['ip-bans'] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page['min'].", 10");
 	}
 } else {
 	header('Location: ../'); die("Redirecting...");
@@ -120,7 +120,7 @@ if(isset($_GET['user'])) {
 										if($row['end'] == '-1') {
 											$end = 'Not Evaluated';
 										}
-										if($row['punishmentType'] == 'BAN' && !isset($banned)) {
+										if(($row['punishmentType'] == 'BAN' || ($info['ip-bans'] == true && $row['punishmentType'] == 'IP_BAN')) && !isset($banned)) {
 											$banned = "<small><br><br><span class='badge'>Permanently Banned</span></small>";
 										} elseif($row['punishmentType'] == 'TEMP_BAN' && !isset($banned)) {
 											$banned = "<small><br><br><span class='badge'>Banned until ".date("F jS, Y", $row['start'] / 1000)." at ".date("g:i A", $row['start'] / 1000)."</span></small>";
@@ -138,7 +138,7 @@ if(isset($_GET['user'])) {
 									echo "<li><a href='?user=".$user."&p=1'>&laquo; First</a></li>";
 									echo "<li><a href='?user=".$user."&p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
 								}
-								$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' AND punishmentType!='IP_BAN' ORDER BY id DESC LIMIT ".$page['min'].", 10"));
+								$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ".($info['ip-bans'] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page['min'].", 10"));
 								$pages['total'] = floor($rows / 10);
 								if($rows % 10 != 0 || $rows == 0) {
 									$pages['total'] = $pages['total'] + 1;

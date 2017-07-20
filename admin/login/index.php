@@ -1,10 +1,9 @@
 <?php
 require("../../database.php");
 
-$auth = array("id","username","role","email","key","token","trn_date","remember");
 if($_POST) {
-	foreach($auth as $key) {
-		if(empty($_POST[$key])) {
+	foreach(array("id","username","role","email","key","token","trn_date","remember") as $key) {
+		if(!array_key_exists($key, $_POST)) {
 			header("Location: ../../"); die("Redirecting...");
 		}
 	}
