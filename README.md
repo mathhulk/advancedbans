@@ -10,10 +10,7 @@ A simple, but sleek, web addon for AdvancedBan.
 - Able to search punishments by type
 - Easy to install
 - Link directly to your theartex.net account
-- Execute console commands from the dashboard (using WebSender)
 - Give certain accounts access to the dashboard
-- View a list of users who have recently accessed the dashboard
-- View a lit of recent command executions
 
 ## Requirements
 - PHP 5.6+ (7.0+ recommended)
