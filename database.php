@@ -11,7 +11,7 @@ $info = array(
 	'description'=>'A simple, but sleek, web addon for AdvancedBan.', //This will be displayed under the title on all pages. (string)
 	'theme'=>'yeti', //This is the name of the theme you wish to load. You can find a list of compatible themes at http://bootswatch.com/. (string)
 	'table'=>'PunishmentHistory', //The table of your MYSQL database for which punishments are saved. (string)
-	'base'=>'www.mathhulk.me/external/ab-web-addon', //DO NOT INCLUDE A TRAILING SLASH. The URL at which ab-web-addon is located. (string)
+	'base'=>'www.example.com/bans', //DO NOT INCLUDE A TRAILING SLASH. The URL at which ab-web-addon is located. (string)
 	'ip-bans'=>true, //Whether punishments that reveal the IP address of players will be shown. (boolean)
 	'admin'=>array(
 		'accounts'=>array('test') //The list of users that can log in to the dashboard. These must be active accounts from https://theartex.net. (array) (string)
@@ -42,12 +42,7 @@ if($info['ip-bans'] == true) {
 
 //Use the developer API from theartex.net for user authentication checks.
 if(isset($_SESSION['id'])) {
-	$params = array(
-		'sec'=>'validate',
-		'id'=>$_SESSION['id'],
-		'token'=>$_SESSION['token']);
-	$json = httpPost("https://www.theartex.net/cloud/api/", $params);
-	$json = json_decode($json, true);
+	$json = json_decode(httpPost("https://www.theartex.net/cloud/api/", array('sec'=>'validate', 'id'=>$_SESSION['id'], 'token'=>$_SESSION['token'])), true);
 	if(isset($json['status']) && $json['status'] == "success") {
 		if(in_array($json['data']['username'], $info['admin']['accounts'])) {
 			$_SESSION['id'] = $json['data']['id'];
@@ -68,12 +63,7 @@ if(isset($_SESSION['id'])) {
 				setcookie("id", base64_encode($_SESSION['id']), time() + (86400 * 30), "/");
 				setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
 			}
-			$params = array(
-				'sec'=>'session',
-				'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
-				'ip'=>$_SERVER['REMOTE_ADDR'],
-				'key'=>$_SESSION['key']);
-			$json = httpPost("https://www.theartex.net/cloud/api/", $params);
+			httpPost("https://www.theartex.net/cloud/api/", array('sec'=>'session', 'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ip'=>$_SERVER['REMOTE_ADDR'], 'key'=>$_SESSION['key']));
 		} else {
 			setcookie("id", "", time() - (86400 * 30), "/");
 			setcookie("token", "", time() - (86400 * 30), "/");
@@ -85,12 +75,7 @@ if(isset($_SESSION['id'])) {
 		session_destroy();
 	}
 } elseif(isset($_COOKIE['id'])) {
-	$params = array(
-		'sec'=>'validate',
-		'id'=>base64_decode($_COOKIE['id']),
-		'token'=>base64_decode($_COOKIE['token']));
-	$json = httpPost("https://www.theartex.net/cloud/api/", $params);
-	$json = json_decode($json, true);
+	$json = json_decode(httpPost("https://www.theartex.net/cloud/api/", array('sec'=>'validate', 'id'=>base64_decode($_COOKIE['id']), 'token'=>base64_decode($_COOKIE['token']))), true);
 	if(isset($json['status']) && $json['status'] == "success") {
 		if(in_array($json['data']['username'], $info['admin']['accounts'])) {
 			$_SESSION['id'] = $json['data']['id'];
@@ -111,22 +96,20 @@ if(isset($_SESSION['id'])) {
 			$_SESSION['remember'] == "true";
 			setcookie("id", base64_encode($_SESSION['id']), time() + (86400 * 30), "/");
 			setcookie("token", base64_encode(base64_decode($_COOKIE['token'])), time() + (86400 * 30), "/");
-			$params = array(
-				'sec'=>'session',
-				'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
-				'ip'=>$_SERVER['REMOTE_ADDR'],
-				'key'=>$_SESSION['key']);
-			$json = httpPost("https://www.theartex.net/cloud/api/", $params);
+			httpPost("https://www.theartex.net/cloud/api/", array('sec'=>'session', 'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ip'=>$_SERVER['REMOTE_ADDR'], 'key'=>$_SESSION['key']));
 		} else {
 			setcookie("id", "", time() - (86400 * 30), "/");
 			setcookie("token", "", time() - (86400 * 30), "/");
+			session_destroy();
 		}
 	} else {
 		setcookie("id", "", time() - (86400 * 30), "/");
 		setcookie("token", "", time() - (86400 * 30), "/");
+		session_destroy();
 	}
 }
 
+//Use an external API to display times relative to the user's timezone.
 if(!isset($_SESSION['time_zone'])) {
 	$_SESSION['time_zone'] = "America/Los_Angeles";
 	$tz_api = json_decode(file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']), true);
@@ -135,6 +118,7 @@ if(!isset($_SESSION['time_zone'])) {
 	}
 }
 
+//A simple function to easily use the developer API.
 function httpPost($url,$params) {
     $ch = curl_init();  
     curl_setopt($ch,CURLOPT_URL,$url);
