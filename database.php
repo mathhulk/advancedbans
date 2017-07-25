@@ -3,7 +3,7 @@ session_start(); //Sessions data is saved for accounts.
 ob_start(); //Static content loads first.
 //This is required for account data to be saved.
 
-$con = mysqli_connect("host","username","password","database");
+$con = mysqli_connect("host","user","password","database");
 //Enter your MYSQL details here.
 
 $info = array(
@@ -35,6 +35,18 @@ $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning
 if($info['ip-bans'] == true) {
 	$types[] = 'ip_ban';
 }
+
+// translatable lables for punishments.
+//					punishment type => translated text to be displayed on page
+$typeLabels = array("all" => "All", 
+					"ban" => "Bans",
+					"temp_ban" => "Temp Bans",
+					"mute" => "Mutes",
+					"temp_mute" => "Temp Mutes",
+					"warning" => "Warnings",
+					"temp_warning" => "Temp Warnings",
+					"kick" => "Kicks",
+					"ip_ban" => "IP Bans");
 
 //-----------------------------------------------------------------------------------
 // (!) The following portion of the database.php file does not require changes. (!)
