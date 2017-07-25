@@ -21,6 +21,6 @@ if(isset($json['status']) && $json['status'] == "success") {
 		header("Location: ../../?l=access"); die("Redirecting...");
 	}
 } else {
-	header("Location: https://www.theartex.net/system/login/?red=".$info['base']."/admin/login/".(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "&prot=https" : "")); die("Redirecting...");
+	header("Location: https://www.theartex.net/system/login/?red=".(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "https" : "http")."://".$info['base']."/admin/login/"); die("Redirecting...");
 }
 ?>
