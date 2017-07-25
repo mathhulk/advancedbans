@@ -156,7 +156,7 @@ require("database.php");
 							$url = "index.php";
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType!='IP_BAN'");
 						}
-						echo '<a href="'.$url.'" class="btn btn-primary btn-md">'.strtoupper(str_replace('_','-',$type)).($type != "all" ? "S" : "").' <span class="badge">'.mysqli_num_rows($result).'</span></a>';
+						echo '<a href="'.$url.'" class="btn btn-primary btn-md">'.strtoupper(str_replace('_','-',$typeLabels[$type])).' <span class="badge">'.mysqli_num_rows($result).'</span></a>';
 					}
 					?>
 				</p>
