@@ -5,7 +5,7 @@ A simple, but sleek, web addon for AdvancedBan.
 ## Main Features
 - Host it on your own web server
 - Easily change to themes from Bootswatch
-- Easy to edit the title and description
+- Easy to edit all words and phrases
 - Able to search punishments by user
 - Able to search punishments by type
 - Easy to install
