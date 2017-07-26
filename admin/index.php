@@ -7,7 +7,7 @@ if(!isset($_SESSION['id'])) {
 ?>
 <html lang="en">
 	<head>
-		<title><?php echo $info['title']; ?></title>
+		<title><?php echo $lang['title']; ?></title>
 		<link rel="stylesheet" href="../data/bootstrap.min.css">
 		<link rel="stylesheet" href="../data/font-awesome.min.css">
 		<script src="../data/jquery-3.1.1.min.js"></script>
@@ -25,40 +25,40 @@ if(!isset($_SESSION['id'])) {
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href=""><?php echo $info['title']; ?></a>
+				<a class="navbar-brand" href=""><?php echo $lang['title']; ?></a>
 			</div>
+
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="../">Punishments</a></li>
+					<li><a href="../"><?php echo $lang['punishments']; ?></a></li>
 					<?php
 					if(isset($_SESSION['id'])) {
 						echo '
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
+						<li class="active dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'.$lang['account'].' <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a>'.$_SESSION['username'].'</a></li>
-								<li><a href="logout/">Logout</a></li>
+								<li><a href="../admin/logout/">'.$lang['logout'].'</a></li>
 								<li class="divider"></li>
-								<li><a href="">Dashboard</a></li>
+								<li><a href="../admin/">'.$lang['dashboard'].'</a></li>
 							</ul>
 						</li>
 						';
 					} else {
 						echo '
-						<li class="dropdown">
+						<li class="active dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="https://www.theartex.net/system/login/?red='.(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "https" : "http").'://'.$info['base'].'/admin/login/">Login</a></li>
+								<li><a href="https://www.theartex.net/system/login/?red='.(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "https" : "http").'://'.$info['base'].'/admin/login/">'.$lang['login'].'</a></li>
 							</ul>
 						</li>
 						';	
-
 					}
 					?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Credits <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang['credits']; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
 							<li><a href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
@@ -71,8 +71,8 @@ if(!isset($_SESSION['id'])) {
 		</nav>
 		<div class="container">
 			<div class="jumbotron">
-				<h1><br><?php echo $info['title']; ?></h1> 
-				<p><?php echo $info['description']; ?></p>
+				<h1><br><?php echo $lang['title']; ?></h1> 
+				<p><?php echo $lang['description']; ?></p>
 			</div>
 			<div class="jumbotron">
 				<p>Statistics will be available in upcoming updates.</p>

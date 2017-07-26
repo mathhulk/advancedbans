@@ -15,7 +15,7 @@ if(isset($_GET['user'])) {
 ?>
 <html lang="en">
 	<head>
-		<title><?php echo $info['title']; ?></title>
+		<title><?php echo $lang['title']; ?></title>
 		<link rel="stylesheet" href="../data/bootstrap.min.css">
 		<link rel="stylesheet" href="../data/font-awesome.min.css">
 		<script src="../data/jquery-3.1.1.min.js"></script>
@@ -33,21 +33,22 @@ if(isset($_GET['user'])) {
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href=""><?php echo $info['title']; ?></a>
+				<a class="navbar-brand" href=""><?php echo $lang['title']; ?></a>
 			</div>
+
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="index.php">Punishments</a></li>
+					<li class="active"><a href="../"><?php echo $lang['punishments']; ?></a></li>
 					<?php
 					if(isset($_SESSION['id'])) {
 						echo '
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'.$lang['account'].' <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a>'.$_SESSION['username'].'</a></li>
-								<li><a href="../admin/logout/">Logout</a></li>
+								<li><a href="../admin/logout/">'.$lang['logout'].'</a></li>
 								<li class="divider"></li>
-								<li><a href="../admin/">Dashboard</a></li>
+								<li><a href="../admin/">'.$lang['dashboard'].'</a></li>
 							</ul>
 						</li>
 						';
@@ -56,17 +57,16 @@ if(isset($_GET['user'])) {
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="https://www.theartex.net/system/login/?red='.(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "https" : "http").'://'.$info['base'].'/admin/login/">Login</a></li>
+								<li><a href="https://www.theartex.net/system/login/?red='.(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "https" : "http").'://'.$info['base'].'/admin/login/">'.$lang['login'].'</a></li>
 							</ul>
 						</li>
 						';	
-
 					}
 					?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Credits <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang['credits']; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
 							<li><a href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
@@ -79,16 +79,26 @@ if(isset($_GET['user'])) {
 		</nav>
 		<div class="container">
 			<div class="jumbotron">
-				<h1><br><?php echo $info['title']; ?></h1> 
-				<p><?php echo $info['description']; ?></p>
+				<h1><br><?php echo $lang['title']; ?></h1> 
+				<p><?php echo $lang['description']; ?></p>
+				<p>
+					<?php
+					foreach($types as $type) {
+						$typeres = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".strtoupper($type)."'");
+						if($type == 'all') {
+							$typeres = mysqli_query($con,"SELECT * FROM `".$info['table']."`".($info['ip-bans'] == false ? " WHERE punishmentType!='IP_BAN'" : ""));
+						}
+						echo '<a href="../?type='.$type.'" class="btn btn-primary btn-md">'.$lang[$type.($type != 'all' ? 's' : '')].' <span class="badge">'.mysqli_num_rows($typeres).'</span></a>';
+					}
+					?>
+				</p>
 			</div>
-			
 			<div class="jumbotron">
-				<form method="get" action="../user/">
+				<form method="get" action="">
 					<div class="input-group">
-						<input type="text" maxlength="50" name="user" class="form-control" placeholder="Search for...">
+						<input type="text" maxlength="50" name="user" class="form-control" placeholder="<?php echo $lang['search']; ?>">
 						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit">Submit</button>
+							<button class="btn btn-default" type="submit"><?php echo $lang['submit']; ?></button>
 						</span>
 					</div>
 				</form>
@@ -99,33 +109,33 @@ if(isset($_GET['user'])) {
 						<table class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<th>Reason</th>
-									<th>Operator</th>
-									<th>Date</th>
-									<th>End</th>
-									<th>Type</th>
+									<th><?php echo $lang['reason']; ?></th>
+									<th><?php echo $lang['operator']; ?></th>
+									<th><?php echo $lang['date']; ?></th>
+									<th><?php echo $lang['end']; ?></th>
+									<th><?php echo $lang['type']; ?></th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 								if(mysqli_num_rows($result) == 0) {
-									echo "<tr><td>No punishments could be listed on this page.</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
+									echo '<tr><td>'.$lang['error_no_punishments'].'</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>';
 								} else {
 									while($row = mysqli_fetch_array($result)) {			
 										$end_date = new DateTime(gmdate('F jS, Y g:i A', $row['end'] / 1000));
 										$end_date->setTimezone(new DateTimeZone($_SESSION['time_zone']));
 										$start_date = new DateTime(gmdate('F jS, Y g:i A', $row['start'] / 1000));
 										$start_date->setTimezone(new DateTimeZone($_SESSION['time_zone']));
-										$end = $end_date->format("F jS, Y")."<br><span class='badge'>".$end_date->format("g:i A")."</span>"; //Grab the end time as a data.
+										$end = $end_date->format("F jS, Y")."<br><span class='badge'>".$end_date->format("g:i A")."</span>";
 										if($row['end'] == '-1') {
-											$end = 'Not Evaluated';
+											$end = $lang['error_not_evaluated'];
 										}
 										if(($row['punishmentType'] == 'BAN' || ($info['ip-bans'] == true && $row['punishmentType'] == 'IP_BAN')) && !isset($banned)) {
-											$banned = "<small><br><br><span class='badge'>Permanently Banned</span></small>";
+											$banned = "<small><br><br><span class='badge'>".$lang['permanently_banned']."</span></small>";
 										} elseif($row['punishmentType'] == 'TEMP_BAN' && !isset($banned)) {
-											$banned = "<small><br><br><span class='badge'>Banned until ".date("F jS, Y", $row['start'] / 1000)." at ".date("g:i A", $row['start'] / 1000)."</span></small>";
+											$banned = "<small><br><br><span class='badge'>".$lang['until'].date("F jS, Y", $row['start'] / 1000)." at ".date("g:i A", $row['start'] / 1000)."</span></small>";
 										}
-										echo "<tr><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".date("F jS, Y", $row['start'] / 1000)."<br><span class='badge'>".date("g:i A", $row['start'] / 1000)."</span></td><td>".$end."</td><td>".ucwords(strtolower(str_replace('_','-',$row['punishmentType'])))."</td></tr>";
+										echo "<tr><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".date("F jS, Y", $row['start'] / 1000)."<br><span class='badge'>".date("g:i A", $row['start'] / 1000)."</span></td><td>".$end."</td><td>".$lang[strtolower($row['punishmentType'])]."</td></tr>";
 									}
 								}
 								?>
@@ -135,8 +145,8 @@ if(isset($_GET['user'])) {
 							<ul class='pagination'>
 								<?php
 								if($page['number'] > 1) {
-									echo "<li><a href='?user=".$user."&p=1'>&laquo; First</a></li>";
-									echo "<li><a href='?user=".$user."&p=".($page['number'] - 1)."'>&laquo; Previous</a></li>";
+									echo "<li><a href='?user=".$user."&p=1'>&laquo; ".$lang['first']."</a></li>";
+									echo "<li><a href='?user=".$user."&p=".($page['number'] - 1)."'>&laquo; ".$lang['previous']."</a></li>";
 								}
 								$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ".($info['ip-bans'] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page['min'].", 10"));
 								$pages['total'] = floor($rows / 10);
@@ -162,8 +172,8 @@ if(isset($_GET['user'])) {
 									$pages['count'] = $pages['count'] + 1;
 								}
 								if($rows > $page['max']) {
-									echo "<li><a href='?user=".$user."&p=".($page['number'] + 1)."'>Next &raquo;</a></li>";
-									echo "<li><a href='?user=".$user."&p=".$pages['total']."'>Last &raquo;</a></li>";
+									echo "<li><a href='?user=".$user."&p=".($page['number'] + 1)."'>".$lang['next']." &raquo;</a></li>";
+									echo "<li><a href='?user=".$user."&p=".$pages['total']."'>".$lang['last']." &raquo;</a></li>";
 								}
 								?>
 							</ul>
@@ -176,7 +186,7 @@ if(isset($_GET['user'])) {
 							if(isset($banned)) {
 								echo $banned;
 							} else {
-								echo "<small><br><br><span class='badge'>Not Banned</span></small>";
+								echo "<small><br><br><span class='badge'>".$lang['not_banned']."</span></small>";
 							}
 							?>
 						</h2>
