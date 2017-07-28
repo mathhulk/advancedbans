@@ -118,21 +118,14 @@ if(isset($_SESSION['id'])) {
 			$_SESSION['username'] = $json['data']['username'];
 			$_SESSION['role'] = $json['data']['role'];
 			$_SESSION['email'] = $json['data']['email'];
-			if(!empty($json['data']['gravatar'])) {
-				$_SESSION['gravatar'] = $json['data']['gravatar'];
-			}
-			$_SESSION['key'] = $json['data']['key'];
-			if(!empty($json['data']['page'])) {
-				$_SESSION['page'] = $json['data']['page'];
-			}
-			if(!empty($json['data']['last_seen'])) {
-				$_SESSION['last_seen'] = $json['data']['last_seen'];
-			}
+			$_SESSION['gravatar'] = $json['data']['gravatar'];
+			$_SESSION['page'] = $json['data']['page'];
+			$_SESSION['last_seen'] = $json['data']['last_seen'];
 			if(isset($_SESSION['remember']) && $_SESSION['remember'] == "true") {
 				setcookie("id", base64_encode($_SESSION['id']), time() + (86400 * 30), "/");
 				setcookie("token", base64_encode($_SESSION['token']), time() + (86400 * 30), "/");
 			}
-			httpPost("https://www.theartex.net/cloud/api/", array('sec'=>'session', 'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ip'=>$_SERVER['REMOTE_ADDR'], 'key'=>$_SESSION['key']));
+			httpPost("https://www.theartex.net/cloud/api/", array('sec'=>'session', 'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ip'=>$_SERVER['REMOTE_ADDR'], 'id'=>$_SESSION['id'], 'token'=>$_SESSION['token']));
 		} else {
 			setcookie("id", "", time() - (86400 * 30), "/");
 			setcookie("token", "", time() - (86400 * 30), "/");
@@ -151,21 +144,14 @@ if(isset($_SESSION['id'])) {
 			$_SESSION['username'] = $json['data']['username'];
 			$_SESSION['role'] = $json['data']['role'];
 			$_SESSION['email'] = $json['data']['email'];
-			if(!empty($json['data']['gravatar'])) {
-				$_SESSION['gravatar'] = $json['data']['gravatar'];
-			}
-			$_SESSION['key'] = $json['data']['key'];
+			$_SESSION['gravatar'] = $json['data']['gravatar'];
 			$_SESSION['token'] = base64_decode($_COOKIE['token']);
-			if(!empty($json['data']['page'])) {
-				$_SESSION['page'] = $json['data']['page'];
-			}
-			if(!empty($json['data']['last_seen'])) {
-				$_SESSION['last_seen'] = $json['data']['last_seen'];
-			}
+			$_SESSION['page'] = $json['data']['page'];
+			$_SESSION['last_seen'] = $json['data']['last_seen'];
 			$_SESSION['remember'] == "true";
 			setcookie("id", base64_encode($_SESSION['id']), time() + (86400 * 30), "/");
 			setcookie("token", base64_encode(base64_decode($_COOKIE['token'])), time() + (86400 * 30), "/");
-			httpPost("https://www.theartex.net/cloud/api/", array('sec'=>'session', 'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ip'=>$_SERVER['REMOTE_ADDR'], 'key'=>$_SESSION['key']));
+			httpPost("https://www.theartex.net/cloud/api/", array('sec'=>'session', 'page'=>$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ip'=>$_SERVER['REMOTE_ADDR'], 'id'=>$_SESSION['id'], 'token'=>$_SESSION['token']));
 		} else {
 			setcookie("id", "", time() - (86400 * 30), "/");
 			setcookie("token", "", time() - (86400 * 30), "/");

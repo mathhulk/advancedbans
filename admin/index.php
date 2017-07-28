@@ -35,9 +35,8 @@ if(!isset($_SESSION['id'])) {
 					if(isset($_SESSION['id'])) {
 						echo '
 						<li class="active dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'.$lang['account'].' <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="https://www.gravatar.com/avatar/'.md5(strtolower(trim($_SESSION["gravatar"]))).'?d=mm&s=19" alt="Profile Picture"/> &nbsp; '.$_SESSION['username'].' <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a>'.$_SESSION['username'].'</a></li>
 								<li><a href="../admin/logout/">'.$lang['logout'].'</a></li>
 								<li class="divider"></li>
 								<li><a href="../admin/">'.$lang['dashboard'].'</a></li>
@@ -47,7 +46,7 @@ if(!isset($_SESSION['id'])) {
 					} else {
 						echo '
 						<li class="active dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'.$lang['account'].' <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="https://www.theartex.net/system/login/?red='.(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "https" : "http").'://'.$info['base'].'/admin/login/">'.$lang['login'].'</a></li>
 							</ul>
