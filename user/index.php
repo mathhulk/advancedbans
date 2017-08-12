@@ -39,29 +39,6 @@ if(isset($_GET['user'])) {
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="../"><?php echo $lang['punishments']; ?></a></li>
-					<?php
-					if(isset($_SESSION['id'])) {
-						echo '
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="https://www.gravatar.com/avatar/'.md5(strtolower(trim($_SESSION["gravatar"]))).'?d=mm&s=19" alt="Profile Picture"/> &nbsp; '.$_SESSION['username'].' <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="../admin/logout/">'.$lang['logout'].'</a></li>
-								<li class="divider"></li>
-								<li><a href="../admin/">'.$lang['dashboard'].'</a></li>
-							</ul>
-						</li>
-						';
-					} else {
-						echo '
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'.$lang['account'].' <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="https://www.theartex.net/system/login/?red='.(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "https" : "http").'://'.$info['base'].'/admin/login/">'.$lang['login'].'</a></li>
-							</ul>
-						</li>
-						';	
-					}
-					?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">

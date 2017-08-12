@@ -11,83 +11,6 @@ require("database.php");
 		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/<?php echo $info['theme']; ?>/bootstrap.min.css" rel="stylesheet">
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	</head>
-	<?php
-	if(isset($_GET['l']) && !empty($_GET['l'])) {
-		if($_GET['l'] == "in") {
-			echo '
-			<div class="modal" id="error" data-backdrop="static" data-keyboard="false">
-			  <div class="modal-dialog">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h4 class="modal-title">'.$lang['error'].'</h4>
-				  </div>
-				  <div class="modal-body">
-					<p>'.$lang['error_login'].'</p>
-				  </div>
-				  <div class="modal-footer">
-					<a href="." class="btn btn-default">'.$lang['close'].'</a>
-				  </div>
-				</div>
-			  </div>
-			</div>
-			';
-		} elseif($_GET['l'] == "out") {
-			echo '
-			<div class="modal" id="error" data-backdrop="static" data-keyboard="false">
-			  <div class="modal-dialog">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h4 class="modal-title">'.$lang['success'].'</h4>
-				  </div>
-				  <div class="modal-body">
-					<p>'.$lang['success_logout'].'</p>
-				  </div>
-				  <div class="modal-footer">
-					<a href="." class="btn btn-default">'.$lang['close'].'</a>
-				  </div>
-				</div>
-			  </div>
-			</div>
-			';
-		} elseif($_GET['l'] == "access") {
-			echo '
-			<div class="modal" id="error" data-backdrop="static" data-keyboard="false">
-			  <div class="modal-dialog">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h4 class="modal-title">'.$lang['error'].'</h4>
-				  </div>
-				  <div class="modal-body">
-					<p>'.$lang['error_access'].'</p>
-				  </div>
-				  <div class="modal-footer">
-					<a href="." class="btn btn-default">'.$lang['close'].'</a>
-				  </div>
-				</div>
-			  </div>
-			</div>
-			';
-		} elseif($_GET['l'] == "success") {
-			echo '
-			<div class="modal" id="error" data-backdrop="static" data-keyboard="false">
-			  <div class="modal-dialog">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h4 class="modal-title">'.$lang['success'].'</h4>
-				  </div>
-				  <div class="modal-body">
-					<p>'.$lang['success_login'].'</p>
-				  </div>
-				  <div class="modal-footer">
-					<a href="." class="btn btn-default">'.$lang['close'].'</a>
-				  </div>
-				</div>
-			  </div>
-			</div>
-			';
-		}
-	}
-	?>
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top">
 		  <div class="container">
@@ -104,29 +27,6 @@ require("database.php");
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href=""><?php echo $lang['punishments']; ?></a></li>
-					<?php
-					if(isset($_SESSION['id'])) {
-						echo '
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="https://www.gravatar.com/avatar/'.md5(strtolower(trim($_SESSION["gravatar"]))).'?d=mm&s=19" alt="Profile Picture"/> &nbsp; '.$_SESSION['username'].' <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="admin/logout/">'.$lang['logout'].'</a></li>
-								<li class="divider"></li>
-								<li><a href="admin/">'.$lang['dashboard'].'</a></li>
-							</ul>
-						</li>
-						';
-					} else {
-						echo '
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'.$lang['account'].' <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="https://www.theartex.net/system/login/?red='.(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? "https" : "http").'://'.$info['base'].'/admin/login/">'.$lang['login'].'</a></li>
-							</ul>
-						</li>
-						';	
-					}
-					?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
@@ -246,10 +146,5 @@ require("database.php");
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript">
-			$(window).on('load', function() {
-				$('#error').modal('show');
-			});
-		</script>
 	</body>
 </html>
