@@ -1,6 +1,6 @@
 # ab-web-addon
 A simple, but sleek, web addon for AdvancedBan.
-- You can find the example [here](https://mathhulk.me/external/ab-web-addon).
+- You can find the example [here](https://mathhulk.info/ab-web-addon).
 
 ## Main Features
 - Host it on your own web server
@@ -9,12 +9,9 @@ A simple, but sleek, web addon for AdvancedBan.
 - Able to search punishments by user
 - Able to search punishments by type
 - Easy to install
-- Link directly to your theartex.net account
-- Give certain accounts access to the dashboard
 
 ## Requirements
 - PHP 5.6+ (7.0+ recommended)
-- cURL PHP extension
 - MySQLi PHP extension
 
 ## Setup
@@ -28,13 +25,9 @@ $con = mysqli_connect("host","user","password","database");
 $info = array(
 	'theme'=>'yeti', //This is the name of the theme you wish to load. You can find a list of compatible themes at http://bootswatch.com/. (string)
 	'table'=>'PunishmentHistory', //The table of your MYSQL database for which punishments are saved. (string)
-	'base'=>'www.example.com/bans', //DO NOT INCLUDE A TRAILING SLASH. The URL at which ab-web-addon is located. (string)
 	'ip-bans'=>true, //Whether punishments that reveal the IP address of players will be shown. (boolean)
-	'admin'=>array(
-		'accounts'=>array('test') //The list of users that can log in to the dashboard. These must be active accounts from https://theartex.net. (array) (string)
-		)
 	);
-	
+
 //Change the language.
 $lang = array(
 	//Information.
@@ -42,7 +35,6 @@ $lang = array(
 	'description'=>'A simple, but sleek, web addon for AdvancedBan.',
 	
 	//General.
-	'close'=>'Close',
 	'punishments'=>'Punishments',
 	'credits'=>'Credits',
 	'search'=>'Search for...',
@@ -56,12 +48,6 @@ $lang = array(
 	'previous'=>'Previous',
 	'next'=>'Next',
 	'last'=>'Last',
-	
-	//Authentication.
-	'login'=>'Login',
-	'logout'=>'Logout',
-	'account'=>'Account',
-	'dashboard'=>'Dashboard',
 	
 	//List.
 	'username'=>'Username',
@@ -93,16 +79,8 @@ $lang = array(
 	'kicks'=>'KICKS',
 	
 	//Errors.
-	'error'=>'Error',
-	'error_login'=>'The page you are trying to access requires visitors to be signed in to access.',
-	'error_access'=>'This website does not wish to allow your account access to sign in.',
 	'error_no_punishments'=>'No punishments could be listed on this page.',
 	'error_not_evaluated'=>'Not Evaluated',
-	
-	// Success.
-	'success'=>'Success',
-	'success_logout'=>'You have been successfully logged out of your account.',
-	'success_login'=>'You have successfully signed in to your account.'
 	);
 ```
 Once the database credentials, table, and base have been filled out, ab-web-addon will do the rest.
