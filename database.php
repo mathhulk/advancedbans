@@ -10,6 +10,8 @@ $con = mysqli_connect("host","user","password","database");
 $info = array(
 	'theme'=>'yeti', //This is the name of the theme you wish to load. You can find a list of compatible themes at http://bootswatch.com/. (string)
 	'table'=>'PunishmentHistory', //The table of your MYSQL database for which punishments are saved. (string)
+	'skulls'=>true, //Whether skulls should be shown next to users. This does not include the body render shown on /user/, which is always shown. (boolean)
+	'compact'=>false, //Whether temporary punishments and punishments should be shown together. For example, temporary mutes and mutes would fall under one category of "mutes". (boolean)
 	'ip-bans'=>true, //Whether punishments that reveal the IP address of players will be shown. (boolean)
 	);
 
@@ -88,6 +90,9 @@ if(isset($_GET['p']) && is_numeric($_GET['p'])) {
 $types = array('all','ban','temp_ban','mute','temp_mute','warning','temp_warning','kick'); 
 if($info['ip-bans'] == true) {
 	$types[] = 'ip_ban';
+}
+if($info['compact'] == true) {
+	$types = array('all','ban','mute','warning','kick');
 }
 
 //Use an external API to display times relative to the user's timezone.
