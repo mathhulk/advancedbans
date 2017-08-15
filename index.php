@@ -4,11 +4,11 @@ require("database.php");
 <html lang="en">
 	<head>
 		<title><?php echo $lang['title']; ?></title>
-		<link rel="stylesheet" href="data/bootstrap.min.css">
-		<link rel="stylesheet" href="data/font-awesome.min.css">
-		<link rel="stylesheet" href="data/ab-web-addon.css">
-		<script src="data/jquery-3.1.1.min.js"></script>
-		<script src="data/bootstrap.min.js"></script>
+		<link rel="shortcut icon" href="data/img/icon.png" type="image/x-icon">
+		<link rel="icon" href="data/img/icon.png" type="image/x-icon">
+		<link rel="stylesheet" href="data/css/bootstrap.min.css">
+		<link rel="stylesheet" href="data/css/font-awesome.min.css">
+		<link rel="stylesheet" href="data/css/ab-web-addon.css">
 		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/<?php echo $info['theme']; ?>/bootstrap.min.css" rel="stylesheet">
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	</head>
@@ -49,7 +49,7 @@ require("database.php");
 				<p>
 					<?php
 					foreach($types as $type) {
-						$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($type)."%'" : "punishmentType='".strtoupper($type)));
+						$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($type)."%'" : "punishmentType='".strtoupper($type)."'"));
 						if($type == 'all') {
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."`".($info['ip-bans'] == false ? " WHERE punishmentType!='IP_BAN'" : ""));
 						}
@@ -86,7 +86,7 @@ require("database.php");
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` ".($info['ip-bans'] == false ? "WHERE punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page['min'].", 10");
 							if(isset($_GET['type']) && $_GET['type'] != 'all' && in_array(strtolower($_GET['type']),$types)) {
 								$punishment = mysqli_real_escape_string($con, stripslashes($_GET['type']));
-								$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($punishment)."%'" : "punishmentType='".strtoupper($punishment))." ORDER BY id DESC LIMIT ".$page['min'].", 10");
+								$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($punishment)."%'" : "punishmentType='".strtoupper($punishment))."' ORDER BY id DESC LIMIT ".$page['min'].", 10");
 							}
 							if(mysqli_num_rows($result) == 0) {
 								echo '<tr><td>---</td><td>'.$lang['error_no_punishments'].'</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>';
@@ -111,7 +111,7 @@ require("database.php");
 							}
 							$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` ".($info['ip-bans'] == false ? "WHERE punishmentType!='IP_BAN' " : "")."ORDER BY id DESC"));
 							if(isset($punishment)) {
-								$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($punishment)."%'" : "punishmentType='".strtoupper($punishment))." ORDER BY id DESC"));
+								$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($punishment)."%'" : "punishmentType='".strtoupper($punishment)."'")." ORDER BY id DESC"));
 							}
 							$pages['total'] = floor($rows / 10);
 							if($rows % 10 != 0 || $rows == 0) {
@@ -145,5 +145,7 @@ require("database.php");
 				</div>
 			</div>
 		</div>
+		<script type="text/javascript" src="data/js/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="data/js/bootstrap.min.js"></script>
 	</body>
 </html>

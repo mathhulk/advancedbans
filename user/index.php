@@ -13,11 +13,11 @@ if(isset($_GET['user'])) {
 <html lang="en">
 	<head>
 		<title><?php echo $lang['title']; ?></title>
-		<link rel="stylesheet" href="../data/bootstrap.min.css">
-		<link rel="stylesheet" href="../data/font-awesome.min.css">
-		<link rel="stylesheet" href="../data/ab-web-addon.css">
-		<script src="../data/jquery-3.1.1.min.js"></script>
-		<script src="../data/bootstrap.min.js"></script>
+		<link rel="shortcut icon" href="../data/img/icon.png" type="image/x-icon">
+		<link rel="icon" href="../data/img/icon.png" type="image/x-icon">
+		<link rel="stylesheet" href="../data/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../data/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../data/css/ab-web-addon.css">
 		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/<?php echo $info['theme']; ?>/bootstrap.min.css" rel="stylesheet">
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	</head>
@@ -58,7 +58,7 @@ if(isset($_GET['user'])) {
 				<p>
 					<?php
 					foreach($types as $type) {
-						$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($type)."%'" : "punishmentType='".strtoupper($type)));
+						$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($type)."%'" : "punishmentType='".strtoupper($type)."'"));
 						if($type == 'all') {
 							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."`".($info['ip-bans'] == false ? " WHERE punishmentType!='IP_BAN'" : ""));
 						}
@@ -162,5 +162,7 @@ if(isset($_GET['user'])) {
 				</div>
 			</div>
 		</div>
+		<script type="text/javascript" src="../data/js/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="../data/js/bootstrap.min.js"></script>
 	</body>
 </html>
