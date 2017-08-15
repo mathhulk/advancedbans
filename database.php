@@ -98,3 +98,10 @@ if(!isset($_SESSION['time_zone'])) {
 		$_SESSION['time_zone'] = $tz_api['time_zone'];
 	}
 }
+
+//Function for handling times.
+function formatDate($format, $ms) {
+	$date = new DateTime(gmdate("F jS, Y g:i A", $ms / 1000));
+	$date->setTimezone(new DateTimeZone($_SESSION['time_zone']));
+	return $date->format($format);
+}

@@ -90,15 +90,11 @@ require("database.php");
 							echo '<tr><td>---</td><td>'.$lang['error_no_punishments'].'</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>';
 						} else {
 							while($row = mysqli_fetch_array($result)) {	
-								$end_date = new DateTime(gmdate('F jS, Y g:i A', $row['end'] / 1000));
-								$end_date->setTimezone(new DateTimeZone($_SESSION['time_zone']));
-								$start_date = new DateTime(gmdate('F jS, Y g:i A', $row['start'] / 1000));
-								$start_date->setTimezone(new DateTimeZone($_SESSION['time_zone']));
-								$end = $end_date->format("F jS, Y")."<br><span class='badge'>".$end_date->format("g:i A")."</span>";
+								$end = formatDate("F jS, Y", $row['end'])."<br><span class='badge'>".formatDate("g:i A", $row['end'])."</span>";
 								if($row['end'] == '-1') {
 									$end = $lang['error_not_evaluated'];
 								}
-								echo "<tr><td><img src='https://crafatar.com/renders/head/".$row['uuid']."?scale=2&default=MHF_Steve&overlay' alt='".$row['name']."'>".$row['name']."</td><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".$start_date->format("F jS, Y")."<br><span class='badge'>".$start_date->format("g:i A")."</span></td><td>".$end."</td><td>".$lang[strtolower($row['punishmentType'])]."</td></tr>";
+								echo "<tr><td><img src='https://crafatar.com/renders/head/".$row['uuid']."?scale=2&default=MHF_Steve&overlay' alt='".$row['name']."'>".$row['name']."</td><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".formatDate("F jS, Y", $row['start'])."<br><span class='badge'>".formatDate("g:i A", $row['start'])."</span></td><td>".$end."</td><td>".$lang[strtolower($row['punishmentType'])]."</td></tr>";
 							}
 						}
 						?>

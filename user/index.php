@@ -2,12 +2,9 @@
 require("../database.php");
 
 if(isset($_GET['user'])) {
-	$user = mysqli_real_escape_string($con, stripslashes($_GET['user']));
-	$uuid = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$user),true);
-	if($uuid['status'] == 'error') {
+	$json = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".mysqli_real_escape_string($con, stripslashes($_GET['user']))),true);
+	if($json["status"] == "error") {
 		header('Location: index.php'); die("Redirecting...");
-	} else {
-		$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ".($info['ip-bans'] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page['min'].", 10");
 	}
 } else {
 	header('Location: ../'); die("Redirecting...");
@@ -60,11 +57,11 @@ if(isset($_GET['user'])) {
 				<p>
 					<?php
 					foreach($types as $type) {
-						$typeres = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".strtoupper($type)."'");
+						$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE punishmentType='".strtoupper($type)."'");
 						if($type == 'all') {
-							$typeres = mysqli_query($con,"SELECT * FROM `".$info['table']."`".($info['ip-bans'] == false ? " WHERE punishmentType!='IP_BAN'" : ""));
+							$result = mysqli_query($con,"SELECT * FROM `".$info['table']."`".($info['ip-bans'] == false ? " WHERE punishmentType!='IP_BAN'" : ""));
 						}
-						echo '<a href="../?type='.$type.'" class="btn btn-primary btn-md">'.$lang[$type.($type != 'all' ? 's' : '')].' <span class="badge">'.mysqli_num_rows($typeres).'</span></a>';
+						echo '<a href="../?type='.$type.'" class="btn btn-primary btn-md">'.$lang[$type.($type != 'all' ? 's' : '')].' <span class="badge">'.mysqli_num_rows($result).'</span></a>';
 					}
 					?>
 				</p>
@@ -94,24 +91,21 @@ if(isset($_GET['user'])) {
 							</thead>
 							<tbody>
 								<?php
+								$result = mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".mysqli_real_escape_string($con, stripslashes($_GET['user']))."' ".($info['ip-bans'] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page['min'].", 10");
 								if(mysqli_num_rows($result) == 0) {
 									echo '<tr><td>'.$lang['error_no_punishments'].'</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>';
 								} else {
 									while($row = mysqli_fetch_array($result)) {			
-										$end_date = new DateTime(gmdate('F jS, Y g:i A', $row['end'] / 1000));
-										$end_date->setTimezone(new DateTimeZone($_SESSION['time_zone']));
-										$start_date = new DateTime(gmdate('F jS, Y g:i A', $row['start'] / 1000));
-										$start_date->setTimezone(new DateTimeZone($_SESSION['time_zone']));
-										$end = $end_date->format("F jS, Y")."<br><span class='badge'>".$end_date->format("g:i A")."</span>";
-										if($row['end'] == '-1') {
+										$end = formatDate("F jS, Y", $row['end'])."<br><span class='badge'>".formatDate("g:i A", $row['end'])."</span>";
+										if($row['end'] == "-1") {
 											$end = $lang['error_not_evaluated'];
 										}
+										echo "<tr><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".formatDate("F jS, Y", $row['start'])."<br><span class='badge'>".formatDate("g:i A", $row['start'])."</span></td><td>".$end."</td><td>".$lang[strtolower($row['punishmentType'])]."</td></tr>";
 										if(($row['punishmentType'] == 'BAN' || ($info['ip-bans'] == true && $row['punishmentType'] == 'IP_BAN')) && !isset($banned)) {
 											$banned = "<small><br><br><span class='badge'>".$lang['permanently_banned']."</span></small>";
 										} elseif($row['punishmentType'] == 'TEMP_BAN' && !isset($banned)) {
-											$banned = "<small><br><br><span class='badge'>".$lang['until'].date("F jS, Y", $row['start'] / 1000)." at ".date("g:i A", $row['start'] / 1000)."</span></small>";
+											$banned = "<small><br><br><span class='badge'>".$lang['until'].formatDate("F jS, Y", $row['end'])." at ".formatDate("g:i A", $row['end'])."</span></small>";
 										}
-										echo "<tr><td>".$row['reason']."</td><td>".$row['operator']."</td><td>".date("F jS, Y", $row['start'] / 1000)."<br><span class='badge'>".date("g:i A", $row['start'] / 1000)."</span></td><td>".$end."</td><td>".$lang[strtolower($row['punishmentType'])]."</td></tr>";
 									}
 								}
 								?>
@@ -121,10 +115,10 @@ if(isset($_GET['user'])) {
 							<ul class='pagination'>
 								<?php
 								if($page['number'] > 1) {
-									echo "<li><a href='?user=".$user."&p=1'>&laquo; ".$lang['first']."</a></li>";
-									echo "<li><a href='?user=".$user."&p=".($page['number'] - 1)."'>&laquo; ".$lang['previous']."</a></li>";
+									echo "<li><a href='?user=".mysqli_real_escape_string($con, stripslashes($_GET['user']))."&p=1'>&laquo; ".$lang['first']."</a></li>";
+									echo "<li><a href='?user=".mysqli_real_escape_string($con, stripslashes($_GET['user']))."&p=".($page['number'] - 1)."'>&laquo; ".$lang['previous']."</a></li>";
 								}
-								$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".$user."' ".($info['ip-bans'] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page['min'].", 10"));
+								$rows = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info['table']."` WHERE name='".mysqli_real_escape_string($con, stripslashes($_GET['user']))."' ".($info['ip-bans'] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page['min'].", 10"));
 								$pages['total'] = floor($rows / 10);
 								if($rows % 10 != 0 || $rows == 0) {
 									$pages['total'] = $pages['total'] + 1;
@@ -144,12 +138,12 @@ if(isset($_GET['user'])) {
 								}
 								$pages['count'] = $pages['min'];
 								while($pages['count'] <= $pages['max']) {
-									echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='?user=".$user."&p=".$pages['count']."'>".$pages['count']."</a></li>";
+									echo "<li ".($pages['count'] == $page['number'] ? 'class="active"' : '')."><a href='?user=".mysqli_real_escape_string($con, stripslashes($_GET['user']))."&p=".$pages['count']."'>".$pages['count']."</a></li>";
 									$pages['count'] = $pages['count'] + 1;
 								}
 								if($rows > $page['max']) {
-									echo "<li><a href='?user=".$user."&p=".($page['number'] + 1)."'>".$lang['next']." &raquo;</a></li>";
-									echo "<li><a href='?user=".$user."&p=".$pages['total']."'>".$lang['last']." &raquo;</a></li>";
+									echo "<li><a href='?user=".mysqli_real_escape_string($con, stripslashes($_GET['user']))."&p=".($page['number'] + 1)."'>".$lang['next']." &raquo;</a></li>";
+									echo "<li><a href='?user=".mysqli_real_escape_string($con, stripslashes($_GET['user']))."&p=".$pages['total']."'>".$lang['last']." &raquo;</a></li>";
 								}
 								?>
 							</ul>
@@ -157,16 +151,10 @@ if(isset($_GET['user'])) {
 					</div>
 					<div class="col-md-4 col-sm-12 text-center">
 						<h2>
-							<?php
-							echo $user;
-							if(isset($banned)) {
-								echo $banned;
-							} else {
-								echo "<small><br><br><span class='badge'>".$lang['not_banned']."</span></small>";
-							}
-							?>
+							<?php echo (isset($banned) ? mysqli_real_escape_string($con, stripslashes($_GET['user'])).$banned : mysqli_real_escape_string($con, stripslashes($_GET['user']))."<small><br><br><span class='badge'>".$lang['not_banned']."</span></small>"); ?>
 						</h2>
-						<br><img src="https://crafatar.com/renders/body/<?php echo $uuid['data']['uuid']; ?>" alt="Skin Profile"></img>
+						<br>
+						<img src="https://crafatar.com/renders/body/<?php echo $json['data']['uuid']; ?>" alt="Skin Profile"></img>
 					</div>
 				</div>
 			</div>
