@@ -9,7 +9,8 @@ $con = mysqli_connect("host","user","password","database");
 //Basic information.
 $info = array(
 	'theme'=>'yeti', //This is the name of the theme you wish to load. You can find a list of compatible themes at http://bootswatch.com/. (string)
-	'table'=>'PunishmentHistory', //The table of your MYSQL database for which punishments are saved. (string)
+	'table'=>'Punishments', //The table of your MYSQL database for which punishments are saved. (string)
+	'history'=>'PunishmentHistory', //The table of your MYSQL database for which punishment history is saved. (string)
 	'skulls'=>true, //Whether skulls should be shown next to users. This does not include the body render shown on /user/, which is always shown. (boolean)
 	'compact'=>false, //Whether temporary punishments and punishments should be shown together. For example, temporary mutes and mutes would fall under one category of "mutes". (boolean)
 	'ip-bans'=>true, //Whether punishments that reveal the IP address of players will be shown. (boolean)
@@ -29,6 +30,8 @@ $lang = array(
 	'permanently_banned'=>'Permanently Banned',
 	'until'=>'Banned until ',
 	'not_banned'=>'Not Banned',
+	'inactive'=>'Inactive',
+	'active'=>'Active',
 	
 	//Pages.
 	'first'=>'First',
@@ -43,6 +46,7 @@ $lang = array(
 	'date'=>'Date',
 	'end'=>'End',
 	'type'=>'Type',
+	'status'=>'Status',
 	
 	//Punishment.
 	'ban'=>'Ban',
@@ -67,7 +71,7 @@ $lang = array(
 	
 	//Errors.
 	'error_no_punishments'=>'No punishments could be listed on this page.',
-	'error_not_evaluated'=>'Not Evaluated',
+	'error_not_evaluated'=>'N/A',
 	);
 
 //-----------------------------------------------------------------------------------
