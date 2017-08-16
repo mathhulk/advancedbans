@@ -94,6 +94,3 @@ ab-web-addon was made using Bootswatch themes for Bootstrap.
 
 AdvancedBan is maintained by Leoko. ([SpigotMC](https://www.spigotmc.org/resources/advancedban.8695/))
 
-## Issues (please report)
-- None
-
