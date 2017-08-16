@@ -25,6 +25,8 @@ $con = mysqli_connect("host","user","password","database");
 $info = array(
 	'theme'=>'yeti', //This is the name of the theme you wish to load. You can find a list of compatible themes at http://bootswatch.com/. (string)
 	'table'=>'PunishmentHistory', //The table of your MYSQL database for which punishments are saved. (string)
+	'skulls'=>true, //Whether skulls should be shown next to users. This does not include the body render shown on /user/, which is always shown. (boolean)
+	'compact'=>false, //Whether temporary punishments and punishments should be shown together. For example, temporary mutes and mutes would fall under one category of "mutes". (boolean)
 	'ip-bans'=>true, //Whether punishments that reveal the IP address of players will be shown. (boolean)
 	);
 
@@ -84,6 +86,8 @@ $lang = array(
 	);
 ```
 Once the database credentials, table, and base have been filled out, ab-web-addon will do the rest.
+
+If you wish to change the favicon, replace the `icon.png` file located in `data/img/`.
 
 ## Credit and Problems
 ab-web-addon was made using Bootswatch themes for Bootstrap.
