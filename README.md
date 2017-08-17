@@ -21,6 +21,7 @@ After your files have been uploaded, you must then fill out the necessary compon
 ```php
 $con = mysqli_connect("host","user","password","database");
 //Enter your MYSQL details here.
+
 //Basic information.
 $info = array(
 	'theme'=>'yeti', //This is the name of the theme you wish to load. You can find a list of compatible themes at http://bootswatch.com/. (string)
@@ -30,6 +31,7 @@ $info = array(
 	'compact'=>false, //Whether temporary punishments and punishments should be shown together. For example, temporary mutes and mutes would fall under one category of "mutes". (boolean)
 	'ip-bans'=>true, //Whether punishments that reveal the IP address of players will be shown. (boolean)
 	);
+
 //Change the language.
 $lang = array(
 	//Information
