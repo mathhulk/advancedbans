@@ -9,6 +9,7 @@ A simple, but sleek, web addon for AdvancedBan.
 - Able to search punishments by user
 - Able to search punishments by type
 - Easy to install
+- View punishment statistics
 
 ## Requirements
 - PHP 5.6+ (7.0+ recommended)
@@ -31,11 +32,11 @@ $info = array(
 	);
 //Change the language.
 $lang = array(
-	//Information.
+	//Information
 	'title'=>'AdvancedBan Web Addon',
 	'description'=>'A simple, but sleek, web addon for AdvancedBan.',
 	
-	//General.
+	//General
 	'punishments'=>'Punishments',
 	'credits'=>'Credits',
 	'search'=>'Search for...',
@@ -46,13 +47,17 @@ $lang = array(
 	'inactive'=>'Inactive',
 	'active'=>'Active',
 	
-	//Pages.
+	//Graphs
+	'graphs'=>'Graphs',
+	'graph_title'=>'7 Days of Punishments',
+	
+	//Pages
 	'first'=>'First',
 	'previous'=>'Previous',
 	'next'=>'Next',
 	'last'=>'Last',
 	
-	//List.
+	//List
 	'username'=>'Username',
 	'reason'=>'Reason',
 	'operator'=>'Operator',
@@ -61,7 +66,7 @@ $lang = array(
 	'type'=>'Type',
 	'status'=>'Status',
 	
-	//Punishment.
+	//Punishment
 	'ban'=>'Ban',
 	'temp_ban'=>'Temp. Ban',
 	'ip_ban'=>'IP Ban',
@@ -71,18 +76,18 @@ $lang = array(
 	'temp_warning'=>'Temp. Warning',
 	'kick'=>'Kick',
 	
-	//Punishments.
-	'all'=>'ALL',
-	'bans'=>'BANS',
-	'temp_bans'=>'TEMP. BANS',
-	'ip_bans'=>'IP BANS',
-	'mutes'=>'MUTES',
-	'temp_mutes'=>'TEMP. MUTES',
-	'warnings'=>'WARNINGS',
-	'temp_warnings'=>'TEMP. WARNINGS',
-	'kicks'=>'KICKS',
+	//Punishments
+	'all'=>'All',
+	'bans'=>'Bans',
+	'temp_bans'=>'Temp. Bans',
+	'ip_bans'=>'IP Bans',
+	'mutes'=>'Mutes',
+	'temp_mutes'=>'Temp. Mutes',
+	'warnings'=>'Warnings',
+	'temp_warnings'=>'Temp. Warnings',
+	'kicks'=>'Kicks',
 	
-	//Errors.
+	//Errors
 	'error_no_punishments'=>'No punishments could be listed on this page.',
 	'error_not_evaluated'=>'N/A',
 	);
