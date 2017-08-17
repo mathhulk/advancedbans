@@ -10,9 +10,10 @@ if(isset($_GET['user'])) {
 	header('Location: ../'); die("Redirecting...");
 }
 ?>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title><?php echo $lang['title']; ?></title>
+		<title><?php echo $lang['title']; ?> - <?php echo htmlspecialchars($_GET['user']); ?></title>
 		<link rel="shortcut icon" href="../data/img/icon.png" type="image/x-icon">
 		<link rel="icon" href="../data/img/icon.png" type="image/x-icon">
 		<link rel="stylesheet" href="../data/css/bootstrap.min.css">
@@ -25,7 +26,7 @@ if(isset($_GET['user'])) {
 		<nav class="navbar navbar-default navbar-fixed-top">
 		  <div class="container">
 			<div class="navbar-header">
-				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -33,10 +34,10 @@ if(isset($_GET['user'])) {
 				</button>
 				<a class="navbar-brand" href=""><?php echo $lang['title']; ?></a>
 			</div>
-
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="../"><?php echo $lang['punishments']; ?></a></li>
+					<li><a href="../graphs/"><?php echo $lang['graphs']; ?></a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
@@ -58,11 +59,11 @@ if(isset($_GET['user'])) {
 				<p>
 					<?php
 					foreach($types as $type) {
-						$result = mysqli_query($con,"SELECT * FROM `".$info['history']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($type)."%'" : "punishmentType='".strtoupper($type)."'"));
+						$result = mysqli_query($con, "SELECT * FROM `".$info['history']."` WHERE ".($info['compact'] == true ? "punishmentType LIKE '%".strtoupper($type)."%'" : "punishmentType='".strtoupper($type)."'"));
 						if($type == 'all') {
-							$result = mysqli_query($con,"SELECT * FROM `".$info['history']."`".($info['ip-bans'] == false ? " WHERE punishmentType!='IP_BAN'" : ""));
+							$result = mysqli_query($con, "SELECT * FROM `".$info['history']."`".($info['ip-bans'] == false ? " WHERE punishmentType!='IP_BAN'" : ""));
 						}
-						echo '<a href="../?type='.$type.'" class="btn btn-primary btn-md">'.$lang[$type.($type != 'all' ? 's' : '')].' <span class="badge">'.mysqli_num_rows($result).'</span></a>';
+						echo '<a href="../?type='.$type.'" class="btn btn-primary btn-md">'.strtoupper($lang[$type.($type != 'all' ? 's' : '')]).' <span class="badge">'.mysqli_num_rows($result).'</span></a>';
 					}
 					?>
 				</p>
@@ -162,7 +163,7 @@ if(isset($_GET['user'])) {
 					</div>
 					<div class="col-md-4 col-sm-12 text-center">
 						<h2>
-							<?php echo (isset($banned) ? mysqli_real_escape_string($con, stripslashes($_GET['user'])).$banned : mysqli_real_escape_string($con, stripslashes($_GET['user']))."<small><br><br><span class='badge'>".$lang['not_banned']."</span></small>"); ?>
+							<?php echo (isset($banned) ? htmlspecialchars($_GET['user']).$banned : htmlspecialchars($_GET['user'])."<small><br><br><span class='badge'>".$lang['not_banned']."</span></small>"); ?>
 						</h2>
 						<br>
 						<img src="https://crafatar.com/renders/body/<?php echo $json['data']['uuid']; ?>" alt="Skin Profile"></img>
@@ -172,5 +173,6 @@ if(isset($_GET['user'])) {
 		</div>
 		<script type="text/javascript" src="../data/js/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="../data/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../data/js/chart.bundle.min.js"></script>
 	</body>
 </html>
