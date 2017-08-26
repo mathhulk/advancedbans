@@ -1,0 +1,9 @@
+{	
+	"theme": "yeti",
+	"table": "Punishments",
+	"history": "PunishmentHistory",
+	"language": "en_US",
+	"skulls": true,
+	"compact": false,
+	"ip-bans": true
+}
