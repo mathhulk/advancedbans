@@ -107,7 +107,7 @@ if(isset($_GET['user'])) {
 											$status = $lang['error_not_evaluated'];
 											if(in_array($row['punishmentType'], array('BAN', 'TEMP_BAN', 'MUTE', 'TEMP_MUTE', 'IP_BAN', 'WARNING', 'TEMP_WARNING'))) {
 												$status = $lang['inactive'];
-												if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info['table']."` WHERE uuid='".$row['uuid']."' AND start='".$row['start']."'")) > 0 && ($row['end'] == "-1" || (microtime(true) / 1000) < $row['end'])) {
+												if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info['table']."` WHERE uuid='".$row['uuid']."' AND start='".$row['start']."'")) > 0 && ($row['end'] == "-1" || date("U", formatDate("F jS, Y g:i A", (microtime(true) / 1000))) < date("U", formatDate("F jS, Y g:i A", $row['end'])))) {
 													$status = $lang['active'];
 													if(($row['punishmentType'] == 'BAN' || ($info['ip-bans'] == true && $row['punishmentType'] == 'IP_BAN')) && !isset($banned)) {
 														$banned = "<small><br><br><span class='badge'>".$lang['permanently_banned']."</span></small>";
