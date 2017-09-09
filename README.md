@@ -4,19 +4,22 @@ A simple, but sleek, web addon for AdvancedBan.
 
 ## Main Features
 - Host it on your own web server
-- Switch themes using Bootswatch
+- Select themes from Bootswatch
+- Create custom themes
 - Translate using language files
 - List punishments by type
 - List punishments by user
 - View the state of a punishment
 - Graphs to represent statistics
+- Theme selection per user
+- Language selection per user
 
 ## Requirements
 - PHP 5.6+ (7.0+ recommended)
 - MySQLi PHP extension
 
 ## Setup
-After you have uploaded all files to the wanted location on your web server, open `database.php` with your favorite text editor and replace the dummy MySQL connection details with those of your own MySQL database.
+After you have uploaded all files to the wanted location on your web server, navigate to `/inc/include/` and open `database.php` with your favorite text editor. Once open, replace the MySQL connection details with those of your own MySQL database and save the file.
 ```php
 /*
  *	MYSQL CONNECTION (host, user, password, database)
@@ -26,26 +29,30 @@ $con = mysqli_connect("host", "user", "password", "database");
 To configure the features provided, open `config.json` with your favorite text editor and change the available options to your liking.
 ```json
 {	
-	"theme": "yeti",
+	"default_theme": "yeti",
 	"table": "Punishments",
-	"history": "PunishmentHistory",
-	"language": "en_US",
-	"skulls": true,
+	"history_table": "PunishmentHistory",
+	"default_language": "en_US",
+	"skulls": false,
 	"compact": false,
-	"ip-bans": true
+	"ip_bans": true,
+	"title": "AdvancedBan Web Addon",
+	"description": "A simple, but sleek, web addon for AdvancedBan."
 }
 ```
 
 ## Languages
-Translating ab-web-addon is simple. Simply create a new JSON file in `/language/` and copy the default `en_US.json` (English) language template to that file. Then, replace the terms with the correct translation.
+Translating ab-web-addon is simple. Navigate to `/inc/languages/` and create a new file for your language, such as `pt_PT.json`. Then, copy the following template into that file. Finally, replace the terms on the right hand side with your translation. For example, `"credits": "Créditos"`.
 ```json
 {
 	"language": "English",
+	"version": "2.0.1",
 	"terms": {
-		"title": "AdvancedBan Web Addon",
-		"description": "A simple, but sleek, web addon for AdvancedBan.",
 		"punishments": "Punishments",
 		"credits": "Credits",
+		"themes": "Themes",
+		"reset": "Reset",
+		"languages": "Languages",
 		"search": "Search for...",
 		"submit": "Submit",
 		"permanently_banned": "Permanently Banned",
@@ -90,11 +97,34 @@ Translating ab-web-addon is simple. Simply create a new JSON file in `/language/
 ```
 I am always looking for new translations. If you are fluent in another language, consider translating ab-web-addon and opening a pull request.
 
+## Themes
+Just like adding languages, creating your own themes for ab-web-addon is simple and easy. However, ab-web-addon currently only supports the dynamic loading of themes based off of Bootstrap v3. The following is an example of the theme file structure.
+```
+themes /
+| - cerulean
+| - ...
+\ - yeti /
+    | - css /
+        \ - bootstrap.min.css
+    | - js
+    \ - config.json
+```
+All CSS stylesheets should be placed in the `css` directory and all JavaScript scripts should be placed in the `js` directory for your theme. Bootstrap will always be loaded before custom CSS stylesheets are and jQuery will always be loaded before custom JavaScript scripts are. 
+
+In order for your theme to be available for selection, you must also include a `config.json` file that follows the following template.
+```json
+{
+	"theme": "Cerulean",
+	"version": "2.0.1",
+	"author": "Bootswatch"
+}
+```
+
 ## Favicon
-If you wish to change the favicon, replace the `icon.png` file located in `data/img/`.
+If you wish to change the favicon, replace the `icon.png` file located in `/assets/img/`.
 
 ## Credit and Problems
-ab-web-addon was made using Bootswatch themes for Bootstrap.
+ab-web-addon was made using Bootstrap.
 
 AdvancedBan is maintained by Leoko. ([SpigotMC](https://www.spigotmc.org/resources/advancedban.8695/))
 
