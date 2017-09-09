@@ -1,9 +1,11 @@
 {	
-	"theme": "yeti",
+	"default_theme": "yeti",
 	"table": "Punishments",
-	"history": "PunishmentHistory",
-	"language": "en_US",
-	"skulls": true,
+	"history_table": "PunishmentHistory",
+	"default_language": "en_US",
+	"skulls": false,
 	"compact": false,
-	"ip-bans": true
+	"ip_bans": true,
+	"title": "AdvancedBan Web Addon",
+	"description": "A simple, but sleek, web addon for AdvancedBan."
 }
