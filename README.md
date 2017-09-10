@@ -37,7 +37,9 @@ To configure the features provided, open `config.json` with your favorite text e
 	"compact": false,
 	"ip_bans": true,
 	"title": "AdvancedBan Web Addon",
-	"description": "A simple, but sleek, web addon for AdvancedBan."
+	"description": "A simple, but sleek, web addon for AdvancedBan.",
+	"player_count": true,
+	"server_ip": "mc.hypixel.net"
 }
 ```
 
@@ -53,6 +55,7 @@ Translating ab-web-addon is simple. Navigate to `/inc/languages/` and create a n
 		"themes": "Themes",
 		"reset": "Reset",
 		"languages": "Languages",
+		"players": "Players",
 		"search": "Search for...",
 		"submit": "Submit",
 		"permanently_banned": "Permanently Banned",
