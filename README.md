@@ -13,6 +13,7 @@ A simple, but sleek, web addon for AdvancedBan.
 - Graphs to represent statistics
 - Theme selection per user
 - Language selection per user
+- Live player count
 
 ## Requirements
 - PHP 5.6+ (7.0+ recommended)
