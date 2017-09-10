@@ -46,6 +46,11 @@ if(isset($_GET["user"])) {
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="../"><?php echo $lang["punishments"]; ?></a></li>
 					<li><a href="../graphs/"><?php echo $lang["graphs"]; ?></a></li>
+					<?php
+					if($info["player_count"] == true) {
+						echo "<li><a><span class=\"badge players\">".$lang["error_not_evaluated"]."</span> ".$lang["players"]."</a></li>";
+					}
+					?>
 				</ul>
 				
 				<ul class="nav navbar-nav navbar-right">
@@ -82,9 +87,9 @@ if(isset($_GET["user"])) {
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["credits"]; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
-							<li><a href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
-							<li><a href="https://theartex.net">mathhulk</a></li>
+							<li><a target="_blank" href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
+							<li><a target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
+							<li><a target="_blank" href="https://theartex.net">mathhulk</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -193,6 +198,13 @@ if(isset($_GET["user"])) {
 		</div>
 		<script type="text/javascript" src="../assets/js/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../assets/js/ab-web-addon.js"></script>
+		
+		<?php
+		if($info["player_count"] == true) {
+			echo "<script type=\"text/javascript\">updatePlayers(\"".$info["server_ip"]."\", \".players\", \"".$lang["error_not_evaluated"]."\");</script>";
+		}
+		?>
 		
 		<?php
 		foreach(glob("../inc/themes/".(isset($_SESSION["themes"]) ? $_COOKIE["ab-theme"] : $info["default_theme"])."/js/*") as $script) {
