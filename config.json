@@ -7,5 +7,7 @@
 	"compact": false,
 	"ip_bans": true,
 	"title": "AdvancedBan Web Addon",
-	"description": "A simple, but sleek, web addon for AdvancedBan."
+	"description": "A simple, but sleek, web addon for AdvancedBan.",
+	"player_count": true,
+	"server_ip": "mc.hypixel.net"
 }

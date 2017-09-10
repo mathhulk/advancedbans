@@ -13,6 +13,7 @@ A simple, but sleek, web addon for AdvancedBan.
 - Graphs to represent statistics
 - Theme selection per user
 - Language selection per user
+- Live player count
 
 ## Requirements
 - PHP 5.6+ (7.0+ recommended)
@@ -37,7 +38,9 @@ To configure the features provided, open `config.json` with your favorite text e
 	"compact": false,
 	"ip_bans": true,
 	"title": "AdvancedBan Web Addon",
-	"description": "A simple, but sleek, web addon for AdvancedBan."
+	"description": "A simple, but sleek, web addon for AdvancedBan.",
+	"player_count": true,
+	"server_ip": "mc.hypixel.net"
 }
 ```
 
@@ -53,6 +56,7 @@ Translating ab-web-addon is simple. Navigate to `/inc/languages/` and create a n
 		"themes": "Themes",
 		"reset": "Reset",
 		"languages": "Languages",
+		"players": "Players",
 		"search": "Search for...",
 		"submit": "Submit",
 		"permanently_banned": "Permanently Banned",
