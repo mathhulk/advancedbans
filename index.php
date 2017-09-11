@@ -45,6 +45,13 @@ require("load.php");
 				
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["support"]; ?> <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a target="_blank" href="#"><?php echo $lang["contact_us"]; ?></a></li>
+							<li><a target="_blank" href="#"><?php echo $lang["ban_appeal"]; ?></a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["themes"]; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="inc/scripts/theme.php?reset=true&redirect=<?php echo $_SERVER["REQUEST_URI"]; ?>"><?php echo $lang["reset"]; ?></a></li>
