@@ -46,6 +46,9 @@
 		"temp_warnings": "Temp. Warnings",
 		"kicks": "Kicks",
 		"error_no_punishments": "No punishments could be listed on this page.",
-		"error_not_evaluated": "N/A"
+		"error_not_evaluated": "N/A",
+		"support": "Support",
+		"contact_us": "Contact Us",
+		"ban_appeal": "Ban Appeal"
 	}
 }
