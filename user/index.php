@@ -22,6 +22,7 @@ if(isset($_GET["user"])) {
 		
 		<link rel="stylesheet" href="../assets/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" href="../assets/css/ab-web-addon.css" media="screen">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 		
 		<?php
 		foreach(glob("../inc/themes/".(isset($_COOKIE["ab-theme"]) ? $_COOKIE["ab-theme"] : $info["default_theme"])."/css/*") as $stylesheet) {
@@ -44,8 +45,8 @@ if(isset($_GET["user"])) {
 			</div>
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="../"><?php echo $lang["punishments"]; ?></a></li>
-					<li><a href="../graphs/"><?php echo $lang["graphs"]; ?></a></li>
+					<li class="active"><a href="../"><i class="fa fa-gavel"  style="padding-right:5px;" aria-hidden="true"></i><?php echo $lang["punishments"]; ?></a></li>
+					<li><a href="../graphs/"><i class="fa fa-area-chart"  style="padding-right:5px;" aria-hidden="true"></i><?php echo $lang["graphs"]; ?></a></li>
 					<?php
 					if($info["player_count"] == true) {
 						echo "<li><a><span class=\"badge players\">".$lang["error_not_evaluated"]."</span> ".$lang["players"]."</a></li>";
@@ -55,14 +56,14 @@ if(isset($_GET["user"])) {
 				
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["support"]; ?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-envelope-open-o"  style="padding-right:5px;" aria-hidden="true"></i><?php echo $lang["support"]; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a target="_blank" href="#"><?php echo $lang["contact_us"]; ?></a></li>
 							<li><a target="_blank" href="#"><?php echo $lang["ban_appeal"]; ?></a></li>
 						</ul>
 					</li>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["themes"]; ?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-list-alt"  style="padding-right:5px;" aria-hidden="true"></i><?php echo $lang["themes"]; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="../inc/scripts/theme.php?reset=true&redirect=<?php echo $_SERVER["REQUEST_URI"]; ?>"><?php echo $lang["reset"]; ?></a></li>
 							<li class="divider"></li>
@@ -77,7 +78,7 @@ if(isset($_GET["user"])) {
 						</ul>
 					</li>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["languages"]; ?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-language"  style="padding-right:5px;" aria-hidden="true"></i><?php echo $lang["languages"]; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="../inc/scripts/language.php?reset=true&redirect=<?php echo $_SERVER["REQUEST_URI"]; ?>"><?php echo $lang["reset"]; ?></a></li>
 							<li class="divider"></li>
@@ -92,7 +93,7 @@ if(isset($_GET["user"])) {
 						</ul>
 					</li>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["credits"]; ?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-code-fork"  style="padding-right:5px;" aria-hidden="true"></i><?php echo $lang["credits"]; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a target="_blank" href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
 							<li><a target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
