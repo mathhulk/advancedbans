@@ -143,8 +143,8 @@ In order for your theme to be available for selection, you must also include a `
 }
 ```
 
-## Favicon
-If you wish to change the favicon, replace the `icon.png` file located in `/assets/img/`.
+## Icons
+If you wish to change the icon, replace the icons from `/assets/img/` and `/assets/img/icons/` using a tool like https://www.favicon-generator.org/.
 
 ## Credit and Problems
 ab-web-addon was made using Bootstrap.
