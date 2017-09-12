@@ -1,13 +1,27 @@
-{	
-	"default_theme": "yeti",
-	"table": "Punishments",
-	"history_table": "PunishmentHistory",
-	"default_language": "en_US",
-	"skulls": false,
-	"compact": false,
-	"ip_bans": true,
-	"title": "AdvancedBan Web Addon",
-	"description": "A simple, but sleek, web addon for AdvancedBan.",
-	"player_count": true,
-	"server_ip": "mc.hypixel.net"
+{    
+    "default_theme": "yeti",
+    "table": "Punishments",
+    "history_table": "PunishmentHistory",
+    "default_language": "en_US",
+    "skulls": true,
+    "compact": false,
+    "ip_bans": true,
+    "messages": {
+        "title": "AdvancedBan Web Addon",
+        "description": "A simple, but sleek, web addon for AdvancedBan."
+    },
+    "player_count": {
+        "enabled": true,
+        "server_ip": "mc.hypixel.net"
+    },
+    "support": {
+        "contact": {
+            "enabled": true,
+            "link": "http://example.com/contact"
+        },
+        "appeal": {
+            "enabled": true,
+            "link": "http://example.com/appeal"
+        }
+    }
 }

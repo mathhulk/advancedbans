@@ -14,14 +14,15 @@ if(isset($_GET["user"])) {
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title><?php echo $info["title"]; ?> - <?php echo $lang["punishments"]; ?></title>
-		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+		<title><?php echo $info["messages"]["title"]; ?> - <?php echo $lang["punishments"]; ?></title>
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 		
 		<link rel="shortcut icon" href="../assets/img/icon.png" type="image/x-icon">
 		<link rel="icon" href="../assets/img/icon.png" type="image/x-icon">
 		
 		<link rel="stylesheet" href="../assets/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" href="../assets/css/ab-web-addon.css" media="screen">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="screen">
 		
 		<?php
 		foreach(glob("../inc/themes/".(isset($_COOKIE["ab-theme"]) ? $_COOKIE["ab-theme"] : $info["default_theme"])."/css/*") as $stylesheet) {
@@ -40,22 +41,22 @@ if(isset($_GET["user"])) {
 					<span class="icon-bar"></span>
 				</button>
 				
-				<a class="navbar-brand" href=""><?php echo $info["title"]; ?></a>
+				<a class="navbar-brand" href=""><?php echo $info["messages"]["title"]; ?></a>
 			</div>
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="../"><?php echo $lang["punishments"]; ?></a></li>
-					<li><a href="../graphs/"><?php echo $lang["graphs"]; ?></a></li>
+					<li class="active"><a href="../"><i class="fa fa-gavel" aria-hidden="true"></i> <?php echo $lang["punishments"]; ?></a></li>
+					<li><a href="../graphs/"><i class="fa fa-area-chart" aria-hidden="true"></i> <?php echo $lang["graphs"]; ?></a></li>
 					<?php
-					if($info["player_count"] == true) {
-						echo "<li><a><span class=\"badge players\">".$lang["error_not_evaluated"]."</span> ".$lang["players"]."</a></li>";
+					if($info["player_count"]["enabled"] == true && !empty($info["player_count"]["server_ip"])) {
+						echo "<li class=\"clipboard\" data-clipboard-text=\"".$info["player_count"]["server_ip"]."\"><a><span class=\"badge players\">".$lang["error_not_evaluated"]."</span> ".$lang["players"]."</a></li>";
 					}
 					?>
 				</ul>
 				
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["themes"]; ?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $lang["themes"]; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="../inc/scripts/theme.php?reset=true&redirect=<?php echo $_SERVER["REQUEST_URI"]; ?>"><?php echo $lang["reset"]; ?></a></li>
 							<li class="divider"></li>
@@ -70,7 +71,7 @@ if(isset($_GET["user"])) {
 						</ul>
 					</li>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["languages"]; ?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-language" aria-hidden="true"></i> <?php echo $lang["languages"]; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="../inc/scripts/language.php?reset=true&redirect=<?php echo $_SERVER["REQUEST_URI"]; ?>"><?php echo $lang["reset"]; ?></a></li>
 							<li class="divider"></li>
@@ -84,8 +85,27 @@ if(isset($_GET["user"])) {
 							?>
 						</ul>
 					</li>
+					<?php
+					if(($info["support"]["contact"]["enabled"] == true && !empty($info["support"]["contact"]["link"])) || ($info["support"]["appeal"]["enabled"] == true && !empty($info["support"]["appeal"]["link"]))) {
+					?>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $lang["credits"]; ?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-envelope-open-o" aria-hidden="true"></i> <?php echo $lang["support"]; ?> <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<?php
+							if($info["support"]["contact"]["enabled"] == true && !empty($info["support"]["contact"]["link"])) {
+								echo "<li><a href=\"".$info["support"]["contact"]["link"]."\">".$lang["contact"]."</a></li>";
+							}
+							if($info["support"]["appeal"]["enabled"] == true && !empty($info["support"]["appeal"]["link"])) {
+								echo "<li><a href=\"".$info["support"]["appeal"]["link"]."\">".$lang["appeal"]."</a></li>";
+							}
+							?>
+						</ul>
+					</li>
+					<?php
+					}
+					?>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-code-fork" aria-hidden="true"></i> <?php echo $lang["credits"]; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a target="_blank" href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
 							<li><a target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
@@ -99,8 +119,8 @@ if(isset($_GET["user"])) {
 		
 		<div class="container">
 			<div class="jumbotron">
-				<h1><br><?php echo $info["title"]; ?></h1> 
-				<p><?php echo $info["description"]; ?></p>
+				<h1><br><?php echo $info["messages"]["title"]; ?></h1> 
+				<p><?php echo $info["messages"]["description"]; ?></p>
 				<p>
 					<?php
 					foreach($punishments as $punishment) {
@@ -129,6 +149,7 @@ if(isset($_GET["user"])) {
 								<thead>
 									<tr>
 										<th><?php echo $lang["reason"]; ?></th>
+										<?php echo ($info["skulls"] == true ? "<th></th>" : ""); ?>
 										<th><?php echo $lang["operator"]; ?></th>
 										<th><?php echo $lang["date"]; ?></th>
 										<th><?php echo $lang["end"]; ?></th>
@@ -140,10 +161,10 @@ if(isset($_GET["user"])) {
 									<?php
 									$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE name='".mysqli_real_escape_string($con, stripslashes($_GET["user"]))."' ".($info["ip_bans"] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page["min"].", 10");
 									if(mysqli_num_rows($result) == 0) {
-										echo "<tr><td>".$lang["error_no_punishments"]."</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
+										echo "<tr><td>".$lang["error_no_punishments"]."</td><td>---</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
 									} else {
 										while($row = mysqli_fetch_array($result)) {			
-											echo "<tr><td>".$row["reason"]."</td><td>".($info["skulls"] == true ? "<img src=\"https://crafatar.com/renders/head/".json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$row["operator"]),true)["data"]["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["operator"]."\">" : "").$row["operator"]."</td><td>".formatDate("F jS, Y", $row["start"])."<br><span class=\"badge\">".formatDate("g:i A", $row["start"])."</span></td><td>".($row["end"] == "-1" ? $lang["error_not_evaluated"] : formatDate("F jS, Y", $row["end"])."<br><span class=\"badge\">".formatDate("g:i A", $row["end"])."</span>")."</td><td>".$lang[strtolower($row["punishmentType"])]."</td><td>".(in_array($row["punishmentType"], array("BAN", "TEMP_BAN", "MUTE", "TEMP_MUTE", "IP_BAN", "WARNING", "TEMP_WARNING")) ? (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["table"]."` WHERE uuid='".$row["uuid"]."' AND start='".$row["start"]."'")) > 0 && ($row["end"] == "-1" || date("U", formatDate("F jS, Y g:i A", (microtime(true) / 1000))) < date("U", formatDate("F jS, Y g:i A", $row["end"]))) ? $lang["active"] : $lang["inactive"]) : $lang["error_not_evaluated"])."</td></tr>";
+											echo "<tr><td>".$row["reason"]."</td>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"https://crafatar.com/renders/head/".json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$row["operator"]),true)["data"]["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["operator"]."\"></td>" : "")."<td>".$row["operator"]."</td><td>".formatDate("F jS, Y", $row["start"])."<br><span class=\"badge\">".formatDate("g:i A", $row["start"])."</span></td><td>".($row["end"] == "-1" ? $lang["error_not_evaluated"] : formatDate("F jS, Y", $row["end"])."<br><span class=\"badge\">".formatDate("g:i A", $row["end"])."</span>")."</td><td>".$lang[strtolower($row["punishmentType"])]."</td><td>".(in_array($row["punishmentType"], array("BAN", "TEMP_BAN", "MUTE", "TEMP_MUTE", "IP_BAN", "WARNING", "TEMP_WARNING")) ? (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["table"]."` WHERE uuid='".$row["uuid"]."' AND start='".$row["start"]."'")) > 0 && ($row["end"] == "-1" || date("U", formatDate("F jS, Y g:i A", (microtime(true) / 1000))) < date("U", formatDate("F jS, Y g:i A", $row["end"]))) ? $lang["active"] : $lang["inactive"]) : $lang["error_not_evaluated"])."</td></tr>";
 										}
 									}
 									?>
@@ -191,18 +212,19 @@ if(isset($_GET["user"])) {
 					<div class="col-md-4 col-sm-12 text-center">
 						<h2><?php echo htmlspecialchars($_GET["user"]); ?></h2>
 						<br>
-						<img src="https://crafatar.com/renders/body/<?php echo $user["data"]["uuid"]; ?>" alt="Skin Profile"></img>
+						<img src="https://crafatar.com/renders/body/<?php echo $user["data"]["uuid"]; ?>" alt="<?php echo htmlspecialchars($_GET["user"]); ?>"></img>
 					</div>
 				</div>
 			</div>
 		</div>
 		<script type="text/javascript" src="../assets/js/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../assets/js/clipboard.min.js"></script>
 		<script type="text/javascript" src="../assets/js/ab-web-addon.js"></script>
 		
 		<?php
-		if($info["player_count"] == true) {
-			echo "<script type=\"text/javascript\">updatePlayers(\"".$info["server_ip"]."\", \".players\", \"".$lang["error_not_evaluated"]."\");</script>";
+		if($info["player_count"]["enabled"] == true && !empty($info["player_count"]["server_ip"])) {
+			echo "<script type=\"text/javascript\">updatePlayers(\"".$info["player_count"]["server_ip"]."\", \".players\", \"".$lang["error_not_evaluated"]."\");</script>";
 		}
 		?>
 		

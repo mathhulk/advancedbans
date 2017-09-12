@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+/*
+ *	REQUIRED SCRIPTS
+ */
 require("../include/info.php");
 
 /*
