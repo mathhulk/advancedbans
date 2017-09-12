@@ -14,6 +14,8 @@ A simple, but sleek, web addon for AdvancedBan.
 - Theme selection per user
 - Language selection per user
 - Live player count
+- Click to copy server IP
+- Custom support links
 
 ## Requirements
 - PHP 5.6+ (7.0+ recommended)
@@ -29,18 +31,32 @@ $con = mysqli_connect("host", "user", "password", "database");
 ```
 To configure the features provided, open `config.json` with your favorite text editor and change the available options to your liking.
 ```json
-{	
-	"default_theme": "yeti",
-	"table": "Punishments",
-	"history_table": "PunishmentHistory",
-	"default_language": "en_US",
-	"skulls": false,
-	"compact": false,
-	"ip_bans": true,
-	"title": "AdvancedBan Web Addon",
-	"description": "A simple, but sleek, web addon for AdvancedBan.",
-	"player_count": true,
-	"server_ip": "mc.hypixel.net"
+{    
+    "default_theme": "yeti",
+    "table": "Punishments",
+    "history_table": "PunishmentHistory",
+    "default_language": "en_US",
+    "skulls": true,
+    "compact": false,
+    "ip_bans": true,
+    "messages": {
+        "title": "AdvancedBan Web Addon",
+        "description": "A simple, but sleek, web addon for AdvancedBan."
+    },
+    "player_count": {
+        "enabled": true,
+        "server_ip": "mc.hypixel.net"
+    },
+    "support": {
+        "contact": {
+            "enabled": true,
+            "link": "http://example.com/contact"
+        },
+        "appeal": {
+            "enabled": true,
+            "link": "http://example.com/appeal"
+        }
+    }
 }
 ```
 
@@ -52,6 +68,9 @@ Translating ab-web-addon is simple. Navigate to `/inc/languages/` and create a n
 	"version": "2.0.1",
 	"terms": {
 		"punishments": "Punishments",
+		"support": "Support",
+		"contact": "Contact",
+		"appeal": "Appeal",
 		"credits": "Credits",
 		"themes": "Themes",
 		"reset": "Reset",
