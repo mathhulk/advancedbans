@@ -1,6 +1,6 @@
 # ab-web-addon
 A simple, but sleek, web addon for AdvancedBan.
-- You can find the example [here](https://mathhulk.info/ab-web-addon).
+- You can find the example [here](https://mathhulk.me/github/ab-web-addon).
 
 ## Main Features
 - Host it on your own web server
