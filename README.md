@@ -56,6 +56,10 @@ To configure the features provided, open `config.json` with your favorite text e
             "enabled": true,
             "link": "http://example.com/appeal"
         }
+    },
+    "pages": {
+        "list": 25,
+        "pagination": 9
     }
 }
 ```
