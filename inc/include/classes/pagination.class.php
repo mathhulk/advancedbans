@@ -19,7 +19,7 @@ class Pagination {
 		$this->multiplier = $multiplier;
 		
 		$this->total = floor($total / $this->multiplier);
-		if($total % $this->multiplier != 0 || $total = 0) {
+		if($total % $this->multiplier != 0 || $total == 0) {
 			++$this->total;
 		}
 		
