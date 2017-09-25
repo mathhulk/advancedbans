@@ -179,15 +179,16 @@ require("load.php");
 						</thead>
 						<tbody>
 							<?php
-							$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` ".($info["ip_bans"] == false ? "WHERE punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page["min"].", 10");
+							$page = new Pagination("p", $info["pages"]["list"], (isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."%'" : "punishmentType='".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."'")." ORDER BY id DESC")) : mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` ".($info["ip_bans"] == false ? "WHERE punishmentType!='IP_BAN' " : "")))));
+							$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` ".($info["ip_bans"] == false ? "WHERE punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page->minimum.", ".$page->multiplier);
 							if(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments)) {
-								$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."%'" : "punishmentType='".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."'")." ORDER BY id DESC LIMIT ".$page["min"].", 10");
+								$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."%'" : "punishmentType='".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."'")." ORDER BY id DESC LIMIT ".$page->minimum.", ".$page->multiplier);
 							}
 							if(mysqli_num_rows($result) == 0) {
 								echo "<tr><td>---</td><td>".$lang["error_no_punishments"]."</td><td>---</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
 							} else {
 								while($row = mysqli_fetch_array($result)) {
-									echo "<tr>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"https://crafatar.com/renders/head/".$row["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["name"]."\"></td>" : "")."<td>".($row["uuid"] != $row["name"] ? "<a href=\"user/?user=".$row["name"]."\">" : "").$row["name"].($row["uuid"] != $row["name"] ? "</a>" : "")."</td><td>".$row["reason"]."</td>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"https://crafatar.com/renders/head/".json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$row["operator"]),true)["data"]["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["operator"]."\"></td>" : "")."<td>".$row["operator"]."</td><td>".formatDate("F jS, Y", $row["start"])."<br><span class=\"badge\">".formatDate("g:i A", $row["start"])."</span></td><td>".($row["end"] == "-1" ? $lang["error_not_evaluated"] : formatDate("F jS, Y", $row["end"])."<br><span class=\"badge\">".formatDate("g:i A", $row["end"])."</span>")."</td><td>".$lang[strtolower($row["punishmentType"])]."</td><td>".(in_array($row["punishmentType"], array("BAN", "TEMP_BAN", "MUTE", "TEMP_MUTE", "IP_BAN", "WARNING", "TEMP_WARNING")) ? (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["table"]."` WHERE uuid='".$row["uuid"]."' AND start='".$row["start"]."'")) > 0 && ($row["end"] == "-1" || date("U", formatDate("F jS, Y g:i A", (microtime(true) / 1000))) < date("U", formatDate("F jS, Y g:i A", $row["end"]))) ? $lang["active"] : $lang["inactive"]) : $lang["error_not_evaluated"])."</td></tr>";
+									echo "<tr>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"https://crafatar.com/renders/head/".$row["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["name"]."\"></td>" : "")."<td>".($row["uuid"] != $row["name"] ? "<a href=\"user/?user=".$row["name"]."\">" : "").$row["name"].($row["uuid"] != $row["name"] ? "</a>" : "")."</td><td>".$row["reason"]."</td>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"https://crafatar.com/renders/head/".json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$row["operator"]),true)["data"]["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["operator"]."\"></td>" : "")."<td>".$row["operator"]."</td><td>".$date->local($row["start"] / 1000, "F jS, Y")."<br><span class=\"badge\">".$date->local($row["start"] / 1000, "g:i A")."</span></td><td>".($row["end"] == "-1" ? $lang["error_not_evaluated"] : $date->local($row["end"] / 1000, "F jS, Y")."<br><span class=\"badge\">".$date->local($row["end"] / 1000, "g:i A")."</span>")."</td><td>".$lang[strtolower($row["punishmentType"])]."</td><td>".(in_array($row["punishmentType"], array("BAN", "TEMP_BAN", "MUTE", "TEMP_MUTE", "IP_BAN", "WARNING", "TEMP_WARNING")) ? (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["table"]."` WHERE uuid='".$row["uuid"]."' AND start='".$row["start"]."'")) > 0 && ($row["end"] == "-1" || date("U", $date->local((microtime(true) / 1000) / 1000, "F jS, Y g:i A")) < date("U", $date->local($row["end"] / 1000, "F jS, Y g:i A"))) ? $lang["active"] : $lang["inactive"]) : $lang["error_not_evaluated"])."</td></tr>";
 								}
 							}
 							?>
@@ -196,36 +197,14 @@ require("load.php");
 					<div class="text-center">
 						<ul class="pagination">
 							<?php
-							if($page["number"] > 1) {
-								echo "<li><a href=\"?p=1".(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">&laquo; ".$lang["first"]."</a></li>";
-								echo "<li><a href=\"?p=".($page["number"] - 1).(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">&laquo; ".$lang["previous"]."</a></li>";
+							if($page->current > 1) {
+								echo "<li><a href=\"?p=1".(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">&laquo; ".$lang["first"]."</a></li><li><a href=\"?p=".($page->current - 1).(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">&laquo; ".$lang["previous"]."</a></li>";
 							}
-							$rows = (isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."%'" : "punishmentType='".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."'")." ORDER BY id DESC")) : mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` ".($info["ip_bans"] == false ? "WHERE punishmentType!='IP_BAN' " : "")."ORDER BY id DESC")));
-							$pages["total"] = floor($rows / 10);
-							if($rows % 10 != 0 || $rows == 0) {
-								$pages["total"] = $pages["total"] + 1;
+							foreach($page->pages($info["pages"]["pagination"]) as $int) {
+								echo "<li ".($int == $page->current ? "class=\"active\"" : "")."><a href=\"?p=".$int.(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">".$int."</a></li>";
 							}
-							if($page["number"] < 5) {
-								$pages["min"] = 1; $pages["max"] = 9;
-							} elseif($page["number"] > ($pages["total"] - 8)) {
-								$pages["min"] = $pages["total"] - 8; $pages["max"] = $pages["total"];
-							} else {
-								$pages["min"] = $page["number"] - 4; $pages["max"] = $page["number"] + 4; 
-							}
-							if($pages["max"] > $pages["total"]) {
-								$pages["max"] = $pages["total"];
-							}
-							if($pages["min"] < 1) {
-								$pages["min"] = 1;
-							}
-							$pages["count"] = $pages["min"];
-							while($pages["count"] <= $pages["max"]) {
-								echo "<li ".($pages["count"] == $page["number"] ? "class=\"active\"" : "")."><a href=\"?p=".$pages["count"].(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">".$pages["count"]."</a></li>";
-								$pages["count"] = $pages["count"] + 1;
-							}
-							if($rows > $page["max"]) {
-								echo "<li><a href=\"?p=".($page["number"] + 1).(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">".$lang["next"]." &raquo;</a></li>";
-								echo "<li><a href=\"?p=".$pages["total"].(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]),$types) ? "&type=".$_GET["type"] : "")."\">".$lang["last"]." &raquo;</a></li>";
+							if((isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."%'" : "punishmentType='".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."'")." ORDER BY id DESC")) : mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` ".($info["ip_bans"] == false ? "WHERE punishmentType!='IP_BAN' " : "")))) > $page->maximum) {
+								echo "<li><a href=\"?p=".($page->current + 1).(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">".$lang["next"]." &raquo;</a></li><li><a href=\"?p=".$page->total.(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]),$types) ? "&type=".$_GET["type"] : "")."\">".$lang["last"]." &raquo;</a></li>";
 							}
 							?>
 						</ul>

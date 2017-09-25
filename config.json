@@ -23,5 +23,9 @@
             "enabled": true,
             "link": "http://example.com/appeal"
         }
-    }
+    },
+	"pages": {
+		"list": 25,
+		"pagination": 9
+	}
 }

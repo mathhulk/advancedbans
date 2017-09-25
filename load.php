@@ -15,9 +15,8 @@ session_start();
  */
 require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/database.php");
 require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/info.php");
-require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/page.php");
-require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/time.php");
-require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/functions.php");
+require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/classes/pagination.class.php");
+require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/classes/date.class.php");
  
 /*
  *	CONFIGURATION
