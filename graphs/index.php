@@ -65,8 +65,8 @@ require("../load.php");
 			</div>
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="../"><i class="fa fa-gavel" aria-hidden="true"></i> <?php echo $lang["punishments"]; ?></a></li>
-					<li><a href="../graphs/"><i class="fa fa-area-chart" aria-hidden="true"></i> <?php echo $lang["graphs"]; ?></a></li>
+					<li><a href="../"><i class="fa fa-gavel" aria-hidden="true"></i> <?php echo $lang["punishments"]; ?></a></li>
+					<li class="active"><a href="../graphs/"><i class="fa fa-area-chart" aria-hidden="true"></i> <?php echo $lang["graphs"]; ?></a></li>
 					<?php
 					if($info["player_count"]["enabled"] == true && !empty($info["player_count"]["server_ip"])) {
 						echo "<li class=\"clipboard\" data-clipboard-text=\"".$info["player_count"]["server_ip"]."\"><a><span class=\"badge players\">".$lang["error_not_evaluated"]."</span> ".$lang["players"]."</a></li>";
