@@ -1,13 +1,7 @@
 <?php
 require("../load.php");
 
-if(isset($_GET["user"])) {
-	$user = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$_GET["user"]), true);
-	if($user["status"] == "error") {
-		header("Location: index.php"); 
-		die("Redirecting...");
-	}
-} else {
+if(!isset($_GET["user"]) || empty($_GET["user"])) {
 	header("Location: ../"); die("Redirecting...");
 }
 ?>
@@ -189,6 +183,7 @@ if(isset($_GET["user"])) {
 								</thead>
 								<tbody>
 									<?php
+									$user = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$_GET["user"]), true);
 									$page = new Pagination("p", $info["pages"]["list"], mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE name='".mysqli_real_escape_string($con, stripslashes($_GET["user"]))."' ".($info["ip_bans"] == false ? "AND punishmentType!='IP_BAN' " : ""))));
 									$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE name='".mysqli_real_escape_string($con, stripslashes($_GET["user"]))."' ".($info["ip_bans"] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page->minimum.", ".$page->multiplier);
 									if(mysqli_num_rows($result) == 0) {
@@ -221,7 +216,7 @@ if(isset($_GET["user"])) {
 					<div class="col-md-4 col-sm-12 text-center">
 						<h2><?php echo htmlspecialchars($_GET["user"]); ?></h2>
 						<br>
-						<img src="https://crafatar.com/renders/body/<?php echo $user["data"]["uuid"]; ?>" alt="<?php echo htmlspecialchars($_GET["user"]); ?>"></img>
+						<img src="https://crafatar.com/renders/body/<?php echo ($user["status"] == "error" ? "8667ba71b85a4004af54457a9734eed7" : $user["data"]["uuid"]); ?>" alt="<?php echo htmlspecialchars($_GET["user"]); ?>"></img>
 					</div>
 				</div>
 			</div>
