@@ -191,7 +191,7 @@ require("../load.php");
 			data: {
 				<?php
 				for($day = 6; $day >= 0; $day--) {
-					$days[] = "\"".formatDate("l", strtotime("-".$day." days") * 1000)."\"";
+					$days[] = "\"".$date->local(strtotime("-".$day." days"), "l")."\"";
 				}
 				echo "labels: [".implode(", ", $days)."], datasets: [";
 				foreach($punishments as $punishment) {
