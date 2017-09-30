@@ -183,11 +183,11 @@ if(!isset($_GET["user"]) || empty($_GET["user"])) {
 								</thead>
 								<tbody>
 									<?php
-									$user = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$_GET["user"]), true);
+									$user = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$_GET["user"], false, stream_context_create(array("http"=>array("ignore_errors"=>true)))), true);
 									$page = new Pagination("p", $info["pages"]["list"], mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE name='".mysqli_real_escape_string($con, stripslashes($_GET["user"]))."' ".($info["ip_bans"] == false ? "AND punishmentType!='IP_BAN' " : ""))));
 									$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE name='".mysqli_real_escape_string($con, stripslashes($_GET["user"]))."' ".($info["ip_bans"] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page->minimum.", ".$page->multiplier);
 									if(mysqli_num_rows($result) == 0) {
-										echo "<tr><td>".$lang["error_no_punishments"]."</td><td>---</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
+										echo "<tr><td>".$lang["error_no_punishments"]."</td>".($info["skulls"] == true ? "<td></td>" : "")."<td>---</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
 									} else {
 										while($row = mysqli_fetch_array($result)) {			
 											echo "<tr><td>".$row["reason"]."</td>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"https://crafatar.com/renders/head/".json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$row["operator"]),true)["data"]["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["operator"]."\"></td>" : "")."<td>".$row["operator"]."</td><td>".$date->local($row["start"] / 1000, "F jS, Y")."<br><span class=\"badge\">".$date->local($row["start"] / 1000, "g:i A")."</span></td><td>".($row["end"] == "-1" ? $lang["error_not_evaluated"] : $date->local($row["end"] / 1000, "F jS, Y")."<br><span class=\"badge\">".$date->local($row["end"] / 1000, "g:i A")."</span>")."</td><td>".$lang[strtolower($row["punishmentType"])]."</td><td>".(in_array($row["punishmentType"], array("BAN", "TEMP_BAN", "MUTE", "TEMP_MUTE", "IP_BAN", "WARNING", "TEMP_WARNING")) ? (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["table"]."` WHERE uuid='".$row["uuid"]."' AND start='".$row["start"]."'")) > 0 && ($row["end"] == "-1" || date("U", $date->local((microtime(true) / 1000) / 1000, "F jS, Y g:i A")) < date("U", $date->local($row["end"] / 1000, "F jS, Y g:i A"))) ? $lang["active"] : $lang["inactive"]) : $lang["error_not_evaluated"])."</td></tr>";
