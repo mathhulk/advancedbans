@@ -34,7 +34,7 @@ To configure the features provided, open `config.json` with your favorite text e
 {    
     "default_theme": "yeti",
     "default_language": "en_US",
-	"default_time_zone": "America/Los_Angeles",
+    "default_time_zone": "America/Los_Angeles",
     "table": "Punishments",
     "history_table": "PunishmentHistory",
     "skulls": true,
