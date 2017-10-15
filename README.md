@@ -33,9 +33,10 @@ To configure the features provided, open `config.json` with your favorite text e
 ```json
 {    
     "default_theme": "yeti",
+    "default_language": "en_US",
+	"default_time_zone": "America/Los_Angeles",
     "table": "Punishments",
     "history_table": "PunishmentHistory",
-    "default_language": "en_US",
     "skulls": true,
     "compact": false,
     "ip_bans": true,
@@ -57,10 +58,10 @@ To configure the features provided, open `config.json` with your favorite text e
             "link": "http://example.com/appeal"
         }
     },
-    "pages": {
-        "list": 25,
-        "pagination": 9
-    }
+	"pages": {
+		"list": 25,
+		"pagination": 9
+	}
 }
 ```
 
