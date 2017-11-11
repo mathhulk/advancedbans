@@ -2,7 +2,7 @@
  *	FUNCTIONS
  */
 function updatePlayers(server, replace, error) {
-	$.getJSON("https://mcapi.ca/query/" + server + "/players", function(data) {
+	$.getJSON("https://use.gameapis.net/mc/query/players/" + server, function(data) {
 		if(data.status == true) {
 			$(replace).text(data.players.online.toLocaleString());
 		} else {
