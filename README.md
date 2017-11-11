@@ -22,13 +22,10 @@ A simple, but sleek, web addon for AdvancedBan.
 - MySQLi PHP extension
 
 ## Setup
-After you have uploaded all files to the wanted location on your web server, navigate to `/inc/include/` and open `database.php` with your favorite text editor. Once open, replace the MySQL connection details with those of your own MySQL database and save the file.
-```php
-/*
- *	MYSQL CONNECTION (host, user, password, database)
- */
-$con = mysqli_connect("host", "user", "password", "database");
-```
+After you have uploaded all files to the wanted location on your web server, navigate to the installation page at `/install/`. Here, you will be prompted to enter your database details. The installation page will make sure that a connection can be established with the database details provided and that the AdvancedBan tables exist before proceeding.
+
+Once you have finished with the installation, you will be redirected to the main page. At this point, you MUST remove `/install/` to prevent visitors from changing your database details.
+
 To configure the features provided, open `config.json` with your favorite text editor and change the available options to your liking.
 ```json
 {    
