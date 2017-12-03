@@ -13,7 +13,7 @@ session_start();
 /*
  *	CONFIGURATION
  */
-$info = json_decode(file_get_contents((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../config.json" : "config.json"), FILE_USE_INCLUDE_PATH), true);
+$info = json_decode(file_get_contents((in_array(array_pop(explode("/", $_SERVER["REQUEST_URI"])), array("user", "graphs")) ? "../config.json" : "config.json"), FILE_USE_INCLUDE_PATH), true);
 
 /*
  *	LANGUAGE
@@ -23,10 +23,10 @@ $lang = json_decode(file_get_contents((in_array(array_pop(explode("/", $_SERVER[
 /*
  *	FILES
  */
-require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/database.php");
-require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/info.php");
-require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/classes/pagination.class.php");
-require((in_array(array_pop(explode("/", $_SERVER['REQUEST_URI'])), array("user", "graphs")) ? "../inc/" : "inc/")."include/classes/date.class.php");
+require((in_array(array_pop(explode("/", $_SERVER["REQUEST_URI"])), array("user", "graphs")) ? "../inc/" : "inc/")."include/database.php");
+require((in_array(array_pop(explode("/", $_SERVER["REQUEST_URI"])), array("user", "graphs")) ? "../inc/" : "inc/")."include/info.php");
+require((in_array(array_pop(explode("/", $_SERVER["REQUEST_URI"])), array("user", "graphs")) ? "../inc/" : "inc/")."include/classes/pagination.class.php");
+require((in_array(array_pop(explode("/", $_SERVER["REQUEST_URI"])), array("user", "graphs")) ? "../inc/" : "inc/")."include/other/date.php");
  
 /*
  *	PUNISHMENTS
