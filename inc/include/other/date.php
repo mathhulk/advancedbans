@@ -1,7 +1,7 @@
 <?php
 
 function getLocalDate($time, $format) {
-	$date = new DateTime(gmdate("F jS, Y g:i A", strtotime($time)));
+	$date = new DateTime(gmdate("F jS, Y g:i A", $time));
 	$date->setTimezone(new DateTimeZone($_SESSION["time_zone"]));
 	return $date->format($format);
 }
