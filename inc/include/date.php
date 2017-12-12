@@ -1,7 +1,11 @@
 <?php
 
-function getLocalDate($time, $format) {
-	$date = new DateTime(gmdate("F jS, Y g:i A", $time));
+/*
+ *	DATE: LOCAL FORMAT
+ */
+ 
+function getLocalDate($seconds, $format) {
+	$date = new DateTime(gmdate("F jS, Y g:i A", $seconds));
 	$date->setTimezone(new DateTimeZone($_SESSION["time_zone"]));
 	return $date->format($format);
 }
@@ -13,5 +17,3 @@ if(!isset($_SESSION["time_zone"])) {
 		$_SESSION["time_zone"] = $geoip["time_zone"];
 	}
 }
-
-?>

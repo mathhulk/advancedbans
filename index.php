@@ -1,232 +1,40 @@
 <?php
-require("load.php");
-?>
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-		
-		<!-- ICONS -->
-		<link rel="apple-touch-icon" sizes="57x57" href="assets/img/icons/apple-icon-57x57.png">
-		<link rel="apple-touch-icon" sizes="60x60" href="assets/img/icons/apple-icon-60x60.png">
-		<link rel="apple-touch-icon" sizes="72x72" href="assets/img/icons/apple-icon-72x72.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="assets/img/icons/apple-icon-76x76.png">
-		<link rel="apple-touch-icon" sizes="114x114" href="assets/img/icons/apple-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="assets/img/icons/apple-icon-120x120.png">
-		<link rel="apple-touch-icon" sizes="144x144" href="assets/img/icons/apple-icon-144x144.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="assets/img/icons/apple-icon-152x152.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="assets/img/icons/apple-icon-180x180.png">
-		<link rel="icon" type="image/png" sizes="192x192"  href="assets/img/icons/android-icon-192x192.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="assets/img/icons/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="96x96" href="assets/img/icons/favicon-96x96.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="assets/img/icons/favicon-16x16.png">
-		<meta name="msapplication-TileColor" content="#ffffff">
-		<meta name="msapplication-TileImage" content="assets/img/icons/ms-icon-144x144.png">
-		<meta name="theme-color" content="#ffffff">
-		
-		<!-- INFORMATION -->
-		<meta name="description" content="<?php echo $info["messages"]["description"]; ?>">
-		<meta property="og:site_name" content="<?php echo $info["messages"]["title"]; ?>">
-		<meta property="og:title" content="<?php echo $lang["punishments"]; ?>">
-		<meta property="og:image" content="assets/img/icon.png">
-		<meta property="og:description" content="<?php echo $info["messages"]["description"]; ?>">
-		<meta property="og:url" content="http://<?php echo $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>">
-		<meta property="og:type" content="website">
-		
-		<title><?php echo $info["messages"]["title"]; ?> - <?php echo $lang["punishments"]; ?></title>
-		
-		<!-- GENERAL ICONS -->
-		<link rel="shortcut icon" href="assets/img/icon.png" type="image/x-icon">
-		<link rel="icon" href="assets/img/icon.png" type="image/x-icon">
-		
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css" media="screen">
-		<link rel="stylesheet" href="assets/css/ab-web-addon.css" media="screen">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="screen">
-		
-		<?php
-		foreach(glob("inc/themes/".(isset($_COOKIE["ab-theme"]) ? $_COOKIE["ab-theme"] : $info["default_theme"])."/css/*") as $stylesheet) {
-			echo "<link rel=\"stylesheet\" href=\"".$stylesheet."\" media=\"screen\">";
-		}
-		?>
-	</head>
-	<body>
-		<nav class="navbar navbar-default navbar-fixed-top">
-		  <div class="container">
-			<div class="navbar-header">
-				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				
-				<a class="navbar-brand" href=""><?php echo $info["messages"]["title"]; ?></a>
-			</div>
-			<div class="collapse navbar-collapse" id="navbar">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href=""><i class="fa fa-gavel" aria-hidden="true"></i> <?php echo $lang["punishments"]; ?></a></li>
-					<li><a href="graphs/"><i class="fa fa-area-chart" aria-hidden="true"></i> <?php echo $lang["graphs"]; ?></a></li>
-					<?php
-					if($info["player_count"]["enabled"] == true && !empty($info["player_count"]["server_ip"])) {
-						echo "<li class=\"clipboard\" data-clipboard-text=\"".$info["player_count"]["server_ip"]."\"><a><span class=\"badge players\">".$lang["error_not_evaluated"]."</span> ".$lang["players"]."</a></li>";
-					}
-					?>
-				</ul>
-				
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $lang["themes"]; ?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="inc/scripts/theme.php?reset=true&redirect=<?php echo $_SERVER["REQUEST_URI"]; ?>"><?php echo $lang["reset"]; ?></a></li>
-							<li class="divider"></li>
-							<?php
-							foreach(glob("inc/themes/*") as $theme) {
-								$configuration = json_decode(file_get_contents($theme."/config.json"), true);
-								if($configuration["version"] == VERSION) {
-									echo "<li".(isset($_COOKIE["ab-theme"]) && basename($theme) == $_COOKIE["ab-theme"] ? " class=\"active\"" : "")."><a href=\"inc/scripts/theme.php?change=".basename($theme)."&redirect=".urlencode($_SERVER["REQUEST_URI"])."\">".htmlspecialchars($configuration["theme"])." <span class=\"badge\">".htmlspecialchars($configuration["author"])."</span></a>";
-								}
-							}
-							?>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-language" aria-hidden="true"></i> <?php echo $lang["languages"]; ?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="inc/scripts/language.php?reset=true&redirect=<?php echo $_SERVER["REQUEST_URI"]; ?>"><?php echo $lang["reset"]; ?></a></li>
-							<li class="divider"></li>
-							<?php
-							foreach(glob("inc/languages/*") as $language) {
-								$configuration = json_decode(file_get_contents($language), true);
-								if($configuration["version"] == VERSION) {
-									echo "<li".(isset($_COOKIE["ab-lang"]) && basename($language, ".json") == $_COOKIE["ab-lang"] ? " class=\"active\"" : "")."><a href=\"inc/scripts/language.php?change=".basename($language, ".json")."&redirect=".urlencode($_SERVER["REQUEST_URI"])."\">".htmlspecialchars($configuration["language"])."</a>";
-								}
-							}
-							?>
-						</ul>
-					</li>
-					<?php
-					if(($info["support"]["contact"]["enabled"] == true && !empty($info["support"]["contact"]["link"])) || ($info["support"]["appeal"]["enabled"] == true && !empty($info["support"]["appeal"]["link"]))) {
-					?>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-envelope-open-o" aria-hidden="true"></i> <?php echo $lang["support"]; ?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<?php
-							if($info["support"]["contact"]["enabled"] == true && !empty($info["support"]["contact"]["link"])) {
-								echo "<li><a href=\"".$info["support"]["contact"]["link"]."\">".$lang["contact"]."</a></li>";
-							}
-							if($info["support"]["appeal"]["enabled"] == true && !empty($info["support"]["appeal"]["link"])) {
-								echo "<li><a href=\"".$info["support"]["appeal"]["link"]."\">".$lang["appeal"]."</a></li>";
-							}
-							?>
-						</ul>
-					</li>
-					<?php
-					}
-					?>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-code-fork" aria-hidden="true"></i> <?php echo $lang["credits"]; ?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a target="_blank" href="https://github.com/mathhulk/ab-web-addon">GitHub</a></li>
-							<li><a target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
-							<li><a target="_blank" href="https://theartex.net">mathhulk</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-		  </div>
-		</nav>
-		
-		<div class="container">
-			<div class="jumbotron">
-				<h1><br><?php echo $info["messages"]["title"]; ?></h1> 
-				<p><?php echo $info["messages"]["description"]; ?></p>
-				<p>
-					<?php
-					foreach($punishments as $punishment) {
-						echo "<a href=\"?type=".$punishment."\" class=\"btn btn-primary btn-md\">".strtoupper($lang[$punishment.($punishment != "all" ? "s" : "")])." <span class=\"badge\">".mysqli_num_rows(($punishment == "all" ? mysqli_query($con, "SELECT * FROM `".$info["history_table"]."`".($info["ip_bans"] == false ? " WHERE punishmentType!='IP_BAN'" : "")) : mysqli_query($con, "SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper($punishment)."%'" : "punishmentType='".strtoupper($punishment)."'"))))."</span></a>";
-					}
-					?>
-				</p>
-			</div>
-			
-			<div class="jumbotron">
-				<form method="get" action="user/">
-					<div class="input-group">
-						<input type="text" maxlength="50" name="user" class="form-control" placeholder="<?php echo $lang["search"]; ?>">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit"><?php echo $lang["submit"]; ?></button>
-						</span>
-					</div>
-				</form>
-			</div>
-			
-			<div class="jumbotron">
-				<div class="table-wrapper">
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr>
-								<?php echo ($info["skulls"] == true ? "<th></th>" : ""); ?>
-								<th><?php echo $lang["username"]; ?></th>
-								<th><?php echo $lang["reason"]; ?></th>
-								<?php echo ($info["skulls"] == true ? "<th></th>" : ""); ?>
-								<th><?php echo $lang["operator"]; ?></th>
-								<th><?php echo $lang["date"]; ?></th>
-								<th><?php echo $lang["end"]; ?></th>
-								<th><?php echo $lang["type"]; ?></th>
-								<th><?php echo $lang["status"]; ?></th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
-							$page = new Pagination("p", $info["pages"]["list"], (isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."%'" : "punishmentType='".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."'")." ORDER BY id DESC")) : mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` ".($info["ip_bans"] == false ? "WHERE punishmentType!='IP_BAN' " : "")))));
-							$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` ".($info["ip_bans"] == false ? "WHERE punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page->minimum.", ".$page->multiplier);
-							if(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments)) {
-								$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."%'" : "punishmentType='".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."'")." ORDER BY id DESC LIMIT ".$page->minimum.", ".$page->multiplier);
-							}
-							if(mysqli_num_rows($result) == 0) {
-								echo "<tr>".($info["skulls"] == true ? "<td>?</td>" : "")."<td>".$lang["error_no_punishments"]."</td><td>---</td>".($info["skulls"] == true ? "<td>?</td>" : "")."<td>---</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
-							} else {
-								while($row = mysqli_fetch_array($result)) {
-									echo "<tr>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"https://crafatar.com/renders/head/".$row["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["name"]."\"></td>" : "")."<td>".(strpos($row["name"], ".") === false ? "<a href=\"user/?user=".$row["name"]."\">" : "").$row["name"].(strpos($row["name"], ".") === false ? "</a>" : "")."</td><td>".$row["reason"]."</td>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"https://crafatar.com/renders/head/".json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$row["operator"]),true)["data"]["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["operator"]."\"></td>" : "")."<td>".$row["operator"]."</td><td>".getLocalDate($row["start"] / 1000, "F jS, Y")."<br><span class=\"badge\">".getLocalDate($row["start"] / 1000, "g:i A")."</span></td><td>".($row["end"] == "-1" ? $lang["error_not_evaluated"] : getLocalDate($row["end"] / 1000, "F jS, Y")."<br><span class=\"badge\">".getLocalDate($row["end"] / 1000, "g:i A")."</span>")."</td><td>".$lang[strtolower($row["punishmentType"])]."</td><td>".(in_array($row["punishmentType"], array("BAN", "TEMP_BAN", "MUTE", "TEMP_MUTE", "IP_BAN", "WARNING", "TEMP_WARNING")) ? (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["table"]."` WHERE punishmentType='".$row["punishmentType"]."' AND start='".$row["start"]."'")) > 0 && ($row["end"] == "-1" || getLocalDate(round(microtime(true) * 1000) / 1000, "U") < getLocalDate($row["end"] / 1000, "U")) ? $lang["active"] : $lang["inactive"]) : $lang["error_not_evaluated"])."</td></tr>";
-								}
-							}
-							?>
-						</tbody>
-					</table>
-					<div class="text-center">
-						<ul class="pagination">
-							<?php
-							if($page->current > 1) {
-								echo "<li><a href=\"?p=1".(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">&laquo; ".$lang["first"]."</a></li><li><a href=\"?p=".($page->current - 1).(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">&laquo; ".$lang["previous"]."</a></li>";
-							}
-							foreach($page->pages($info["pages"]["pagination"]) as $int) {
-								echo "<li ".($int == $page->current ? "class=\"active\"" : "")."><a href=\"?p=".$int.(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">".$int."</a></li>";
-							}
-							if((isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."%'" : "punishmentType='".strtoupper(mysqli_real_escape_string($con, stripslashes($_GET["type"])))."'")." ORDER BY id DESC")) : mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` ".($info["ip_bans"] == false ? "WHERE punishmentType!='IP_BAN' " : "")))) > $page->maximum) {
-								echo "<li><a href=\"?p=".($page->current + 1).(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]), $punishments) ? "&type=".$_GET["type"] : "")."\">".$lang["next"]." &raquo;</a></li><li><a href=\"?p=".$page->total.(isset($_GET["type"]) && $_GET["type"] != "all" && in_array(strtolower($_GET["type"]),$types) ? "&type=".$_GET["type"] : "")."\">".$lang["last"]." &raquo;</a></li>";
-							}
-							?>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-		<script type="text/javascript" src="assets/js/jquery-3.2.1.min.js"></script>
-		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="assets/js/clipboard.min.js"></script>
-		<script type="text/javascript" src="assets/js/ab-web-addon.js"></script>
-		
-		<?php
-		if($info["player_count"]["enabled"] == true && !empty($info["player_count"]["server_ip"])) {
-			echo "<script type=\"text/javascript\">updatePlayers(\"".$info["player_count"]["server_ip"]."\", \".players\", \"".$lang["error_not_evaluated"]."\");</script>";
-		}
-		?>
-		
-		<?php
-		foreach(glob("inc/themes/".(isset($_SESSION["themes"]) ? $_COOKIE["ab-theme"] : $info["default_theme"])."/js/*") as $script) {
-			echo "<script type=\"text/javascript\" src=\"".$script."\"></script>";
-		}
-		?>
-	</body>
-</html>
+
+error_reporting(0);
+session_start();
+
+/*
+ *	CONFIGURATION / LANGUAGE
+ */
+ 
+$info = json_decode(file_get_contents("inc/config.json"), true);
+$lang = json_decode(file_get_contents("inc/languages/".(isset($_COOKIE["ab-lang"]) ? $_COOKIE["ab-lang"] : $info["default_language"]).".json"), true)["terms"];
+
+/*
+ *	PUNISHMENTS
+ *	Could this be improved?
+ */
+ 
+$punishments = array("all", "ban", "temp_ban", "mute", "temp_mute", "warning", "temp_warning", "kick"); 
+if($info["ip_bans"] == true) {
+	$punishments[] = "ip_ban";
+}
+if($info["compact"] == true) {
+	$punishments = array("all", "ban", "mute", "warning", "kick");
+}
+
+/*
+ *	LOAD REQUIRED FILES
+ */
+ 
+require("inc/include/variables.php");
+require("inc/include/database.php");
+require("inc/include/date.php");
+require("inc/include/classes/Pagination.class.php");
+require("inc/include/functions.php");
+
+/*
+ *	REQUEST
+ */
+ 
+require("pages/".(isset($_GET["s"]) && !empty($_GET["s"]) && strlen(getPath($_GET["s"])) && file_exists("pages/".getPath($_GET["s"]).".php") > 0 ? getPath($_GET["s"]).".php" : "index.php"));

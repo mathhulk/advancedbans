@@ -1,5 +1,9 @@
 <?php 
 
+/*
+ *	CLASS: PAGINATION
+ */
+
 class Pagination {
 	
 	public $key;
@@ -13,6 +17,8 @@ class Pagination {
 	public $list;
 	
 	public $current;
+	
+	private $pages;
 	
 	public function __construct($key, $multiplier, $total) {
 		$this->key = $key;
@@ -40,29 +46,27 @@ class Pagination {
 	
 	public function pages($length) {
 		if($this->current < ($length - 1) / 2 + 1) {
-			$pages["minimum"] = 1; 
-			$pages["maximum"] = $length;
+			$this->pages["minimum"] = 1; 
+			$this->pages["maximum"] = $length;
 		} elseif($this->current > $this->total - ($length - 1)) {
-			$pages["minimum"] = $this->total - ($length - 1); 
-			$pages["maximum"] = $this->total;
+			$this->pages["minimum"] = $this->total - ($length - 1); 
+			$this->pages["maximum"] = $this->total;
 		} else {
-			$pages["minimum"] = $this->current - ($length - 1) / 2; 
-			$pages["maximum"] = $this->current + ($length - 1) / 2; 
+			$this->pages["minimum"] = $this->current - ($length - 1) / 2; 
+			$this->pages["maximum"] = $this->current + ($length - 1) / 2; 
 		}
-		if($pages["maximum"] > $this->total) {
-			$pages["maximum"] = $this->total;
+		if($this->pages["maximum"] > $this->total) {
+			$this->pages["maximum"] = $this->total;
 			
 		}
-		if($pages["minimum"] < 1) {
-			$pages["minimum"] = 1;
+		if($this->pages["minimum"] < 1) {
+			$this->pages["minimum"] = 1;
 			
 		}
-		for(; $pages["minimum"] <= $pages["maximum"]; ++$pages["minimum"]) {
-			$response[] = $pages["minimum"];
+		for(; $this->pages["minimum"] <= $this->pages["maximum"]; ++$this->pages["minimum"]) {
+			$response[] = $this->pages["minimum"];
 		}
 		return $response;
 	}
 	
 }
-
-?>
