@@ -22,13 +22,40 @@ A simple, but sleek, web addon for AdvancedBan.
 - MySQLi PHP extension
 
 ## Setup
-After you have uploaded all files to the wanted location on your web server, navigate to the installation page at `/install/`. Here, you will be prompted to enter your database details. The installation page will make sure that a connection can be established with the database details provided and that the AdvancedBan tables exist before proceeding.
+After you have uploaded all files to the wanted location on your web server, navigate to the variables PHP page at `/inc/include/variables.php` and open the file with a text editor. I would suggest [Notepad++](https://notepad-plus-plus.org). Here, you will be able to enter your database credentials. Save the file and you will be good to go.
+```php
+<?php
 
-Once you have finished with the installation, you will be redirected to the main page. At this point, you MUST remove `/install/` to prevent visitors from changing your database details.
+/*
+ *	VARIABLES
+ */
+ 
+$__global = array(
 
-To configure the features provided, open `config.json` with your favorite text editor and change the available options to your liking.
+	// Do not touch this unless you really want to break something.
+	"version"=>"3.0.1",
+	
+	"database"=>array(
+	
+		// Connection : Host
+		"host"=>"localhost",
+		
+		// User : Username
+		"user"=>"username",
+		
+		// User: Password
+		"password"=>"password",
+		
+		// Connection : Database
+		"database"=>"database"
+		
+		)
+	);
+```
+
+To easily configure the current available options and settings, open the `config.json` file located at `/inc/include/config.json` with a text editor. Here, you can edit the configuration for ab-web-addon. This is a JSON file, so I would suggest running the file through a JSON validator once you have finished editing it to make sure you have made no mistakes.
 ```json
-{    
+{
     "default_theme": "yeti",
     "default_language": "en_US",
     "default_time_zone": "America/Los_Angeles",
@@ -58,6 +85,9 @@ To configure the features provided, open `config.json` with your favorite text e
 	"pages": {
 		"list": 25,
 		"pagination": 9
+	},
+	"system": {
+		"https": false
 	}
 }
 ```
@@ -67,7 +97,7 @@ Translating ab-web-addon is simple. Navigate to `/inc/languages/` and create a n
 ```json
 {
 	"language": "English",
-	"version": "2.0.1",
+	"version": "3.0.1",
 	"terms": {
 		"punishments": "Punishments",
 		"support": "Support",
@@ -140,7 +170,7 @@ In order for your theme to be available for selection, you must also include a `
 ```json
 {
 	"theme": "Cerulean",
-	"version": "2.0.1",
+	"version": "3.0.1",
 	"author": "Bootswatch"
 }
 ```
