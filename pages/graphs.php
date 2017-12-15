@@ -196,7 +196,7 @@
 					$colors = array(mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
 					$list = array();
 					for($day = 6; $day >= 0; $day--) {
-						$list[] = ($type == "all" ? mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["history_table"]."` WHERE start BETWEEN '".(strtotime("-".$day." days") * 1000)."' AND '".(strtotime("-".($day - 1)." days") * 1000)."'".($info["ip_bans"] == false ? " AND punishmentType!='IP_BAN' " : ""))) : mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper($punishment)."%'" : "punishmentType='".strtoupper($punishment)."'")." AND start BETWEEN '".(strtotime("-".$day." days") * 1000)."' AND '".(strtotime("-".($day - 1)." days") * 1000)."'")));
+						$list[] = ($punishment == "all" ? mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["history_table"]."` WHERE start BETWEEN '".(strtotime("-".$day." days") * 1000)."' AND '".(strtotime("-".($day - 1)." days") * 1000)."'".($info["ip_bans"] == false ? " AND punishmentType!='IP_BAN' " : ""))) : mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["history_table"]."` WHERE ".($info["compact"] == true ? "punishmentType LIKE '%".strtoupper($punishment)."%'" : "punishmentType='".strtoupper($punishment)."'")." AND start BETWEEN '".(strtotime("-".$day." days") * 1000)."' AND '".(strtotime("-".($day - 1)." days") * 1000)."'")));
 					}
 					$sets[] = "{label: \"".strtoupper($lang[$punishment.($punishment != "all" ? "s" : "")])."\", fill: false, data: [".implode(", ", $list)."], borderColor: \"rgb(".implode(", ", $colors).")\", backgroundColor: \"rgb(".implode(", ", $colors).")\"}";
 				}
