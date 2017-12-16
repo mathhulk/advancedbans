@@ -182,14 +182,17 @@ if(!isset($_GET["user"]) || empty($_GET["user"])) {
 								</thead>
 								<tbody>
 									<?php
-									$user = json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$_GET["user"], false, stream_context_create(array("http"=>array("ignore_errors"=>true)))), true);
+									$user = json_decode(file_get_contents(str_replace("{USERNAME}", $_GET["user"], $__global["api"]["uuid"]), false, stream_context_create(array("http"=>array("ignore_errors"=>true)))), true)["result"][0]["uuid"];
 									$page = new Pagination("p", $info["pages"]["list"], mysqli_num_rows(mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE name='".mysqli_real_escape_string($con, stripslashes($_GET["user"]))."' ".($info["ip_bans"] == false ? "AND punishmentType!='IP_BAN' " : ""))));
 									$result = mysqli_query($con,"SELECT * FROM `".$info["history_table"]."` WHERE name='".mysqli_real_escape_string($con, stripslashes($_GET["user"]))."' ".($info["ip_bans"] == false ? "AND punishmentType!='IP_BAN' " : "")."ORDER BY id DESC LIMIT ".$page->minimum.", ".$page->multiplier);
 									if(mysqli_num_rows($result) == 0) {
 										echo "<tr><td>".$lang["error_no_punishments"]."</td>".($info["skulls"] == true ? "<td>?</td>" : "")."<td>---</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
 									} else {
-										while($row = mysqli_fetch_array($result)) {			
-											echo "<tr><td>".$row["reason"]."</td>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"https://crafatar.com/renders/head/".json_decode(file_get_contents("https://www.theartex.net/cloud/api/minecraft/?sec=uuid&username=".$row["operator"]),true)["data"]["uuid"]."?scale=2&default=MHF_Steve&overlay\" alt=\"".$row["operator"]."\"></td>" : "")."<td>".$row["operator"]."</td><td>".getLocalDate($row["start"] / 1000, "F jS, Y")."<br><span class=\"badge\">".getLocalDate($row["start"] / 1000, "g:i A")."</span></td><td>".($row["end"] == "-1" ? $lang["error_not_evaluated"] : getLocalDate($row["end"] / 1000, "F jS, Y")."<br><span class=\"badge\">".getLocalDate($row["end"] / 1000, "g:i A")."</span>")."</td><td>".$lang[strtolower($row["punishmentType"])]."</td><td>".(in_array($row["punishmentType"], array("BAN", "TEMP_BAN", "MUTE", "TEMP_MUTE", "IP_BAN", "WARNING", "TEMP_WARNING")) ? (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["table"]."` WHERE uuid='".$row["uuid"]."' AND start='".$row["start"]."'")) > 0 && ($row["end"] == "-1" || getLocalDate(round(microtime(true) * 1000) / 1000, "U") < getLocalDate($row["end"] / 1000, "U")) ? $lang["active"] : $lang["inactive"]) : $lang["error_not_evaluated"])."</td></tr>";
+										while($row = mysqli_fetch_array($result)) {		
+											if($info["skulls"] == true) {
+												$operator = json_decode(file_get_contents(str_replace("{USERNAME}", $row["operator"], $__global["api"]["uuid"]), false, stream_context_create(array("http"=>array("ignore_errors"=>true)))), true)["result"][0]["uuid"];
+											}
+											echo "<tr><td>".$row["reason"]."</td>".($info["skulls"] == true ? "<td class=\"text-center\"><img src=\"".str_replace("{UUID}", (strlen($operator) == 32 ? $operator : "8667ba71b85a4004af54457a9734eed7"), $__global["api"]["skull"])."\" alt=\"".$row["operator"]."\"></td>" : "")."<td>".$row["operator"]."</td><td>".getLocalDate($row["start"] / 1000, "F jS, Y")."<br><span class=\"badge\">".getLocalDate($row["start"] / 1000, "g:i A")."</span></td><td>".($row["end"] == "-1" ? $lang["error_not_evaluated"] : getLocalDate($row["end"] / 1000, "F jS, Y")."<br><span class=\"badge\">".getLocalDate($row["end"] / 1000, "g:i A")."</span>")."</td><td>".$lang[strtolower($row["punishmentType"])]."</td><td>".(in_array($row["punishmentType"], array("BAN", "TEMP_BAN", "MUTE", "TEMP_MUTE", "IP_BAN", "WARNING", "TEMP_WARNING")) ? (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `".$info["table"]."` WHERE uuid='".$row["uuid"]."' AND start='".$row["start"]."'")) > 0 && ($row["end"] == "-1" || getLocalDate(round(microtime(true) * 1000) / 1000, "U") < getLocalDate($row["end"] / 1000, "U")) ? $lang["active"] : $lang["inactive"]) : $lang["error_not_evaluated"])."</td></tr>";
 										}
 									}
 									?>
@@ -215,7 +218,7 @@ if(!isset($_GET["user"]) || empty($_GET["user"])) {
 					<div class="col-md-4 col-sm-12 text-center">
 						<h2><?php echo htmlspecialchars($_GET["user"]); ?></h2>
 						<br>
-						<img src="https://crafatar.com/renders/body/<?php echo ($user["status"] == "error" ? "8667ba71b85a4004af54457a9734eed7" : $user["data"]["uuid"]); ?>" alt="<?php echo htmlspecialchars($_GET["user"]); ?>"></img>
+						<img src="<?php echo str_replace("{UUID}", ($user["status"] == "error" ? "8667ba71b85a4004af54457a9734eed7" : $user), $__global["api"]["body"]); ?>" alt="<?php echo htmlspecialchars($_GET["user"]); ?>"></img>
 					</div>
 				</div>
 			</div>

@@ -4,7 +4,7 @@
     "default_time_zone": "America/Los_Angeles",
     "table": "Punishments",
     "history_table": "PunishmentHistory",
-    "skulls": true,
+    "skulls": false,
     "compact": false,
     "ip_bans": true,
     "messages": {
