@@ -35,7 +35,8 @@ $__global = array(
 	// Do not touch this unless you really want to break something.
 	"version"=>"3.0.1",
 	
-	"database"=>array(
+	// MySQL Connection
+	"mysql"=>array(
 	
 		// Connection : Host
 		"host"=>"localhost",
@@ -49,9 +50,25 @@ $__global = array(
 		// Connection : Database
 		"database"=>"database"
 		
+		),
+		
+	// Do not touch this unless you know what you are doing. ({UUID} and {USERNAME} are placeholders)
+	"api"=>array(
+		
+		// API : Skull
+		"skull"=>"https://visage.surgeplay.com/head/48/{UUID}",
+		
+		// API : Body
+		"body"=>"https://visage.surgeplay.com/full/512/{UUID}",
+		
+		// API : UUID
+		"uuid"=>"https://mcapi.cloudprotected.net/uuid/{USERNAME}"
+		
 		)
+		
 	);
 ```
+Please be careful when editing other values, as the version controls whether or not themes and languages can be used. Along with that, I would not suggest editing the APIs if you do not have PHP experience, as for the UUID API you will have to edit the path to the UUID via PHP (json_decode) in the `/pages/index.php` and `/pages/user.php` files.
 
 To easily configure the current available options and settings, open the `config.json` file located at `/inc/include/config.json` with a text editor. Here, you can edit the configuration for ab-web-addon. This is a JSON file, so I would suggest running the file through a JSON validator once you have finished editing it to make sure you have made no mistakes.
 ```json
@@ -61,7 +78,7 @@ To easily configure the current available options and settings, open the `config
     "default_time_zone": "America/Los_Angeles",
     "table": "Punishments",
     "history_table": "PunishmentHistory",
-    "skulls": true,
+    "skulls": false,
     "compact": false,
     "ip_bans": true,
     "messages": {
