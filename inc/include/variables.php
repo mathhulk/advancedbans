@@ -30,10 +30,10 @@ $__global = array(
 	"api"=>array(
 		
 		// API : Skull
-		"skull"=>"https://visage.surgeplay.com/head/48/{UUID}",
+		"skull"=>"https://crafatar.com/renders/head/{UUID}?scale=2",
 		
 		// API : Body
-		"body"=>"https://visage.surgeplay.com/full/512/{UUID}",
+		"body"=>"https://crafatar.com/renders/body/{UUID}",
 		
 		// API : UUID
 		"uuid"=>"https://mcapi.cloudprotected.net/uuid/{USERNAME}"
