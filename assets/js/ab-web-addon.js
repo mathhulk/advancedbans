@@ -32,4 +32,7 @@ $(document).on("click", ".clipboard", function() {
  */
 $(document).ready(function() {
 	new Clipboard(".clipboard");
+	$(".img-async").each(function(index, value) {
+		$(value).attr("src", $(value).attr("data-src-async"));
+	});
 });
