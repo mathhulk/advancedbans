@@ -166,6 +166,17 @@ if(!isset($_GET["user"]) || empty($_GET["user"])) {
 			
 			<div class="jumbotron">
 				<div class="row">
+					<div class="col-md-4 col-sm-12 text-center">
+						<div class="text-center">
+							<span class="badge">Search</span>
+						</div>
+						<h2><?php echo htmlspecialchars($_GET["user"]); ?></h2>
+						<?php
+						if($info["skulls"] == true) {
+							echo "<img class=\"img-async\" data-src-async=\"".str_replace("{UUID}", ($user["status"] == "error" ? "8667ba71b85a4004af54457a9734eed7" : $user), $__global["api"]["body"])."\" alt=\"".htmlspecialchars($_GET["user"])."\"></img>";
+						}
+						?>
+					</div>
 					<div class="col-md-8 col-sm-12">
 						<div class="table-wrapper">
 							<table class="table table-striped table-hover">
@@ -214,17 +225,6 @@ if(!isset($_GET["user"]) || empty($_GET["user"])) {
 								</ul>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-4 col-sm-12 text-center">
-						<div class="text-center">
-							<span class="badge">Search</span>
-						</div>
-						<h2><?php echo htmlspecialchars($_GET["user"]); ?></h2>
-						<?php
-						if($info["skulls"] == true) {
-							echo "<img class=\"img-async\" data-src-async=\"".str_replace("{UUID}", ($user["status"] == "error" ? "8667ba71b85a4004af54457a9734eed7" : $user), $__global["api"]["body"])."\" alt=\"".htmlspecialchars($_GET["user"])."\"></img>";
-						}
-						?>
 					</div>
 				</div>
 			</div>
