@@ -37,8 +37,8 @@ class Punishment {
 		$minimum = 0;
 		$limit = Constraint::LIMIT_MAXIMUM;
 		if($page > 0) {
-			$minimum = ($page - 1) * AdvancedBan::getConfiguration( )->getValue("settings", "pagination", "limit") + 1;
-			$limit = AdvancedBan::getConfiguration( )->getValue("settings", "pagination", "limit");
+			$minimum = ($page - 1) * AdvancedBan::getConfiguration( )->getValue("pagination", "limit") + 1;
+			$limit = AdvancedBan::getConfiguration( )->getValue("pagination", "limit");
 		}
 		
 		$statement->limit($minimum, $limit);

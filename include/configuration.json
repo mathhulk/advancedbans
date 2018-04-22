@@ -34,9 +34,13 @@
 			"show": false,
 			"ip": "mc.hypixel.net",
 			"port": "25565"
-		},
-		"pagination": {
-			"limit": 25
 		}
+	},
+	"pagination": {
+		"limit": 25,
+		"pages": 9
+	},
+	"cache": {
+		"time": 3600
 	}
 }

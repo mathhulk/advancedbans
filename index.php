@@ -14,6 +14,7 @@ require_once "AdvancedBan/Session.php";
 require_once "AdvancedBan/Theme.php";
 require_once "AdvancedBan/Usage.php";
 require_once "AdvancedBan/UserCache.php";
+require_once "AdvancedBan/Page.php";
 require_once "AdvancedBan/External/PtcQueryBuilder.php";
 require_once "AdvancedBan/AdvancedBan.php";
 

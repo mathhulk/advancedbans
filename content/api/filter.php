@@ -4,18 +4,17 @@ namespace AdvancedBan;
 
 use AdvancedBan\Punishment;
 use AdvancedBan\Request;
+use AdvancedBan\Page;
 use AdvancedBan;
 
-$final = ceil(Punishment::count($_GET) / AdvancedBan::getConfiguration( )->getValue("settings", "pagination", "limit"));
-if($final === 0) {
-	$final = 1;
-}
+$page = new Page(empty($_GET["page"]) ? 1 : $_GET["page"], Punishment::count($_GET));
 
 $extra = [
-	"data"=>Punishment::fetch($_GET, empty($_GET["page"]) ? 1 : $_GET["page"]),
-	"pagination"=>[
-		"current"=>empty($_GET["page"]) ? 1 : $_GET["page"],
-		"final"=>$final
+	"data"=>Punishment::fetch($_GET, $page->getCurrent( )),
+	"page"=>[
+		"current"=>$page->getCurrent( ),
+		"final"=>$page->getFinal( ),
+		"pagination"=>$page->getPagination( )
 		]
 	];
 
