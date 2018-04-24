@@ -33,15 +33,10 @@ class Punishment {
 		foreach($conditions as $index => $value) {
 			$statement->where($index, "LIKE", $value);
 		}
-		
-		$minimum = 0;
-		$limit = Constraint::LIMIT_MAXIMUM;
+
 		if($page > 0) {
-			$minimum = ($page - 1) * AdvancedBan::getConfiguration( )->getValue("pagination", "limit") + 1;
-			$limit = AdvancedBan::getConfiguration( )->getValue("pagination", "limit");
+			$statement->limit(($page - 1) * AdvancedBan::getConfiguration( )->getValue("pagination", "limit") + 1, AdvancedBan::getConfiguration( )->getValue("pagination", "limit"));
 		}
-		
-		$statement->limit($minimum, $limit);
 		
 		$results = $statement->run( );
 		

@@ -10,4 +10,4 @@ $extra = [
 	"data"=>Punishment::fetch($_GET, 0)
 	];
 
-Request::respond(200, "success", "Punishments queried", $extra);
+Request::respond(200, "success", "Success", $extra);

@@ -10,7 +10,5 @@ class Constraint {
 	const FILTER = ["name", "reason", "operator", "punishmentType", "start", "end"];
 	
 	const VERSION = "3.0.0-alpha";
-	
-	const LIMIT_MAXIMUM = 18446744073709551615;
 
 }

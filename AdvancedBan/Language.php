@@ -13,7 +13,7 @@ class Language {
 	private static $translation;
 
 	public static function load( ) {
-		$template = new Configuration("/include/languages/template.json");
+		$template = new Configuration("/include/languages/template/language.json");
 		$default = new Configuration("/include/languages/" . AdvancedBan::getConfiguration( )->getValue("default", "language") . "/language.json");
 		
 		if(Cookie::getValue("language")) {

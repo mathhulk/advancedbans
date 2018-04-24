@@ -33,24 +33,20 @@ class Theme {
 		}
 	}
 	
-	public static function getStylesheets( ) {
-		foreach(new DirectoryIterator(AdvancedBan::getRoot( ) . "include/" . self::getIdentifier( ) . "/stylesheets") as $stylesheet) {
+	public static function insertCSS( ) {
+		foreach(new DirectoryIterator(AdvancedBan::getRoot( ) . "include/themes/" . self::getIdentifier( ) . "/stylesheets") as $stylesheet) {
 			?>
-			<link rel="stylesheet" type="text/css" href="include/<?= self::getIdentifier( ) ?>/stylesheets/<?= $stylesheet ?>">
+			<link rel="stylesheet" type="text/css" href="include/themes/<?= self::getIdentifier( ) ?>/css/<?= $stylesheet ?>">
 			<?php
 		}
 	}
 	
-	public static function getScripts( ) {
-		foreach(new DirectoryIterator(AdvancedBan::getRoot( ) . "include/" . self::getIdentifier( ) . "/scripts") as $stylesheet) {
+	public static function insertJavaScript( ) {
+		foreach(new DirectoryIterator(AdvancedBan::getRoot( ) . "include/themes/" . self::getIdentifier( ) . "/scripts") as $stylesheet) {
 			?>
-			<script type="text/javascript" src="include/<?= self::getIdentifier( ) ?>/stylesheets/<?= $stylesheet ?>"></script>
+			<script type="text/javascript" src="include/themes/<?= self::getIdentifier( ) ?>/js/<?= $stylesheet ?>"></script>
 			<?php
 		}
-	}
-	
-	public static function getValue(string $index) {
-		return self::$dictionary[$index];
 	}
 	
 	public static function getName( ) {

@@ -18,4 +18,4 @@ $extra = [
 		]
 	];
 
-Request::respond(200, "success", "Punishments queried", $extra);
+Request::respond(200, "success", "Success", $extra);
