@@ -1,3 +1,5 @@
+Large updates for ab-web-addon are in development and thus the example website is not available at this time. The old version of ab-web-addon, the latest version of ab-web-addon prior to development of the upcoming updates, can still be obtained [here](https://github.com/mathhulk/ab-web-addon/releases) or on SpigotMC.
+
 # ab-web-addon
 A simple, but sleek, web addon for AdvancedBan.
 - You can find the example [here](https://mathhulk.me/github/ab-web-addon).
