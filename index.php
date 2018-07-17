@@ -7,7 +7,7 @@ session_start( );
 
 // CONFIGURATION
 $info = json_decode(file_get_contents("include/configuration.json"), true);
-$language = json_decode(file_get_contents("include/languages/".($_COOKIE["ab-lang"] ? $_COOKIE["ab-lang"] : $info["default_language"]).".json"), true);
+$language = json_decode(file_get_contents("include/languages/".($_COOKIE["ab-web-addon_language"] ? $_COOKIE["ab-web-addon_language"] : $info["default_language"]).".json"), true);
 
 // PUNISHMENTS
 $punishments = array("all", "ban", "temp_ban", "mute", "temp_mute", "warning", "temp_warning", "kick"); 

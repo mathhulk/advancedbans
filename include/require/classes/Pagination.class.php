@@ -1,9 +1,6 @@
 <?php 
 
-/*
- *	CLASS: PAGINATION
- */
-
+// PAGINATION
 class Pagination {
 	
 	public $key;
