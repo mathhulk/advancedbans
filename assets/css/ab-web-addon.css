@@ -1,0 +1,12 @@
+.table-wrapper {
+	overflow-x: auto;
+}
+
+.dropdown-menu {
+	max-height: 50vh;
+	overflow: auto;
+}
+
+.clipboard {
+	cursor: pointer;
+}
