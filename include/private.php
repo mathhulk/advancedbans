@@ -4,12 +4,12 @@
 $__private = array(
 	
 	// DATABASE
-	"connection"=>array(
+	"connection" => array(
 	
-		"host"=>"63.141.243.42",
-		"user"=>"mathhulk",
-		"password"=>"mathhulk",
-		"database"=>"advancedban",
+		"host" => "host",
+		"user" => "user",
+		"password" => "password",
+		"database" => "database",
 		"table" => array(
 			"punishment" => "Punishments",
 			"log" => "PunishmentHistory"
