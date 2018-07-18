@@ -1,14 +1,14 @@
 {
-	"language": "English",
-	"version": "3.0.1",
+	"name": "English",
+	"author": "mathhulk",
 	"terms": {
 		"punishments": "Punishments",
 		"support": "Support",
 		"contact": "Contact",
 		"appeal": "Appeal",
-		"credits": "Credits",
+		"credit": "Credit",
 		"themes": "Themes",
-		"reset": "Reset",
+		"default": "Default",
 		"languages": "Languages",
 		"players": "Players",
 		"search": "Search for...",
@@ -48,7 +48,7 @@
 		"warnings": "Warnings",
 		"temp_warnings": "Temp. Warnings",
 		"kicks": "Kicks",
-		"error_no_punishments": "No punishments could be listed on this page.",
+		"error_no_punishments": "No punishments could be listed on this page",
 		"error_not_evaluated": "N/A"
 	}
 }

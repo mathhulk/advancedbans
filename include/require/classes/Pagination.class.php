@@ -1,69 +1,62 @@
 <?php 
 
-// PAGINATION
 class Pagination {
 	
-	public $key;
-	public $multiplier;
-	public $total;
+	public $page;
+	public $limit;
+	public $results;
 	
-	public $maximum;
+	public $pages;
+	
+	public $count = 0;
+	
 	public $minimum;
+	public $maximum;
 	
-	public $count;
-	public $list;
+	private $pagination;
 	
-	public $current;
-	
-	private $pages;
-	
-	public function __construct($key, $multiplier, $total) {
-		$this->key = $key;
-		$this->multiplier = $multiplier;
+	public function __construct($page = 1, $limit = 10, $results) {
+		if($limit > 100) $limit = 100;
 		
-		$this->total = floor($total / $this->multiplier);
-		if($total % $this->multiplier != 0 || $total == 0) {
-			++$this->total;
-		}
+		$this->limit = $limit;
+		$this->results = $results;
 		
-		$this->count = 0;
+		$this->pages = floor($results / $limit);
+		if($results % $limit != 0 || $results == 0) ++$this->pages;
 		
-		if(isset($_GET[$this->key]) && is_numeric($_GET[$this->key])) {
-			$this->minimum = ($_GET[$this->key] - 1) * $this->multiplier;
-			$this->maximum = $this->minimum + $multiplier;
+		if(is_numeric($page)) {
+			$this->minimum = ($page - 1) * $limit;
+			$this->maximum = $this->minimum + $limit;
 			
-			$this->current = $_GET[$this->key];
+			$this->page = intval($page);
 		} else {
 			$this->minimum = 0;
-			$this->maximum = $this->multiplier;
+			$this->maximum = $limit;
 			
-			$this->current = 1;
+			$this->page = 1;
 		}
 	}
 	
-	public function pages($length) {
-		if($this->current < ($length - 1) / 2 + 1) {
-			$this->pages["minimum"] = 1; 
-			$this->pages["maximum"] = $length;
-		} elseif($this->current > $this->total - ($length - 1)) {
-			$this->pages["minimum"] = $this->total - ($length - 1); 
-			$this->pages["maximum"] = $this->total;
+	public function getPages($length) {
+		if($this->page < ($length - 1) / 2 + 1) {
+			$this->pagination["minimum"] = 1; 
+			$this->pagination["maximum"] = $length;
+		} elseif($this->page > $this->pages - ($length - 1)) {
+			$this->pagination["minimum"] = $this->pages - ($length - 1); 
+			$this->pagination["maximum"] = $this->pages;
 		} else {
-			$this->pages["minimum"] = $this->current - ($length - 1) / 2; 
-			$this->pages["maximum"] = $this->current + ($length - 1) / 2; 
+			$this->pagination["minimum"] = $this->page - ($length - 1) / 2; 
+			$this->pagination["maximum"] = $this->page + ($length - 1) / 2; 
 		}
-		if($this->pages["maximum"] > $this->total) {
-			$this->pages["maximum"] = $this->total;
-			
-		}
-		if($this->pages["minimum"] < 1) {
-			$this->pages["minimum"] = 1;
-			
-		}
-		for(; $this->pages["minimum"] <= $this->pages["maximum"]; ++$this->pages["minimum"]) {
-			$response[] = $this->pages["minimum"];
-		}
-		return $response;
+		
+		if($this->pagination["maximum"] > $this->pages) $this->pagination["maximum"] = $this->pages;
+		if($this->pagination["minimum"] < 1) $this->pagination["minimum"] = 1;
+		
+		$this->pagination["list"] = array( );
+		
+		for(; $this->pagination["minimum"] <= $this->pagination["maximum"]; ++$this->pagination["minimum"]) $this->pagination["list"][ ] = $this->pagination["minimum"];
+		
+		return $this->pagination["list"];
 	}
 	
 }

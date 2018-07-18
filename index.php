@@ -1,24 +1,37 @@
 <?php
 
 // Change to E_ALL for debug purposes.
-error_reporting(0);
+error_reporting(E_ALL);
 
-session_start( );
+ob_start( );
 
 // CONFIGURATION
-$info = json_decode(file_get_contents("include/configuration.json"), true);
-$language = json_decode(file_get_contents("include/languages/".($_COOKIE["ab-web-addon_language"] ? $_COOKIE["ab-web-addon_language"] : $info["default_language"]).".json"), true);
+$__public = json_decode(file_get_contents("include/public.json"), true);
+$__language = json_decode(file_get_contents("include/languages/" . (isset($_COOKIE["ab-web-addon_language"]) ? $_COOKIE["ab-web-addon_language"] : $__public["default"]["language"]) . ".json"), true);
 
-// PUNISHMENTS
-$punishments = array("all", "ban", "temp_ban", "mute", "temp_mute", "warning", "temp_warning", "kick"); 
-if($info["ip_bans"] == true) $punishments[ ] = "ip_ban";
-if($info["compact"] == true) $punishments = array("all", "ban", "mute", "warning", "kick");
+require("include/private.php");
 
 // REQUIREMENTS
-require("include/require/variables.php");
-require("include/require/date.php");
 require("include/require/classes/Pagination.class.php");
 require("include/require/functions.php");
 
+// SESSION
+session_start( );
+
+if(!isset($_SESSION["ab-web-addon"]["time_zone"])) {
+	$_SESSION["ab-web-addon"]["time_zone"] = $__public["default"]["time_zone"];
+	$api = json_decode(file_get_contents("http://freegeoip.net/json/".$_SERVER["REMOTE_ADDR"]), true);
+	if(isset($api["time_zone"]) && in_array($api["time_zone"], timezone_identifiers_list( ))) {
+		$_SESSION["ab-web-addon"]["time_zone"] = $api["time_zone"];
+	}
+}
+
+// DATABASE
+$__connection = mysqli_connect($__private["connection"]["host"], $__private["connection"]["user"], $__private["connection"]["password"], $__private["connection"]["database"]);
+if(mysqli_connect_errno( )) die("An error occurred while attempting to load this page (MySQL - Unable to connect to database)");
+mysqli_set_charset($__connection, "utf8");
+
 // REQUEST
-require("pages/".(!empty($_GET["page"]) && file_exists("pages/".getPath($_GET["page"]).".php") ? getPath($_GET["page"]).".php" : "index.php"));
+if(empty($_GET["path"])) require("pages/index.php");
+else if(file_exists("pages/" . cleanPath($_GET["path"]) . ".php")) require("pages/" . cleanPath($_GET["path"]) . ".php");
+else require("pages/error.php");

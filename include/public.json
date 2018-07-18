@@ -6,10 +6,10 @@
 	},
     "skull": false,
     "compact": false,
-    "address": true,
+    "ip_ban": true,
     "messages": {
-        "title": "AdvancedBan Web Addon",
-        "description": "A simple, but sleek, web addon for AdvancedBan."
+        "title": "ab-web-addon",
+        "description": "Simple and sleek website panel for AdvancedBan."
     },
     "player_count": {
         "enabled": true,
@@ -25,16 +25,8 @@
             "link": "http://example.com/appeal"
         }
     },
-	"pages": {
-		"list": 25,
-		"pagination": 9
-	},
-	"system": {
-		"https": false
-	},
-	"api": {
-		"skull": "https://mc-heads.net/head/{UUID}/20",
-		"body": "https://mc-heads.net/body/{UUID}",
-		"uuid": "https://mcapi.cloudprotected.net/uuid/{USERNAME}"
+	"pagination": {
+		"per": 25,
+		"length": 9
 	}
 }
