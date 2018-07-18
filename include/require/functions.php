@@ -21,20 +21,18 @@ function getLocale($index, $default) {
 	return isset($GLOBALS["__language"]["terms"][$index]) ? $GLOBALS["__language"]["terms"][$index] : $default; 
 }
 
-function fetchResult($category) {
-	if($category && $GLOBALS["__public"]["compact"] === true && $GLOBALS["__public"]["ip_ban"] === true) {
-		return mysqli_query($GLOBALS["__connection"], "SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["log"] . " WHERE punishmentType LIKE '%" . strtoupper($category) . "%' ORDER BY id DESC");
-	} else if($category && $GLOBALS["__public"]["compact"] === true) {
-		return mysqli_query($GLOBALS["__connection"], "SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["log"] . " WHERE punishmentType LIKE '%" . strtoupper($category) . "%' AND punishmentType != 'IP_BAN' ORDER BY id DESC");
-	} else if($category && $GLOBALS["__public"]["ip_ban"] === true) {
-		return mysqli_query($GLOBALS["__connection"], "SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["log"] . " WHERE punishmentType = '" . strtoupper($category) . "' ORDER BY id DESC");
-	} else if($category) {
-		return mysqli_query($GLOBALS["__connection"], "SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["log"] . " WHERE punishmentType = '" . strtoupper($category) . "' AND punishmentType != 'IP_BAN' ORDER BY id DESC");	
-	} else if($GLOBALS["__public"]["ip_ban"] === true) {
-		return mysqli_query($GLOBALS["__connection"], "SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["log"] . " ORDER BY id DESC");
-	} else {
-		return mysqli_query($GLOBALS["__connection"], "SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["log"] . " WHERE punishmentType != 'IP_BAN' ORDER BY id DESC");
-	}
+function fetchResult($category, $username, $day) {
+	$query = "SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["log"];
+	
+	if($username || $category || $day || $GLOBALS["__public"]["ip_ban"] === false) $query .= " WHERE 1 = 1";
+	
+	if($username) $query .= " AND (name = '" . $username . "' OR operator = '" . $username . "')";
+	if($category && $GLOBALS["__public"]["compact"] === true) $query .= " AND punishmentType LIKE '%" . strtoupper($category) . "%'";
+	else if($category) $query .= " AND punishmentType = '" . strtoupper($category) . "'";
+	if($day) $query .= " AND start BETWEEN FROM_UNIXTIME(" . strtotime("-" . $day . " days") . ") AND FROM_UNIXTIME(" . strtotime("-" . ($day - 1) . " days") . ")";
+	if($GLOBALS["__public"]["ip_ban"] === false) $query .= " AND punishmentType != 'IP_BAN'";
+
+	return mysqli_query($GLOBALS["__connection"], $query . " ORDER BY id DESC");
 }
 
 function getUuid($username) {

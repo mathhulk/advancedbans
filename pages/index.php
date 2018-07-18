@@ -182,7 +182,7 @@
 				foreach(getCategories( ) as $category) {
 
 					?>
-					<a href="./<?= $category !== "all" ? "?search=" . $category : "" ?>" class="btn btn-primary btn-md"><?= getLocale($category . ($category !== "all" ? "s" : ""), $category . ($category !== "all" ? "s" : "")) ?> <span class="badge"><?= mysqli_num_rows(fetchResult($category !== "all" ? $category : false)) ?></span></a>
+					<a href="./<?= $category !== "all" ? "?search=" . $category : "" ?>" class="btn btn-primary btn-md"><?= getLocale($category . ($category !== "all" ? "s" : ""), $category . ($category !== "all" ? "s" : "")) ?> <span class="badge"><?= mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, false)) ?></span></a>
 					<?php
 					
 				}
@@ -220,7 +220,7 @@
 						<tbody>
 							<?php
 							
-							$punishments = fetchResult(empty($_GET["search"]) ? false : $_GET["search"]);
+							$punishments = fetchResult(empty($_GET["search"]) ? false : $_GET["search"], false, false);
 							$pagination = new Pagination(empty($_GET["page"]) ? 1 : $_GET["page"], $__public["pagination"]["per"], mysqli_num_rows($punishments));
 							
 							if(mysqli_num_rows($punishments) === 0) {
@@ -320,6 +320,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<script type="text/javascript" src="assets/js/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="assets/js/clipboard.min.js"></script>
