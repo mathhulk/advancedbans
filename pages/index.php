@@ -165,7 +165,7 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a target="_blank" href="https://github.com/mathhulk/advancedban-panel">GitHub</a></li>
 							<li><a target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
-							<li><a target="_blank" href="https://mathhulk.net">mathhulk</a></li>
+							<li><a target="_blank" href="https://mathhulk.com">mathhulk</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -182,7 +182,7 @@
 				foreach(getCategories( ) as $category) {
 
 					?>
-					<a href="./<?= $category !== "all" ? "?search=" . $category : "" ?>" class="btn btn-primary btn-md"><?= getLocale($category . ($category !== "all" ? "s" : ""), $category . ($category !== "all" ? "s" : "")) ?> <span class="badge"><?= mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, false)) ?></span></a>
+					<a href="./<?= $category !== "all" ? "?search=" . $category : "" ?>" class="btn btn-primary btn-md"><?= getLocale($category . ($category !== "all" ? "s" : ""), $category . ($category !== "all" ? "s" : "")) ?> <span class="badge"><?= mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, false, false)) ?></span></a>
 					<?php
 					
 				}
@@ -206,13 +206,11 @@
 					<table class="table table-striped table-hover">
 						<thead>
 							<tr>
-								<?= $__public["skull"] === true ? "<th> </th>" : "" ?>
 								<th><?= getLocale("username", "Username") ?></th>
 								<th><?= getLocale("reason", "Reason") ?></th>
-								<?= $__public["skull"] === true ? "<th> </th>" : "" ?>
 								<th><?= getLocale("operator", "Operator") ?></th>
 								<th><?= getLocale("date", "Date") ?></th>
-								<th><?= getLocale("end", "End") ?></th>
+								<th><?= getLocale("expires", "Expires") ?></th>
 								<th><?= getLocale("type", "Type") ?></th>
 								<th class="text-right"><?= getLocale("status", "Status") ?></th>
 							</tr>
@@ -220,17 +218,15 @@
 						<tbody>
 							<?php
 							
-							$punishments = fetchResult(empty($_GET["search"]) ? false : $_GET["search"], false, false);
-							$pagination = new Pagination(empty($_GET["page"]) ? 1 : $_GET["page"], $__public["pagination"]["per"], mysqli_num_rows($punishments));
+							$pagination = new Pagination(empty($_GET["page"]) ? 1 : $_GET["page"], 25, mysqli_num_rows(fetchResult(empty($_GET["search"]) ? false : $_GET["search"], false, false, false)));
+							$punishments = fetchResult(empty($_GET["search"]) ? false : $_GET["search"], false, false, empty($_GET["page"]) ? 1 : $_GET["page"]);
 							
 							if(mysqli_num_rows($punishments) === 0) {
 								
 								?>
 								<tr>
-									<?= $__public["skull"] === true ? "<td>-</td>" : "" ?>
 									<td><?= getLocale("error_no_punishments", "No punishments could be listed on this page") ?></td>
 									<td>-</td>
-									<?= $__public["skull"] === true ? "<td>-</td>" : "" ?>
 									<td>-</td>
 									<td>-</td>
 									<td>-</td>
@@ -245,35 +241,13 @@
 									
 									?>
 									<tr>
-										<?php
-										
-										if($__public["skull"] === true) {
-											
-											?>
-											<td class="text-center"><img src="<?= getSkull(getUuid($punishment["name"])) ?>" alt="<?= $punishment["name"] ?>"></td>
-											<?php
-											
-										}
-										
-										?>
 										<td><a href="./user?search=<?= $punishment["name"] ?>"><?= $punishment["name"] ?></a></td>
 										<td><?= $punishment["reason"] ?></td>
-										<?php
-										
-										if($__public["skull"] === true) {
-											
-											?>
-											<td class="text-center"><img src="<?= getSkull(getUuid($punishment["operator"])) ?>" alt="<?= $punishment["operator"] ?>"></td>
-											<?php
-											
-										}
-										
-										?>
 										<td><?= $punishment["operator"] ?></td>
 										<td><?= convertDateTime($punishment["start"], "F jS, Y") ?> <span class="badge"><?= convertDateTime($punishment["start"], "g:i A") ?></span></td>
 										<td><?= isset($punishment["end"]) ? convertDateTime($punishment["end"], "F jS, Y") . " <span class=\"badge\">" . convertDateTime($punishment["end"], "g:i A") . "</span>" : getLocale("error_not_evaluated", "N/A") ?></td>
 										<td><?= getLocale(strtolower($punishment["punishmentType"]), $punishment["punishmentType"]) ?></td>
-										<td><?= isActive($punishment["start"], $punishment["end"]) ? getLocale("active", "Active") : getLocale("inactive", "Inactive") ?></td>
+										<td class="text-right"><?= isActive($punishment["start"], $punishment["end"]) ? getLocale("active", "Active") : getLocale("inactive", "Inactive") ?></td>
 									</tr>
 									<?php
 									
@@ -284,39 +258,39 @@
 							?>
 						</tbody>
 					</table>
-					<div class="text-center">
-						<ul class="pagination">
-							<?php
-							
-							if($pagination->page > 1) {
-								
-								?>
-								<li><a href="?page=1<?= !empty($_GET["search"]) ? "&search=" . $_GET["search"] : "" ?>"><i class="fa fa-angle-left"></i> <?= getLocale("first", "First") ?></a></li>
-								<li><a href="?page=<?= ($pagination->page - 1) . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><i class="fa fa-angle-double-left"></i> <?= getLocale("previous", "Previous") ?></a></li>
-								<?php
-								
-							}
-							
-							foreach($pagination->getPages($__public["pagination"]["length"]) as $page) {
-								
-								?>
-								<li <?= $page === $pagination->page ? "class=\"active\"" : "" ?>><a href="?page=<?= $page . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><?= $page ?></a></li>
-								<?php
-								
-							}
-							
-							if($pagination->page < $pagination->pages) {
-								
-								?>
-								<li><a href="?page=<?= ($pagination->page + 1) . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><?= getLocale("next", "Next") ?> <i class="fa fa-angle-right"></i></a></li>
-								<li><a href="?page=<?= $pagination->pages . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><?= getLocale("last", "Last") ?> <i class="fa fa-angle-double-right"></i></a></li>
-								<?php
-								
-							}
+				</div>
+				<div class="text-center">
+					<ul class="pagination">
+						<?php
+						
+						if($pagination->page > 1) {
 							
 							?>
-						</ul>
-					</div>
+							<li><a href="?page=1<?= !empty($_GET["search"]) ? "&search=" . $_GET["search"] : "" ?>"><i class="fa fa-angle-left"></i> <?= getLocale("first", "First") ?></a></li>
+							<li><a href="?page=<?= ($pagination->page - 1) . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><i class="fa fa-angle-double-left"></i> <?= getLocale("previous", "Previous") ?></a></li>
+							<?php
+							
+						}
+						
+						foreach($pagination->getPages(9) as $page) {
+							
+							?>
+							<li <?= $page === $pagination->page ? "class=\"active\"" : "" ?>><a href="?page=<?= $page . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><?= $page ?></a></li>
+							<?php
+							
+						}
+						
+						if($pagination->page < $pagination->pages) {
+							
+							?>
+							<li><a href="?page=<?= ($pagination->page + 1) . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><?= getLocale("next", "Next") ?> <i class="fa fa-angle-right"></i></a></li>
+							<li><a href="?page=<?= $pagination->pages . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><?= getLocale("last", "Last") ?> <i class="fa fa-angle-double-right"></i></a></li>
+							<?php
+							
+						}
+						
+						?>
+					</ul>
 				</div>
 			</div>
 		</div>

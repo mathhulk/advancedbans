@@ -4,7 +4,6 @@
 		"language": "en_US",
 		"time_zone": "America/Los_Angeles"
 	},
-    "skull": false,
     "compact": false,
     "ip_ban": true,
     "messages": {
@@ -24,9 +23,5 @@
             "enabled": true,
             "link": "http://example.com/appeal"
         }
-    },
-	"pagination": {
-		"per": 25,
-		"length": 9
-	}
+    }
 }

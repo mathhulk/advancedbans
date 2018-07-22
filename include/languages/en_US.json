@@ -28,7 +28,7 @@
 		"reason": "Reason",
 		"operator": "Operator",
 		"date": "Date",
-		"end": "End",
+		"expires": "Expires",
 		"type": "Type",
 		"status": "Status",
 		"ban": "Ban",

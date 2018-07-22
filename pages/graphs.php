@@ -23,7 +23,7 @@
 		
 		<meta name="description" content="<?= $__public["messages"]["description"] ?>">
 		<meta property="og:site_name" content="<?= $__public["messages"]["title"] ?>">
-		<meta property="og:title" content="<?= getLocale("punishments", "Punishments") ?>">
+		<meta property="og:title" content="<?= getLocale("graphs", "Graphs") ?>">
 		<meta property="og:image" content="../assets/img/icon.png">
 		<meta property="og:description" content="<?= $__public["messages"]["description"] ?>">
 		<meta property="og:url" content="//<?= $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ?>">
@@ -165,7 +165,7 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a target="_blank" href="https://github.com/mathhulk/advancedban-panel">GitHub</a></li>
 							<li><a target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
-							<li><a target="_blank" href="https://mathhulk.net">mathhulk</a></li>
+							<li><a target="_blank" href="https://mathhulk.com">mathhulk</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -182,7 +182,7 @@
 				foreach(getCategories( ) as $category) {
 
 					?>
-					<a href="../<?= $category !== "all" ? "?search=" . $category : "" ?>" class="btn btn-primary btn-md"><?= getLocale($category . ($category !== "all" ? "s" : ""), $category . ($category !== "all" ? "s" : "")) ?> <span class="badge"><?= mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, false)) ?></span></a>
+					<a href="../<?= $category !== "all" ? "?search=" . $category : "" ?>" class="btn btn-primary btn-md"><?= getLocale($category . ($category !== "all" ? "s" : ""), $category . ($category !== "all" ? "s" : "")) ?> <span class="badge"><?= mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, false, false)) ?></span></a>
 					<?php
 					
 				}
@@ -255,7 +255,7 @@
 						$list = array( );
 						
 						for($day = 6; $day >= 0; $day--) {
-							$list[ ] = mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, $day));
+							$list[ ] = mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, $day, false));
 						}
 						
 						$sets[ ] = "{label: \"" . strtoupper(getLocale($category . ($category != "all" ? "s" : ""), $category . ($category != "all" ? "s" : ""))) . "\", fill: false, data: [" . implode(", ", $list) . "], borderColor: \"rgb(" . implode(", ", $colors) . ")\", backgroundColor: \"rgb(" . implode(", ", $colors) . ")\"}";
