@@ -26,7 +26,7 @@ function fetchResult($category, $username, $day, $page) {
 	
 	if($username || $category || $day || $GLOBALS["__public"]["ip_ban"] === false) $query .= " WHERE 1 = 1";
 	
-	if($username) $query .= " AND (name = '" . $username . "' OR operator = '" . $username . "')";
+	if($username) $query .= " AND name = '" . $username . "'";
 	if($category && $GLOBALS["__public"]["compact"] === true) $query .= " AND punishmentType LIKE '%" . strtoupper($category) . "%'";
 	else if($category) $query .= " AND punishmentType = '" . strtoupper($category) . "'";
 	if($day) $query .= " AND start BETWEEN FROM_UNIXTIME(" . strtotime("-" . $day . " days") . ") AND FROM_UNIXTIME(" . strtotime("-" . ($day - 1) . " days") . ")";
