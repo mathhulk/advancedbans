@@ -20,9 +20,9 @@ session_start( );
 
 if(!isset($_SESSION["ab-web-addon"]["time_zone"])) {
 	$_SESSION["ab-web-addon"]["time_zone"] = $__public["default"]["time_zone"];
-	$api = json_decode(file_get_contents("http://freegeoip.net/json/".$_SERVER["REMOTE_ADDR"]), true);
-	if(isset($api["time_zone"]) && in_array($api["time_zone"], timezone_identifiers_list( ))) {
-		$_SESSION["ab-web-addon"]["time_zone"] = $api["time_zone"];
+	$api = json_decode(file_get_contents("http://geoip.nekudo.com/api/" . $_SERVER["REMOTE_ADDR"]), true);
+	if(isset($api["location"]["time_zone"]) && in_array($api["location"]["time_zone"], timezone_identifiers_list( ))) {
+		$_SESSION["ab-web-addon"]["time_zone"] = $api["location"]["time_zone"];
 	}
 }
 
