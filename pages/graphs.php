@@ -43,7 +43,7 @@
 		foreach(glob("include/themes/" . (isset($_COOKIE["ab-web-addon_theme"]) ? $_COOKIE["ab-web-addon_theme"] : $__public["default"]["theme"]) . "/css/*") as $stylesheet) {
 			
 			?>
-			<link rel="stylesheet" href="<?= $stylesheet ?>" media="screen">
+			<link rel="stylesheet" href="../<?= $stylesheet ?>" media="screen">
 			<?php
 			
 		}
@@ -179,10 +179,10 @@
 				<p><?= $__public["messages"]["description"] ?></p>
 				<?php
 				
-				foreach(getCategories( ) as $category) {
+				foreach(getCategories( ) as $punishmentType) {
 
 					?>
-					<a href="../<?= $category !== "all" ? "?search=" . $category : "" ?>" class="btn btn-primary btn-md"><?= getLocale($category . ($category !== "all" ? "s" : ""), $category . ($category !== "all" ? "s" : "")) ?> <span class="badge"><?= mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, false, false)) ?></span></a>
+					<a href="../<?= $punishmentType !== "all" ? "?search=" . $punishmentType : "" ?>" class="btn btn-primary btn-md"><?= getLocale($punishmentType . ($punishmentType !== "all" ? "s" : ""), $punishmentType . ($punishmentType !== "all" ? "s" : "")) ?> <span class="badge"><?= fetchResult(false, false, false, $punishmentType !== "all" ? $punishmentType : false, false, false)->rowCount( ) ?></span></a>
 					<?php
 					
 				}
@@ -228,7 +228,7 @@
 		foreach(glob("include/themes/" . (isset($_COOKIE["ab-web-addon_theme"]) ? $_COOKIE["ab-web-addon_theme"] : $__public["default"]["theme"]) . "/js/*") as $script) {
 			
 			?>
-			<script type="text/javascript" src="<?= $script ?>"> </script>
+			<script type="text/javascript" src="../<?= $script ?>"> </script>
 			<?php
 			
 		}
@@ -242,23 +242,23 @@
 				data: {
 					<?php
 					
-					for($day = 6; $day >= 0; $day--) {
-						$days[ ] = "\"" . convertDateTime("-".$day." days", "l") . "\"";
+					for($date = 6; $date >= 0; $date--) {
+						$dates[ ] = "\"" . convertDateTime("-".$date." days", "l") . "\"";
 					}
 					
 					?>
-					labels: [<?= implode(", ", $days) ?>], datasets: [
+					labels: [<?= implode(", ", $dates) ?>], datasets: [
 					<?php
 					
-					foreach(getCategories( ) as $category) {
+					foreach(getCategories( ) as $punishmentType) {
 						$colors = array(mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
 						$list = array( );
 						
-						for($day = 6; $day >= 0; $day--) {
-							$list[ ] = mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, $day, false));
+						for($date = 6; $date >= 0; $date--) {
+							$list[ ] = fetchResult(false, $date, $punishmentType !== "all" ? $punishmentType : false, false, false, false)->rowCount( );
 						}
 						
-						$sets[ ] = "{label: \"" . strtoupper(getLocale($category . ($category != "all" ? "s" : ""), $category . ($category != "all" ? "s" : ""))) . "\", fill: false, data: [" . implode(", ", $list) . "], borderColor: \"rgb(" . implode(", ", $colors) . ")\", backgroundColor: \"rgb(" . implode(", ", $colors) . ")\"}";
+						$sets[ ] = "{label: \"" . strtoupper(getLocale($punishmentType . ($punishmentType != "all" ? "s" : ""), $punishmentType . ($punishmentType != "all" ? "s" : ""))) . "\", fill: false, data: [" . implode(", ", $list) . "], borderColor: \"rgb(" . implode(", ", $colors) . ")\", backgroundColor: \"rgb(" . implode(", ", $colors) . ")\"}";
 					}
 					
 					echo implode(", ", $sets);

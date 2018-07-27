@@ -3,11 +3,8 @@
  */
 function updatePlayers(server, replace, error) {
 	$.getJSON("https://use.gameapis.net/mc/query/players/" + server, function(data) {
-		if(data.status == true) {
-			$(replace).text(data.players.online.toLocaleString( ));
-		} else {
-			$(replace).text(error);
-		}
+		if(data.status === true) $(replace).text(data.players.online.toLocaleString( ));
+		else $(replace).text(error);
 		setTimeout(updatePlayers, 5000, server, replace, error);
 	});
 }

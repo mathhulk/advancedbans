@@ -1,7 +1,7 @@
 <?php
 
 if(empty($_GET["search"])) {
-	header("Location: ./"); 
+	header("Location: ../"); 
 	die("Redirecting...");
 }
 
@@ -51,7 +51,7 @@ if(empty($_GET["search"])) {
 		foreach(glob("include/themes/" . (isset($_COOKIE["ab-web-addon_theme"]) ? $_COOKIE["ab-web-addon_theme"] : $__public["default"]["theme"]) . "/css/*") as $stylesheet) {
 			
 			?>
-			<link rel="stylesheet" href="<?= $stylesheet ?>" media="screen">
+			<link rel="stylesheet" href="../<?= $stylesheet ?>" media="screen">
 			<?php
 			
 		}
@@ -187,10 +187,10 @@ if(empty($_GET["search"])) {
 				<p><?= $__public["messages"]["description"] ?></p>
 				<?php
 				
-				foreach(getCategories( ) as $category) {
+				foreach(getCategories( ) as $punishmentType) {
 
 					?>
-					<a href="../<?= $category !== "all" ? "?search=" . $category : "" ?>" class="btn btn-primary btn-md"><?= getLocale($category . ($category !== "all" ? "s" : ""), $category . ($category !== "all" ? "s" : "")) ?> <span class="badge"><?= mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, false, false)) ?></span></a>
+					<a href="../<?= $punishmentType !== "all" ? "?search=" . $punishmentType : "" ?>" class="btn btn-primary btn-md"><?= getLocale($punishmentType . ($punishmentType !== "all" ? "s" : ""), $punishmentType . ($punishmentType !== "all" ? "s" : "")) ?> <span class="badge"><?= fetchResult(false, false, false, $punishmentType !== "all" ? $punishmentType : false, false, false)->rowCount( ) ?></span></a>
 					<?php
 					
 				}
@@ -233,10 +233,10 @@ if(empty($_GET["search"])) {
 								<tbody>
 									<?php
 									
-									$punishments = fetchResult(false, $_GET["search"], false, empty($_GET["page"]) ? 1 : $_GET["page"]);
-									$pagination = new Pagination(empty($_GET["page"]) ? 1 : $_GET["page"], 25, mysqli_num_rows($punishments));
+									$pagination = new Pagination(empty($_GET["page"]) ? 1 : $_GET["page"], 25, fetchResult(false, false, $_GET["search"], false, false, false)->rowCount( ));
+									$result = fetchResult(empty($_GET["page"]) ? 1 : $_GET["page"], false, $_GET["search"], false, false, false);
 									
-									if(mysqli_num_rows($punishments) === 0) {
+									if($result->rowCount( ) === 0) {
 										
 										?>
 										<tr>
@@ -251,7 +251,7 @@ if(empty($_GET["search"])) {
 										
 									} else {
 										
-										while($punishment = mysqli_fetch_array($punishments)) {
+										foreach($result as $punishment) {
 											
 											?>
 											<tr>
@@ -329,7 +329,7 @@ if(empty($_GET["search"])) {
 		foreach(glob("include/themes/" . (isset($_COOKIE["ab-web-addon_theme"]) ? $_COOKIE["ab-web-addon_theme"] : $__public["default"]["theme"]) . "/js/*") as $script) {
 			
 			?>
-			<script type="text/javascript" src="<?= $script ?>"> </script>
+			<script type="text/javascript" src="../<?= $script ?>"> </script>
 			<?php
 			
 		}

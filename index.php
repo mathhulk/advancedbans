@@ -27,9 +27,8 @@ if(!isset($_SESSION["ab-web-addon"]["time_zone"])) {
 }
 
 // DATABASE
-$__connection = mysqli_connect($__private["connection"]["host"], $__private["connection"]["user"], $__private["connection"]["password"], $__private["connection"]["database"]);
-if(mysqli_connect_errno( )) die("An error occurred while attempting to load this page (MySQL - Unable to connect to database)");
-mysqli_set_charset($__connection, "utf8");
+$__connection = new PDO("mysql:host=" . $__private["connection"]["host"] . ";dbname=" . $__private["connection"]["database"] . ";port=3306;charset=utf8mb4", $__private["connection"]["user"], $__private["connection"]["password"]);
+$__connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 // REQUEST
 if(empty($_GET["path"])) require("pages/index.php");

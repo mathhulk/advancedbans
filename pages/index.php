@@ -179,10 +179,10 @@
 				<p><?= $__public["messages"]["description"] ?></p>
 				<?php
 				
-				foreach(getCategories( ) as $category) {
+				foreach(getCategories( ) as $punishmentType) {
 
 					?>
-					<a href="./<?= $category !== "all" ? "?search=" . $category : "" ?>" class="btn btn-primary btn-md"><?= getLocale($category . ($category !== "all" ? "s" : ""), $category . ($category !== "all" ? "s" : "")) ?> <span class="badge"><?= mysqli_num_rows(fetchResult($category !== "all" ? $category : false, false, false, false)) ?></span></a>
+					<a href="./<?= $punishmentType !== "all" ? "?search=" . $punishmentType : "" ?>" class="btn btn-primary btn-md"><?= getLocale($punishmentType . ($punishmentType !== "all" ? "s" : ""), $punishmentType . ($punishmentType !== "all" ? "s" : "")) ?> <span class="badge"><?= fetchResult(false, false, false, $punishmentType !== "all" ? $punishmentType : false, false, false)->rowCount( ) ?></span></a>
 					<?php
 					
 				}
@@ -218,10 +218,10 @@
 						<tbody>
 							<?php
 							
-							$pagination = new Pagination(empty($_GET["page"]) ? 1 : $_GET["page"], 25, mysqli_num_rows(fetchResult(empty($_GET["search"]) ? false : $_GET["search"], false, false, false)));
-							$punishments = fetchResult(empty($_GET["search"]) ? false : $_GET["search"], false, false, empty($_GET["page"]) ? 1 : $_GET["page"]);
+							$pagination = new Pagination(empty($_GET["page"]) ? 1 : $_GET["page"], 25, fetchResult(false, false, false, empty($_GET["search"]) ? false : $_GET["search"], false, false)->rowCount( ));
+							$result = fetchResult(empty($_GET["page"]) ? 1 : $_GET["page"], false, false, empty($_GET["search"]) ? false : $_GET["search"], false, false);
 							
-							if(mysqli_num_rows($punishments) === 0) {
+							if($result->rowCount( ) === 0) {
 								
 								?>
 								<tr>
@@ -237,7 +237,7 @@
 								
 							} else {
 								
-								while($punishment = mysqli_fetch_array($punishments)) {
+								foreach($result as $punishment) {
 									
 									?>
 									<tr>

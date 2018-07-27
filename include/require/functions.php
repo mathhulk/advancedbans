@@ -21,24 +21,57 @@ function getLocale($index, $default) {
 	return isset($GLOBALS["__language"]["terms"][$index]) ? $GLOBALS["__language"]["terms"][$index] : $default; 
 }
 
-function fetchResult($category, $username, $day, $page) {
+function fetchResult($page, $date, $name, $punishmentType, $operator, $reason) {
+	$parameters = [ ];
 	$query = "SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["log"];
 	
-	if($username || $category || $day || $GLOBALS["__public"]["ip_ban"] === false) $query .= " WHERE 1 = 1";
+	if($name || $punishmentType || $date || $operator || $reason || $GLOBALS["__public"]["ip_ban"] === false) $query .= " WHERE 1 = 1";
 	
-	if($username) $query .= " AND name = '" . $username . "'";
-	if($category && $GLOBALS["__public"]["compact"] === true) $query .= " AND punishmentType LIKE '%" . strtoupper($category) . "%'";
-	else if($category) $query .= " AND punishmentType = '" . strtoupper($category) . "'";
-	if($day) $query .= " AND start BETWEEN FROM_UNIXTIME(" . strtotime("-" . $day . " days") . ") AND FROM_UNIXTIME(" . strtotime("-" . ($day - 1) . " days") . ")";
+	if($name) {
+		$query .= " AND name = ?";
+		$parameters[ ] = $name;
+	}
+		
+	if($reason) {
+		$query .= " AND reason LIKE ?";
+		$parameters[ ] = "%" . $reason . "%";
+	}
+	
+	if($operator) {
+		$query .= " AND operator = ?";
+		$parameters[ ] = $operator;
+	}
+	
+	if($punishmentType && $GLOBALS["__public"]["compact"] === true) {
+		$query .= " AND punishmentType LIKE ?";
+		$parameters[ ] = "%" . strtoupper($punishmentType) . "%";
+	} else if($punishmentType) {
+		$query .= " AND punishmentType = ?";
+		$parameters[ ] = strtoupper($punishmentType);
+	}
+	
+	if($date) {
+		$query .= " AND start BETWEEN FROM_UNIXTIME(?) AND FROM_UNIXTIME(?)";
+		array_push($parameters, strtotime("-" . $date . " days"), strtotime("-" . ($date - 1) . " days"));
+	}
+	
 	if($GLOBALS["__public"]["ip_ban"] === false) $query .= " AND punishmentType != 'IP_BAN'";
+	
 	$query .= " ORDER BY id DESC";
-	if($page) $query .= " LIMIT " . 25 * ($page - 1) . ", 25";
+	
+	if($page) {
+		$query .= " LIMIT ?, 25";
+		$parameters[ ] = 25 * ($page - 1);
+	}
+	
+	$statement = $GLOBALS["__connection"]->prepare($query);
+	$statement->execute($parameters);
 
-	return mysqli_query($GLOBALS["__connection"], $query);
+	return $statement;
 }
 
 function isActive($start, $end) {
-	if(!isset($GLOBALS["__log"])) $GLOBALS["__log"] = mysqli_fetch_all(mysqli_query($GLOBALS["__connection"], "SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["punishment"]), MYSQLI_ASSOC);
+	if(!isset($GLOBALS["__log"])) $GLOBALS["__log"] = $GLOBALS["__connection"]->query("SELECT * FROM " . $GLOBALS["__private"]["connection"]["table"]["punishment"])->fetchAll( );
 	foreach($GLOBALS["__log"] as $index => $value) {
 		if($value["start"] === $start && $value["end"] === $end) return true;
 	}
