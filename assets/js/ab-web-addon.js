@@ -76,7 +76,7 @@ function setPunishments(page) {
 			let date = new Date(value.start), expires;
 			if(value.end) expires = new Date(value.end);
 			
-			$("tbody").append(replace(__templates["punishment"], {name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("ab-web-addon_language") ? getCookie("ab-web-addon_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + date.toLocaleString(getCookie("ab-web-addon_language") ? getCookie("ab-web-addon_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end ? expires.toLocaleString(getCookie("ab-web-addon_language") ? getCookie("ab-web-addon_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + expires.toLocaleString(getCookie("ab-web-addon_language") ? getCookie("ab-web-addon_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
+			$("tbody").append(replace(__templates["punishment"], {name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end ? expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
 		});
 	}
 	
@@ -106,7 +106,7 @@ $(document).ready(function( ) {
 	$.getJSON("include/public.json", function(data) {
 		__public = data;
 		
-		$.getJSON("include/languages/" + (getCookie("ab-web-addon_language") ? getCookie("ab-web-addon_language") : __public.default.language) + ".json", function(data) {
+		$.getJSON("include/languages/" + (getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language) + ".json", function(data) {
 			__language = data.terms;
 			
 			if(__public.player_count.enabled === true) {

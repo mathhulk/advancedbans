@@ -5,8 +5,8 @@
 	},
     "ip_ban": true,
     "messages": {
-        "title": "ab-web-addon",
-        "description": "Simple and sleek website panel for AdvancedBan."
+        "title": "AdvancedBan Panel",
+        "description": "Simple and sleek punishment panel for AdvancedBan."
     },
     "player_count": {
         "enabled": true,

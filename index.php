@@ -7,7 +7,7 @@ ob_start( );
 
 // CONFIGURATION
 $__public = json_decode(file_get_contents("include/public.json"), true);
-$__language = json_decode(file_get_contents("include/languages/" . (isset($_COOKIE["ab-web-addon_language"]) ? $_COOKIE["ab-web-addon_language"] : $__public["default"]["language"]) . ".json"), true);
+$__language = json_decode(file_get_contents("include/languages/" . (isset($_COOKIE["advancedban-panel_language"]) ? $_COOKIE["advancedban-panel_language"] : $__public["default"]["language"]) . ".json"), true);
 
 require("include/private.php");
 

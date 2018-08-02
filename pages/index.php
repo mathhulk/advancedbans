@@ -35,12 +35,12 @@
 		<link rel="icon" href="assets/img/icon.png" type="image/x-icon">
 		
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css" media="screen">
-		<link rel="stylesheet" href="assets/css/ab-web-addon.css" media="screen">
+		<link rel="stylesheet" href="assets/css/advancedban-panel.css" media="screen">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="screen">
 		
 		<?php
 		
-		foreach(glob("include/themes/" . (isset($_COOKIE["ab-web-addon_theme"]) ? $_COOKIE["ab-web-addon_theme"] : $__public["default"]["theme"]) . "/css/*") as $stylesheet) {
+		foreach(glob("include/themes/" . (isset($_COOKIE["advancedban-panel_theme"]) ? $_COOKIE["advancedban-panel_theme"] : $__public["default"]["theme"]) . "/css/*") as $stylesheet) {
 			
 			?>
 			<link rel="stylesheet" href="<?= $stylesheet ?>" media="screen">
@@ -94,7 +94,7 @@
 								$configuration = json_decode(file_get_contents($theme . "/configuration.json"), true);
 								
 								?>
-								<li <?= isset($_COOKIE["ab-web-addon_theme"]) && basename($theme) == $_COOKIE["ab-web-addon_theme"] ? "class=\"active\"" : "" ?>>
+								<li <?= isset($_COOKIE["advancedban-panel_theme"]) && basename($theme) == $_COOKIE["advancedban-panel_theme"] ? "class=\"active\"" : "" ?>>
 									<a href="./user/theme?set=<?= basename($theme) ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge"><?= htmlspecialchars($configuration["author"]) ?></span></a>
 								</li>
 								<?php
@@ -116,7 +116,7 @@
 								$configuration = json_decode(file_get_contents($language), true);
 								
 								?>
-								<li <?= isset($_COOKIE["ab-web-addon_language"]) && basename($language, ".json") == $_COOKIE["ab-web-addon_language"] ? " class=\"active\"" : "" ?>>
+								<li <?= isset($_COOKIE["advancedban-panel_language"]) && basename($language, ".json") == $_COOKIE["advancedban-panel_language"] ? " class=\"active\"" : "" ?>>
 									<a href="./user/language?set=<?= basename($language, ".json") ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge"><?= htmlspecialchars($configuration["author"]) ?></span></a>
 								<?php
 								
@@ -257,11 +257,11 @@
 		<script type="text/javascript" src="assets/js/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="assets/js/clipboard.min.js"></script>
-		<script type="text/javascript" src="assets/js/ab-web-addon.js"></script>
+		<script type="text/javascript" src="assets/js/advancedban-panel.js"></script>
 		
 		<?php
 		
-		foreach(glob("include/themes/" . (isset($_COOKIE["ab-web-addon_theme"]) ? $_COOKIE["ab-web-addon_theme"] : $__public["default"]["theme"]) . "/js/*") as $script) {
+		foreach(glob("include/themes/" . (isset($_COOKIE["advancedban-panel_theme"]) ? $_COOKIE["advancedban-panel_theme"] : $__public["default"]["theme"]) . "/js/*") as $script) {
 			
 			?>
 			<script type="text/javascript" src="<?= $script ?>"> </script>
