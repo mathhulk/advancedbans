@@ -12,7 +12,6 @@ $__language = json_decode(file_get_contents("include/languages/" . (isset($_COOK
 require("include/private.php");
 
 // REQUIREMENTS
-require("include/require/classes/Pagination.class.php");
 require("include/require/functions.php");
 
 // DATABASE

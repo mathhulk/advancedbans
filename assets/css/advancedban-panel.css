@@ -1,0 +1,23 @@
+.table-wrapper {
+	overflow-x: auto;
+}
+
+.dropdown-menu {
+	max-height: 50vh;
+	overflow: auto;
+}
+
+.clipboard, .pagination li a, .dropdown-menu li a {
+	cursor: pointer;
+}
+
+.search .dropdown {
+	display: inline-block;
+	
+	/* hate using custom design css, but had to */
+	margin-top: 10px;
+}
+
+.jumbotron:first-child {
+	margin-top: 78px;
+}
