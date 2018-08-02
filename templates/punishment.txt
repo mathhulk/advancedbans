@@ -1,0 +1,9 @@
+<tr>
+	<td>{{ name }}</td>
+	<td>{{ reason }}</td>
+	<td>{{ operator }}</td>
+	<td>{{ date }}</td>
+	<td>{{ expires }}</td>
+	<td>{{ type }}</td>
+	<td class="text-right">{{ status }}</td>
+</tr>

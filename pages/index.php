@@ -66,7 +66,6 @@
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="./"><i class="fa fa-gavel" aria-hidden="true"></i> <?= getLocale("punishments", "Punishments") ?></a></li>
-					<li><a href="./graphs"><i class="fa fa-area-chart" aria-hidden="true"></i> <?= getLocale("graphs", "Graphs") ?></a></li>
 					<?php
 					
 					if($__public["player_count"]["enabled"] === true) {
@@ -86,7 +85,7 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-list-alt" aria-hidden="true"></i> <?= getLocale("themes", "Themes") ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="./scripts/theme?default"><?= getLocale("default", "Default") ?></a></li>
+							<li><a href="./user/theme?default"><?= getLocale("default", "Default") ?></a></li>
 							<li class="divider"><!-- divide --></li>
 							<?php
 							
@@ -96,7 +95,7 @@
 								
 								?>
 								<li <?= isset($_COOKIE["ab-web-addon_theme"]) && basename($theme) == $_COOKIE["ab-web-addon_theme"] ? "class=\"active\"" : "" ?>>
-									<a href="./scripts/theme?set=<?= basename($theme) ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge"><?= htmlspecialchars($configuration["author"]) ?></span></a>
+									<a href="./user/theme?set=<?= basename($theme) ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge"><?= htmlspecialchars($configuration["author"]) ?></span></a>
 								</li>
 								<?php
 							
@@ -108,7 +107,7 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-language" aria-hidden="true"></i> <?= getLocale("languages", "Languages") ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="./scripts/language?default"><?= getLocale("default", "Default") ?></a></li>
+							<li><a href="./user/language?default"><?= getLocale("default", "Default") ?></a></li>
 							<li class="divider"><!-- divide --></li>
 							<?php
 							
@@ -118,7 +117,7 @@
 								
 								?>
 								<li <?= isset($_COOKIE["ab-web-addon_language"]) && basename($language, ".json") == $_COOKIE["ab-web-addon_language"] ? " class=\"active\"" : "" ?>>
-									<a href="./scripts/language?set=<?= basename($language, ".json") ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge"><?= htmlspecialchars($configuration["author"]) ?></span></a>
+									<a href="./user/language?set=<?= basename($language, ".json") ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge"><?= htmlspecialchars($configuration["author"]) ?></span></a>
 								<?php
 								
 							}
@@ -177,31 +176,58 @@
 			<div class="jumbotron">
 				<h1><?= $__public["messages"]["title"] ?></h1> 
 				<p><?= $__public["messages"]["description"] ?></p>
-				<?php
-				
-				foreach(getCategories( ) as $punishmentType) {
-
-					?>
-					<a href="./<?= $punishmentType !== "all" ? "?search=" . $punishmentType : "" ?>" class="btn btn-primary btn-md"><?= getLocale($punishmentType . ($punishmentType !== "all" ? "s" : ""), $punishmentType . ($punishmentType !== "all" ? "s" : "")) ?> <span class="badge"><?= fetchResult(false, false, false, $punishmentType !== "all" ? $punishmentType : false, false, false)->rowCount( ) ?></span></a>
-					<?php
-					
-				}
-				
-				?>
 			</div>
 			
 			<div class="jumbotron">
-				<form method="get" action="user">
-					<div class="input-group">
-						<input type="text" maxlength="50" name="search" class="form-control" placeholder="<?= getLocale("search", "Search") ?>">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit"><?= getLocale("submit", "Submit") ?></button>
-						</span>
+				<div class="search">
+					<input type="text" class="form-control" id="input" placeholder="<?= getLocale("search", "Search") ?>">
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" id="type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("type", "Type") ?> <span class="caret"></span></button>
+						<ul class="dropdown-menu" aria-labelledby="type">
+							<li><a data-search="ban"><?= getLocale("ban", "Ban") ?></a></li>
+							<li><a data-search="temp_ban"><?= getLocale("temp_ban", "Temp. Ban") ?></a></li>
+							<li><a data-search="mute"><?= getLocale("mute", "Mute") ?></a></li>
+							<li><a data-search="temp_mute"><?= getLocale("temp_mute", "Temp. Mute") ?></a></li>
+							<li><a data-search="warning"><?= getLocale("warning", "Warning") ?></a></li>
+							<li><a data-search="temp_warning"><?= getLocale("temp_warning", "Temp. Warning") ?></a></li>
+							<li><a data-search="kick"><?= getLocale("kick", "Kick") ?></a></li>
+							<?php
+							
+							if($__public["ip_ban"] === true) {
+								
+								?>
+								<li><a data-search="ip_ban"><?= getLocale("ip_ban", "I.P. Ban") ?></a></li>
+								<?php
+								
+							}
+							
+							?>
+						</ul>
 					</div>
-				</form>
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" id="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("status", "Status") ?> <span class="caret"></span></button>
+						<ul class="dropdown-menu" aria-labelledby="status">
+							<li><a data-search="active"><?= getLocale("active", "Active") ?></a></li>
+							<li><a data-search="inactive"><?= getLocale("inactive", "Inactive") ?></a></li>
+						</ul>
+					</div>
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("search", "Search") ?> <span class="caret"></span></button>
+						<ul class="dropdown-menu" aria-labelledby="search">
+							<li><a data-search="name"><?= getLocale("name", "Name") ?></a></li>
+							<li><a data-search="reason"><?= getLocale("reason", "Reason") ?></a></li>
+							<li><a data-search="operator"><?= getLocale("operator", "Operator") ?></a></li>
+						</ul>
+					</div>
+				</div>
 			</div>
 			
 			<div class="jumbotron">
+				<div class="text-center">
+					<ul class="pagination">
+						<!-- pagination -->
+					</ul>
+				</div>
 				<div class="table-wrapper">
 					<table class="table table-striped table-hover">
 						<thead>
@@ -216,80 +242,13 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php
-							
-							$pagination = new Pagination(empty($_GET["page"]) ? 1 : $_GET["page"], 25, fetchResult(false, false, false, empty($_GET["search"]) ? false : $_GET["search"], false, false)->rowCount( ));
-							$result = fetchResult(empty($_GET["page"]) ? 1 : $_GET["page"], false, false, empty($_GET["search"]) ? false : $_GET["search"], false, false);
-							
-							if($result->rowCount( ) === 0) {
-								
-								?>
-								<tr>
-									<td><?= getLocale("error_no_punishments", "No punishments could be listed on this page") ?></td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td class="text-right">-</td>
-								</tr>
-								<?php
-								
-							} else {
-								
-								foreach($result as $punishment) {
-									
-									?>
-									<tr>
-										<td><a href="./user?search=<?= $punishment["name"] ?>"><?= $punishment["name"] ?></a></td>
-										<td><?= $punishment["reason"] ?></td>
-										<td><?= $punishment["operator"] ?></td>
-										<td><?= convertDateTime($punishment["start"], "F jS, Y") ?> <span class="badge"><?= convertDateTime($punishment["start"], "g:i A") ?></span></td>
-										<td><?= isset($punishment["end"]) ? convertDateTime($punishment["end"], "F jS, Y") . " <span class=\"badge\">" . convertDateTime($punishment["end"], "g:i A") . "</span>" : getLocale("error_not_evaluated", "N/A") ?></td>
-										<td><?= getLocale(strtolower($punishment["punishmentType"]), $punishment["punishmentType"]) ?></td>
-										<td class="text-right"><?= isActive($punishment["start"], $punishment["end"]) ? getLocale("active", "Active") : getLocale("inactive", "Inactive") ?></td>
-									</tr>
-									<?php
-									
-								}
-								
-							}
-							
-							?>
+							<!-- punishments -->
 						</tbody>
 					</table>
 				</div>
 				<div class="text-center">
 					<ul class="pagination">
-						<?php
-						
-						if($pagination->page > 1) {
-							
-							?>
-							<li><a href="?page=1<?= !empty($_GET["search"]) ? "&search=" . $_GET["search"] : "" ?>"><i class="fa fa-angle-left"></i> <?= getLocale("first", "First") ?></a></li>
-							<li><a href="?page=<?= ($pagination->page - 1) . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><i class="fa fa-angle-double-left"></i> <?= getLocale("previous", "Previous") ?></a></li>
-							<?php
-							
-						}
-						
-						foreach($pagination->getPages(9) as $page) {
-							
-							?>
-							<li <?= $page === $pagination->page ? "class=\"active\"" : "" ?>><a href="?page=<?= $page . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><?= $page ?></a></li>
-							<?php
-							
-						}
-						
-						if($pagination->page < $pagination->pages) {
-							
-							?>
-							<li><a href="?page=<?= ($pagination->page + 1) . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><?= getLocale("next", "Next") ?> <i class="fa fa-angle-right"></i></a></li>
-							<li><a href="?page=<?= $pagination->pages . (!empty($_GET["search"]) ? "&search=" . $_GET["search"] : "") ?>"><?= getLocale("last", "Last") ?> <i class="fa fa-angle-double-right"></i></a></li>
-							<?php
-							
-						}
-						
-						?>
+						<!-- pagination -->
 					</ul>
 				</div>
 			</div>
@@ -301,16 +260,6 @@
 		<script type="text/javascript" src="assets/js/ab-web-addon.js"></script>
 		
 		<?php
-		
-		if($__public["player_count"]["enabled"] === true) {
-			
-			?>
-			<script type="text/javascript">
-				updatePlayers("<?= $__public["player_count"]["server_ip"] ?>", ".players", "<?= getLocale("error_not_evaluated", "N/A") ?>");
-			</script>
-			<?php
-		
-		}
 		
 		foreach(glob("include/themes/" . (isset($_COOKIE["ab-web-addon_theme"]) ? $_COOKIE["ab-web-addon_theme"] : $__public["default"]["theme"]) . "/js/*") as $script) {
 			

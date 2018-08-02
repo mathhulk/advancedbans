@@ -7,6 +7,17 @@
 	overflow: auto;
 }
 
-.clipboard {
+.clipboard, .pagination li a, .dropdown-menu li a {
 	cursor: pointer;
+}
+
+.search .dropdown {
+	display: inline-block;
+	
+	/* hate using custom design css, but had to */
+	margin-top: 10px;
+}
+
+.jumbotron:first-child {
+	margin-top: 78px;
 }

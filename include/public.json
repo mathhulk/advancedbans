@@ -1,10 +1,8 @@
 {
     "default": {
 		"theme": "yeti",
-		"language": "en_US",
-		"time_zone": "America/Los_Angeles"
+		"language": "en-US"
 	},
-    "compact": false,
     "ip_ban": true,
     "messages": {
         "title": "ab-web-addon",
