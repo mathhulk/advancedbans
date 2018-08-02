@@ -1,5 +1,5 @@
 Simple and sleek website panel for AdvancedBan.
-* Example can be found at [here](https://mathhulk.net/ab-web-addon).
+* Example can be found at [here](https://mathhulk.net/advancedban-panel).
 
 ## Notable Features
 * Self-host
