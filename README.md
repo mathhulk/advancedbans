@@ -28,8 +28,8 @@ Simple and sleek website panel for AdvancedBan.
   * Enable or disable either or both
 
 ## Requirements
-- PHP 7.0+
-- MySQLi PHP extension
+* PHP 7.0+
+* MySQLi PHP extension
 
 ## Installation
 Clone `advancedban-panel` to a local file location. Navigate to the `private.php` file, which should be located at `include\private.php`. Open the file with a text editor, such as Notepad++ for desktop or Nano for command-line. Enter the credentials for your database in the appropriate place and continue.
