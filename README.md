@@ -28,7 +28,7 @@ Simple and sleek website panel for AdvancedBan.
   * Enable or disable either or both
 
 ## Requirements
-* PHP v7.2.8 recommanded
+* PHP v7.2.8 recommended
 * mysqlnd PHP module
 * nd_mysqli PHP module
 * Apache mod_rewrite
