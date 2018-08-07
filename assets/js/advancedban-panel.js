@@ -79,8 +79,8 @@ function setPunishments(page) {
 		$("tbody").html(replace(__templates["no-punishments"], {error_no_punishments: getLocale("error_no_punishments", "No punishments could be listed on this page")}));
 	} else {
 		$.each(punishments.splice((page - 1) * 25, 25), function(index, value) {
-			let date = new Date(value.start);
-			if(value.end) expires = new Date(value.end);
+			let date = new Date(isNaN(value.start) ? value.start : parseInt(value.start));
+			if(value.end && value.end !== -1) expires = new Date(isNaN(value.end) ? value.end : parseInt(value.end));
 			
 			$("tbody").append(replace(__templates["punishment"], {id: value.id, name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end ? expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
 		});
@@ -103,7 +103,7 @@ function setImages( ) {
 
 function setPagination(page, punishments) {
 	let pages = Math.floor(punishments / 25);
-	if(punishments % 25 != 0 || punishments === 0) pages++;
+	if(punishments % 25 !== 0 || punishments === 0) pages++;
 	
 	if(page > 1) $(".pagination").append(replace(__templates["page"], {page: 1, text: "<i class=\"fa fa-angle-double-left\"></i> " + getLocale("first", "First")})).append(replace(__templates["page"], {page: page - 1, text: "<i class=\"fa fa-angle-left\"></i> " + getLocale("previous", "Previous")}));
 
