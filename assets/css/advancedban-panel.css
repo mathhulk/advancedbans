@@ -13,11 +13,22 @@
 
 .search .dropdown {
 	display: inline-block;
-	
-	/* hate using custom design css, but had to */
 	margin-top: 10px;
 }
 
 .jumbotron:first-child {
 	margin-top: 78px;
+}
+
+td {
+	/* have to use !important to override Bootstrap for some reason */
+	vertical-align: middle !important;
+}
+
+.name, .operator {
+	white-space: nowrap;
+}
+
+td img {
+	margin-right: 10px;
 }

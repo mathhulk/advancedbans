@@ -1,7 +1,13 @@
-<tr>
-	<td>{{ name }}</td>
+<tr id="{{ id }}">
+	<td class="name">
+		<img data-name="{{ name }}" src="https://crafatar.com/avatars/8667ba71b85a4004af54457a9734eed7?size=30">
+		<span>{{ name }}</span>
+	</td>
 	<td>{{ reason }}</td>
-	<td>{{ operator }}</td>
+	<td class="operator">
+		<img data-name="{{ operator }}" src="https://crafatar.com/avatars/8667ba71b85a4004af54457a9734eed7?size=30">
+		<span>{{ operator }}</span>
+	</td>
 	<td>{{ date }}</td>
 	<td>{{ expires }}</td>
 	<td>{{ type }}</td>

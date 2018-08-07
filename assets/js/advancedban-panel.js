@@ -1,5 +1,6 @@
 // VARIABLES
 var __public, __log, __punishment, __language, __templates = { }, __search = {type: [ ], status: [ ], search: [ ]};
+var playersUpdate, imagesSet;
 
 // FUNCTIONS
 function updatePlayers( ) {
@@ -7,7 +8,8 @@ function updatePlayers( ) {
 		if(data.status === true) $(".players").text(data.players.online.toLocaleString( ));
 		else $(".players").text(getLocale("error_not_evaluated", "N/A"));
 		
-		setTimeout(updatePlayers, 5000);
+		clearTimeout(playersUpdate);
+		playersUpdate = setTimeout(updatePlayers, 5000);
 	});
 }
 
@@ -27,7 +29,7 @@ function getCookie(name) {
 
 function replace(template, placeholder) {
 	$.each(placeholder, function(index, value) {
-		template = template.replace("{{ " + index + " }}", value);
+		template = template.replace(new RegExp("{{ " + index + " }}", "g"), value);
 	});
 	return template;
 }
@@ -77,14 +79,26 @@ function setPunishments(page) {
 		$("tbody").html(replace(__templates["no-punishments"], {error_no_punishments: getLocale("error_no_punishments", "No punishments could be listed on this page")}));
 	} else {
 		$.each(punishments.splice((page - 1) * 25, 25), function(index, value) {
-			let date = new Date(value.start), expires;
+			let date = new Date(value.start);
 			if(value.end) expires = new Date(value.end);
 			
-			$("tbody").append(replace(__templates["punishment"], {name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end ? expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
+			$("tbody").append(replace(__templates["punishment"], {id: value.id, name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end ? expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
 		});
 	}
 	
 	setPagination(page, amount);
+	clearTimeout(imagesSet);
+	imagesSet = setTimeout(setImages, 50);
+}
+
+function setImages( ) {
+	$("td img").each(function(index) {
+		let profile = $(this); 
+		
+		$.getJSON("https://api.minetools.eu/uuid/" + profile.attr("data-name").replace(new RegExp("[.]", "g"), "_"), function(data) {
+			if(data.id.length > 4) profile.attr("src", "https://crafatar.com/avatars/" + data.id + "?size=30");
+		});
+	});
 }
 
 function setPagination(page, punishments) {
@@ -198,7 +212,7 @@ $(document).ready(function( ) {
 							
 							$.get("templates/page.txt", function(data) {
 								__templates["page"] = data;
-							
+								
 								clearContent( );
 								setPunishments(1);
 							});
@@ -222,7 +236,7 @@ $(document).ready(function( ) {
 	});
 	
 	$(document).on("click", ".pagination li a", function( ) {
-		$("html, body").animate({scrollTop: 0}, "fast");
+		$("html, body").animate({scrollTop: 0}, "slow");
 		
 		clearContent( );
 		setPunishments(parseInt($(this).attr("data-page")));

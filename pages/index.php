@@ -243,7 +243,7 @@
 					<table class="table table-striped table-hover">
 						<thead>
 							<tr>
-								<th><?= getLocale("username", "Username") ?></th>
+								<th><?= getLocale("name", "Name") ?></th>
 								<th><?= getLocale("reason", "Reason") ?></th>
 								<th><?= getLocale("operator", "Operator") ?></th>
 								<th><?= getLocale("date", "Date") ?></th>
