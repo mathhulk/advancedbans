@@ -31,7 +31,7 @@ Simple and sleek website panel for AdvancedBan.
 * PHP v7.2.8 recommended
 * mysqlnd PHP module
 * nd_mysqli PHP module
-* Apache mod_rewrite
+* Apache mod_rewrite (optional, can be disabled)
 
 ## Installation
 Clone `advancedban-panel` to a local file location. Navigate to the `private.php` file, which should be located at `include\private.php`. Open the file with a text editor, such as Notepad++ for desktop or Nano for command-line. Enter the credentials for your database in the appropriate place and continue.
@@ -61,9 +61,10 @@ Configuration options are also available for AdvancedBan Panel. These options al
 ```json
 {
     "default": {
-		"theme": "yeti",
-		"language": "en-US"
-	},
+        "theme": "yeti",
+        "language": "en-US"
+    },
+    "mod_rewrite": true,
     "ip_ban": true,
     "messages": {
         "title": "advancedban-panel",
