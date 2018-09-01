@@ -196,7 +196,7 @@ $(document).ready(function( ) {
 				updatePlayers( );
 			}
 			
-			$.getJSON("punishments/", function(data) {
+			$.getJSON(__public.mod_rewrite === true ? "punishments/" : "?path=punishments/", function(data) {
 				__log = data.log, __punishment = data.punishment;
 				
 				if(window.location.pathname.split("/") === "statistics") {

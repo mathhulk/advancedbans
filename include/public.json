@@ -1,8 +1,9 @@
 {
     "default": {
-		"theme": "yeti",
-		"language": "en-US"
-	},
+        "theme": "yeti",
+        "language": "en-US"
+    },
+    "mod_rewrite": true,
     "ip_ban": true,
     "messages": {
         "title": "AdvancedBan Panel",
