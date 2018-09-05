@@ -82,7 +82,7 @@ function setPunishments(page) {
 			let date = new Date(isNaN(value.start) ? value.start : parseInt(value.start));
 			if(value.end && value.end !== -1) expires = new Date(isNaN(value.end) ? value.end : parseInt(value.end));
 			
-			$("tbody").append(replace(__templates["punishment"], {id: value.id, name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end ? expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge\">" + expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
+			$("tbody").append(replace(__templates["punishment"], {id: value.id, name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge badge-primary\">" + date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end ? expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge badge-primary\">" + expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
 		});
 	}
 	
@@ -105,7 +105,7 @@ function setPagination(page, punishments) {
 	let pages = Math.floor(punishments / 25);
 	if(punishments % 25 !== 0 || punishments === 0) pages++;
 	
-	if(page > 1) $(".pagination").append(replace(__templates["page"], {page: 1, text: "<i class=\"fa fa-angle-double-left\"></i> " + getLocale("first", "First")})).append(replace(__templates["page"], {page: page - 1, text: "<i class=\"fa fa-angle-left\"></i> " + getLocale("previous", "Previous")}));
+	if(page > 1) $(".pagination").append(replace(__templates["page"], {page: 1, text: getLocale("first", "First")})).append(replace(__templates["page"], {page: page - 1, text: getLocale("previous", "Previous")}));
 
 	let minimum, maximum;
 	if(page < 5) minimum = 1, maximum = 9;
@@ -116,7 +116,7 @@ function setPagination(page, punishments) {
 	
 	for(; minimum <= maximum; minimum++) $(".pagination").append(replace(__templates["page"], {page: minimum, text: minimum, status: page === minimum ? "active" : "inactive"}));
 	
-	if(page < pages) $(".pagination").append(replace(__templates["page"], {page: page + 1, text: getLocale("next", "Next") + " <i class=\"fa fa-angle-right\"></i>"})).append(replace(__templates["page"], {page: pages, text: getLocale("last", "Last") + " <i class=\"fa fa-angle-double-right\"></i>"}));
+	if(page < pages) $(".pagination").append(replace(__templates["page"], {page: page + 1, text: getLocale("next", "Next")})).append(replace(__templates["page"], {page: pages, text: getLocale("last", "Last")}));
 }
 
 // EVENTS
@@ -192,7 +192,7 @@ $(document).ready(function( ) {
 			__language = data.terms;
 			
 			if(__public.player_count.enabled === true) {
-				new Clipboard(".clipboard");
+				new ClipboardJS(".clipboard");
 				updatePlayers( );
 			}
 			
@@ -224,7 +224,7 @@ $(document).ready(function( ) {
 	});
 	
 	$(document).on("mouseenter", ".clipboard", function( ) {
-		if(!$(this).find("a .copy").length) $(this).find("a").append(" <span class=\"badge copy\"><i class=\"fa fa-clipboard\"></i> " + getLocale("copy", "Copy") + "</span>");
+		if(!$(this).find("a .copy").length) $(this).find("a").append(" <span class=\"badge badge-primary copy\"><i class=\"fa fa-clipboard\"></i> " + getLocale("copy", "Copy") + "</span>");
 	});
 
 	$(document).on("mouseleave", ".clipboard", function( ) {
@@ -242,13 +242,13 @@ $(document).ready(function( ) {
 		setPunishments(parseInt($(this).attr("data-page")));
 	});
 	
-	$(document).on("click", ".search .dropdown-menu li a", function( ) {
-		if($(this).closest("li").hasClass("active")) {
-			$(this).closest("li").removeClass("active");
-			__search[$(this).closest("ul").attr("aria-labelledby")].splice(__search[$(this).closest("ul").attr("aria-labelledby")].indexOf($(this).attr("data-search")), 1);
+	$(document).on("click", ".search .dropdown-menu .dropdown-item", function( ) {
+		if($(this).hasClass("active")) {
+			$(this).removeClass("active");
+			__search[$(this).closest("div").attr("aria-labelledby")].splice(__search[$(this).closest("div").attr("aria-labelledby")].indexOf($(this).attr("data-search")), 1);
 		} else {
-			$(this).closest("li").addClass("active");
-			__search[$(this).closest("ul").attr("aria-labelledby")].push($(this).attr("data-search"));
+			$(this).addClass("active");
+			__search[$(this).closest("div").attr("aria-labelledby")].push($(this).attr("data-search"));
 		}
 	
 		clearContent( );

@@ -7,21 +7,12 @@
 	overflow: auto;
 }
 
-.clipboard, .pagination li a, .dropdown-menu li a {
-	cursor: pointer;
-}
-
 .search .dropdown {
 	display: inline-block;
 	margin-top: 10px;
 }
 
-.jumbotron:first-child {
-	margin-top: 78px;
-}
-
 td {
-	/* have to use !important to override Bootstrap for some reason */
 	vertical-align: middle !important;
 }
 

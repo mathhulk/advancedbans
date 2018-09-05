@@ -4,8 +4,7 @@ Simple and sleek website panel for AdvancedBan.
 ## Notable Features
 * Self-host
 * Themes
-  * Default Bootswatch themes
-  * Default contributor themes
+  * Beautiful default theme
   * Create custom themes
   * User theme selection
 * Languages
@@ -61,11 +60,10 @@ Configuration options are also available for AdvancedBan Panel. These options al
 ```json
 {
     "default": {
-        "theme": "yeti",
+        "theme": "photon",
         "language": "en-US"
     },
     "mod_rewrite": true,
-    "ip_ban": true,
     "messages": {
         "title": "advancedban-panel",
         "description": "Simple and sleek website panel for AdvancedBan."
@@ -140,10 +138,11 @@ Like translating AdvancedBan Panel, theming AdvancedBan Panel is also simple. Ho
 themes /
 | - cerulean
 | - ...
-\ - yeti /
+\ - photon /
     | - css /
-        \ - bootstrap.min.css
-    | - js
+        \ - photon.css
+    | - img
+	| - js
     \ - configuration.json
 ```
 Static stylesheets and scripts should be placed in the appropriate `css` and `js` folders. As noted before, AdvancedBan Panel will always load core Bootstrap files and jQuery before custom theme stylesheets and scripts.
@@ -151,8 +150,8 @@ Static stylesheets and scripts should be placed in the appropriate `css` and `js
 The `configuration.json` file for your theme should follow this template.
 ```json
 {
-	"name": "Cerulean",
-	"author": "Bootswatch"
+	"name": "Photon",
+	"author": "mathhulk"
 }
 ```
 

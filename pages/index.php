@@ -45,7 +45,7 @@
 		<link rel="icon" type="image/png" sizes="96x96" href="assets/img/icons/favicon-96x96.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="assets/img/icons/favicon-16x16.png">
 		
-		<link rel="stylesheet" href="assets/css/font-awesome.min.css" media="screen">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" media="screen">
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" href="assets/css/advancedban-panel.css" media="screen">
 		
@@ -62,194 +62,179 @@
 		?>
 	</head>
 	<body>
-		<nav class="navbar navbar-default navbar-fixed-top">
-		  <div class="container">
-			<div class="navbar-header">
-				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				
+		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+			<div class="container">
 				<a class="navbar-brand" href="./"><?= $__public["messages"]["title"] ?></a>
-			</div>
-			<div class="collapse navbar-collapse" id="navbar">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="./"><i class="fa fa-gavel" aria-hidden="true"></i> <?= getLocale("punishments", "Punishments") ?></a></li>
-					<?php
-					
-					if($__public["player_count"]["enabled"] === true) {
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"><!-- toggle --></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navigation">
+					<ul class="navbar-nav">
+						<li class="nav-item active"><a class="nav-link" href="./"><?= getLocale("punishments", "Punishments") ?></a></li>
+						<?php
+						
+						if($__public["player_count"]["enabled"] === true) {
+							
+							?>
+							<li class="nav-item clipboard" data-clipboard-text="<?= $__public["player_count"]["server_ip"] ?>">
+								<a class="nav-link"><span class="badge badge-primary players"><?= getLocale("error_not_evaluated", "N/A") ?></span> <?= getLocale("players", "Players") ?></a>
+							</li>
+							<?php
+							
+						}
 						
 						?>
-						<li class="clipboard" data-clipboard-text="<?= $__public["player_count"]["server_ip"] ?>">
-							<a><span class="badge players"><?= getLocale("error_not_evaluated", "N/A") ?></span> <?= getLocale("players", "Players") ?></a>
+					</ul>
+				
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= getLocale("themes", "Themes") ?> <span class="caret"></span></a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="./<?= $__public["mod_rewrite"] === false ? "?path=user/theme&default" : "user/theme?default" ?>"><?= getLocale("default", "Default") ?></a>
+								<div class="dropdown-divider"><!-- divide --></div>
+								<?php
+								
+								foreach(glob("include/themes/*") as $theme) {
+									
+									$configuration = json_decode(file_get_contents($theme . "/configuration.json"), true);
+									
+									?>
+									<a class="<?= isset($_COOKIE["advancedban-panel_theme"]) && basename($theme) == $_COOKIE["advancedban-panel_theme"] ? "active " : "" ?>dropdown-item" href="./<?= $__public["mod_rewrite"] === false ? "?path=user/theme&set=" . basename($theme) : "user/theme?set=" . basename($theme) ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge badge-primary"><?= htmlspecialchars($configuration["author"]) ?></span></a>
+									<?php
+								
+								}
+								
+								?>
+							</div>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= getLocale("languages", "Languages") ?> <span class="caret"></span></a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="./<?= $__public["mod_rewrite"] === false ? "?path=user/language&default" : "user/language?default" ?>"><?= getLocale("default", "Default") ?></a>
+								<div class="dropdown-divider"><!-- divide --></div>
+								<?php
+								
+								foreach(glob("include/languages/*") as $language) {
+									
+									$configuration = json_decode(file_get_contents($language), true);
+									
+									?>
+									<a class="<?= isset($_COOKIE["advancedban-panel_language"]) && basename($language, ".json") == $_COOKIE["advancedban-panel_language"] ? "active " : "" ?>dropdown-item" href="./<?= $__public["mod_rewrite"] === false ? "?path=user/language&set=" . basename($language, ".json") : "user/language?set=" . basename($language, ".json") ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge badge-primary"><?= htmlspecialchars($configuration["author"]) ?></span></a>
+									<?php
+									
+								}
+								
+								?>
+							</div>
 						</li>
 						<?php
 						
-					}
-					
-					?>
-				</ul>
-				
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-list-alt" aria-hidden="true"></i> <?= getLocale("themes", "Themes") ?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="./user/theme?default"><?= getLocale("default", "Default") ?></a></li>
-							<li class="divider"><!-- divide --></li>
+						if($__public["support"]["contact"]["enabled"] === true || $__public["support"]["appeal"]["enabled"] == true) {
+						
+							?>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= getLocale("support", "Support") ?> <span class="caret"></span></a>
+								<div class="dropdown-menu">
+									<?php
+									
+									if($__public["support"]["contact"]["enabled"] === true) {
+										
+										?>
+										<a class="dropdown-item" href="<?= $__public["support"]["contact"]["link"] ?>"><?= getLocale("contact", "Contact") ?></a>
+										<?php
+										
+									}
+									
+									if($__public["support"]["appeal"]["enabled"] === true) {
+										
+										?>
+										<a class="dropdown-item" href="<?= $__public["support"]["appeal"]["link"] ?>"><?= getLocale("appeal", "Appeal") ?></a>
+										<?php
+										
+									}
+									
+									?>
+								</div>
+							</li>
 							<?php
 							
-							foreach(glob("include/themes/*") as $theme) {
-								
-								$configuration = json_decode(file_get_contents($theme . "/configuration.json"), true);
-								
-								?>
-								<li <?= isset($_COOKIE["advancedban-panel_theme"]) && basename($theme) == $_COOKIE["advancedban-panel_theme"] ? "class=\"active\"" : "" ?>>
-									<a href="./user/theme?set=<?= basename($theme) ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge"><?= htmlspecialchars($configuration["author"]) ?></span></a>
-								</li>
-								<?php
-							
-							}
-							
-							?>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-language" aria-hidden="true"></i> <?= getLocale("languages", "Languages") ?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="./user/language?default"><?= getLocale("default", "Default") ?></a></li>
-							<li class="divider"><!-- divide --></li>
-							<?php
-							
-							foreach(glob("include/languages/*") as $language) {
-								
-								$configuration = json_decode(file_get_contents($language), true);
-								
-								?>
-								<li <?= isset($_COOKIE["advancedban-panel_language"]) && basename($language, ".json") == $_COOKIE["advancedban-panel_language"] ? " class=\"active\"" : "" ?>>
-									<a href="./user/language?set=<?= basename($language, ".json") ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge"><?= htmlspecialchars($configuration["author"]) ?></span></a>
-								<?php
-								
-							}
-							
-							?>
-						</ul>
-					</li>
-					<?php
-					
-					if($__public["support"]["contact"]["enabled"] === true || $__public["support"]["appeal"]["enabled"] == true) {
-					
+						}
+						
 						?>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-envelope-open-o" aria-hidden="true"></i> <?= getLocale("support", "Support") ?> <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<?php
-								
-								if($__public["support"]["contact"]["enabled"] === true) {
-									
-									?>
-									<li><a href="<?= $__public["support"]["contact"]["link"] ?>"><?= getLocale("contact", "Contact") ?></a></li>
-									<?php
-									
-								}
-								
-								if($__public["support"]["appeal"]["enabled"] === true) {
-									
-									?>
-									<li><a href="<?= $__public["support"]["appeal"]["link"] ?>"><?= getLocale("appeal", "Appeal") ?></a></li>
-									<?php
-									
-								}
-								
-								?>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= getLocale("credit", "Credit") ?> <span class="caret"></span></a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item" target="_blank" href="https://github.com/mathhulk/advancedban-panel">GitHub</a>
+								<a class="dropdown-item" target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a>
+								<a class="dropdown-item" target="_blank" href="https://mathhulk.com">mathhulk</a>
 							</ul>
 						</li>
-						<?php
-						
-					}
-					
-					?>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-code-fork" aria-hidden="true"></i> <?= getLocale("credit", "Credit") ?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a target="_blank" href="https://github.com/mathhulk/advancedban-panel">GitHub</a></li>
-							<li><a target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a></li>
-							<li><a target="_blank" href="https://mathhulk.com">mathhulk</a></li>
-						</ul>
-					</li>
-				</ul>
+					</ul>
+				</div>
 			</div>
-		  </div>
 		</nav>
 		
-		<div class="container">
-			<div class="jumbotron">
+		<div class="splash text-center">
+			<div class="container">
 				<h1><?= $__public["messages"]["title"] ?></h1> 
 				<p><?= $__public["messages"]["description"] ?></p>
 			</div>
-			
-			<div class="jumbotron">
-				<div class="search">
+		</div>
+		
+		<div class="content">
+			<div class="search">
+				<div class="container">
 					<input type="text" class="form-control" id="input" placeholder="<?= getLocale("search", "Search") ?>">
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button" id="type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("type", "Type") ?> <span class="caret"></span></button>
-						<ul class="dropdown-menu" aria-labelledby="type">
-							<li><a data-search="ban"><?= getLocale("ban", "Ban") ?></a></li>
-							<li><a data-search="temp_ban"><?= getLocale("temp_ban", "Temp. Ban") ?></a></li>
-							<li><a data-search="mute"><?= getLocale("mute", "Mute") ?></a></li>
-							<li><a data-search="temp_mute"><?= getLocale("temp_mute", "Temp. Mute") ?></a></li>
-							<li><a data-search="warning"><?= getLocale("warning", "Warning") ?></a></li>
-							<li><a data-search="temp_warning"><?= getLocale("temp_warning", "Temp. Warning") ?></a></li>
-							<li><a data-search="kick"><?= getLocale("kick", "Kick") ?></a></li>
-							<?php
-							
-							if($__public["ip_ban"] === true) {
-								
-								?>
-								<li><a data-search="ip_ban"><?= getLocale("ip_ban", "I.P. Ban") ?></a></li>
-								<?php
-								
-							}
-							
-							?>
-						</ul>
-					</div>
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button" id="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("status", "Status") ?> <span class="caret"></span></button>
-						<ul class="dropdown-menu" aria-labelledby="status">
-							<li><a data-search="active"><?= getLocale("active", "Active") ?></a></li>
-							<li><a data-search="inactive"><?= getLocale("inactive", "Inactive") ?></a></li>
-						</ul>
-					</div>
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("search", "Search") ?> <span class="caret"></span></button>
-						<ul class="dropdown-menu" aria-labelledby="search">
-							<li><a data-search="name"><?= getLocale("name", "Name") ?></a></li>
-							<li><a data-search="reason"><?= getLocale("reason", "Reason") ?></a></li>
-							<li><a data-search="operator"><?= getLocale("operator", "Operator") ?></a></li>
-						</ul>
+					<div class="text-center">
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" id="type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("type", "Type") ?> <span class="caret"></span></button>
+							<div class="dropdown-menu" aria-labelledby="type">
+								<a class="dropdown-item" data-search="ban"><?= getLocale("ban", "Ban") ?></a>
+								<a class="dropdown-item" data-search="temp_ban"><?= getLocale("temp_ban", "Temp. Ban") ?></a>
+								<a class="dropdown-item" data-search="mute"><?= getLocale("mute", "Mute") ?></a>
+								<a class="dropdown-item" data-search="temp_mute"><?= getLocale("temp_mute", "Temp. Mute") ?></a>
+								<a class="dropdown-item" data-search="warning"><?= getLocale("warning", "Warning") ?></a>
+								<a class="dropdown-item" data-search="temp_warning"><?= getLocale("temp_warning", "Temp. Warning") ?></a>
+								<a class="dropdown-item" data-search="kick"><?= getLocale("kick", "Kick") ?></a>
+								<a class="dropdown-item" data-search="ip_ban"><?= getLocale("ip_ban", "I.P. Ban") ?></a>
+							</div>
+						</div>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" id="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("status", "Status") ?> <span class="caret"></span></button>
+							<div class="dropdown-menu" aria-labelledby="status">
+								<a class="dropdown-item" data-search="active"><?= getLocale("active", "Active") ?></a>
+								<a class="dropdown-item" data-search="inactive"><?= getLocale("inactive", "Inactive") ?></a>
+							</div>
+						</div>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("search", "Search") ?> <span class="caret"></span></button>
+							<div class="dropdown-menu" aria-labelledby="search">
+								<a class="dropdown-item" data-search="name"><?= getLocale("name", "Name") ?></a>
+								<a class="dropdown-item" data-search="reason"><?= getLocale("reason", "Reason") ?></a>
+								<a class="dropdown-item" data-search="operator"><?= getLocale("operator", "Operator") ?></a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			
-			<div class="jumbotron">
-				<div class="text-center">
-					<ul class="pagination">
+		
+			<div class="container">
+				<nav aria-label="Page navigation pages">
+					<ul class="pagination justify-content-center">
 						<!-- pagination -->
 					</ul>
-				</div>
+				</nav>
 				<div class="table-wrapper">
 					<table class="table table-striped table-hover">
 						<thead>
 							<tr>
-								<th><?= getLocale("name", "Name") ?></th>
-								<th><?= getLocale("reason", "Reason") ?></th>
-								<th><?= getLocale("operator", "Operator") ?></th>
-								<th><?= getLocale("date", "Date") ?></th>
-								<th><?= getLocale("expires", "Expires") ?></th>
-								<th><?= getLocale("type", "Type") ?></th>
-								<th class="text-right"><?= getLocale("status", "Status") ?></th>
+								<th scope="col"><?= getLocale("type", "Type") ?></th>
+								<th scope="col"><?= getLocale("name", "Name") ?></th>
+								<th scope="col"><?= getLocale("reason", "Reason") ?></th>
+								<th scope="col"><?= getLocale("operator", "Operator") ?></th>
+								<th scope="col"><?= getLocale("date", "Date") ?></th>
+								<th scope="col"><?= getLocale("expires", "Expires") ?></th>
+								<th scope="col" class="text-right"><?= getLocale("status", "Status") ?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -257,15 +242,16 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="text-center">
-					<ul class="pagination">
+				<nav aria-label="Page navigation pages">
+					<ul class="pagination justify-content-center">
 						<!-- pagination -->
 					</ul>
-				</div>
+				</nav>
 			</div>
 		</div>
 		
-		<script type="text/javascript" src="assets/js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="assets/js/popper.min.js"></script>
 		<script type="text/javascript" src="assets/js/clipboard.min.js"></script>
 		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="assets/js/advancedban-panel.js"></script>

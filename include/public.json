@@ -1,10 +1,9 @@
 {
     "default": {
-        "theme": "yeti",
+        "theme": "photon",
         "language": "en-US"
     },
-    "mod_rewrite": true,
-    "ip_ban": true,
+    "mod_rewrite": false,
     "messages": {
         "title": "AdvancedBan Panel",
         "description": "Simple and sleek punishment panel for AdvancedBan."
