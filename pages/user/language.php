@@ -6,4 +6,4 @@ if(!empty($_GET["set"]) && file_exists("include/languages/" . $_GET["set"] . ".j
 	setcookie("advancedban-panel_language", "", time( ) - (30 * 60 * 60 * 24), "/");
 }
 
-header("Location: ../../" . (isset($_GET["redirect"]) ? $_GET["redirect"] : "")); die("Redirecting...");
+header("Location: " . ($__public["mod_rewrite"] === true ? "../../" : "./")); die("Redirecting...");
