@@ -142,7 +142,7 @@ themes /
     | - css /
         \ - photon.css
     | - img
-	| - js
+    | - js
     \ - configuration.json
 ```
 Static stylesheets and scripts should be placed in the appropriate `css` and `js` folders. As noted before, AdvancedBan Panel will always load core Bootstrap files and jQuery before custom theme stylesheets and scripts.
