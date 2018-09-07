@@ -34,6 +34,10 @@ function replace(template, placeholder) {
 	return template;
 }
 
+function parseDate(date) {
+	return date.split(".")[0].replace(new RegExp("-", "g"), "/");
+}
+
 function isActive(start, end) {
 	let active = false;
 	$.each(__punishment, function(index, value) {
@@ -79,8 +83,8 @@ function setPunishments(page) {
 		$("tbody").html(replace(__templates["no-punishments"], {error_no_punishments: getLocale("error_no_punishments", "No punishments could be listed on this page")}));
 	} else {
 		$.each(punishments.splice((page - 1) * 25, 25), function(index, value) {
-			let date = new Date(isNaN(value.start) ? value.start : parseInt(value.start));
-			if(value.end && value.end !== "-1") expires = new Date(isNaN(value.end) ? value.end : parseInt(value.end));
+			let date = new Date(isNaN(value.start) ? parseDate(value.start) : parseInt(value.start));
+			if(value.end && value.end !== "-1") expires = new Date(isNaN(value.end) ? parseDate(value.end) : parseInt(value.end));
 			
 			$("tbody").append(replace(__templates["punishment"], {id: value.id, name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge badge-primary\">" + date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end && value.end !== "-1" ? expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge badge-primary\">" + expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
 		});
