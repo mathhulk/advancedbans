@@ -208,17 +208,22 @@ $(document).ready(function( ) {
 					// statistics
 					
 				} else {
-					$.get("templates/no-punishments.txt", function(data) {
-						__templates["no-punishments"] = data;
+					$.get("templates/table.txt", function(data) {
+						__templates["table"] = data;
 						
-						$.get("templates/punishment.txt", function(data) {
-							__templates["punishment"] = data;
+						$.get("templates/no-punishments.txt", function(data) {
+							__templates["no-punishments"] = data;
 							
-							$.get("templates/page.txt", function(data) {
-								__templates["page"] = data;
+							$.get("templates/punishment.txt", function(data) {
+								__templates["punishment"] = data;
 								
-								clearContent( );
-								setPunishments(1);
+								$.get("templates/page.txt", function(data) {
+									__templates["page"] = data;
+									
+									$(".punishment-wrapper").html(replace(__templates["table"], {type: getLocale("type", "Type"), name: getLocale("name", "Name"), reason: getLocale("reason", "Reason"), operator: getLocale("operator", "Operator"), date: getLocale("date", "Date"), expires: getLocale("expires", "Expires"), status: getLocale("status", "Status")}));
+									clearContent( );
+									setPunishments(1);
+								});
 							});
 						});
 					});

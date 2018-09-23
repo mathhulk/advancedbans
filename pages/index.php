@@ -218,35 +218,10 @@
 				</div>
 			</div>
 		
-			<div class="container">
-				<nav aria-label="Page navigation pages">
-					<ul class="pagination justify-content-center">
-						<!-- pagination -->
-					</ul>
-				</nav>
-				<div class="table-wrapper">
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr>
-								<th scope="col"><?= getLocale("type", "Type") ?></th>
-								<th scope="col"><?= getLocale("name", "Name") ?></th>
-								<th scope="col"><?= getLocale("reason", "Reason") ?></th>
-								<th scope="col"><?= getLocale("operator", "Operator") ?></th>
-								<th scope="col"><?= getLocale("date", "Date") ?></th>
-								<th scope="col"><?= getLocale("expires", "Expires") ?></th>
-								<th scope="col" class="text-right"><?= getLocale("status", "Status") ?></th>
-							</tr>
-						</thead>
-						<tbody>
-							<!-- punishments -->
-						</tbody>
-					</table>
+			<div class="punishment-wrapper container">
+				<div class="load text-center">
+					<img src="assets/img/borb.gif">
 				</div>
-				<nav aria-label="Page navigation pages">
-					<ul class="pagination justify-content-center">
-						<!-- pagination -->
-					</ul>
-				</nav>
 			</div>
 		</div>
 		

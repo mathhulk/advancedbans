@@ -1,0 +1,28 @@
+<nav aria-label="Page navigation pages">
+	<ul class="pagination justify-content-center">
+		<!-- pagination -->
+	</ul>
+</nav>
+<div class="table-wrapper">
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th scope="col">{{ type }}</th>
+				<th scope="col">{{ name }}</th>
+				<th scope="col">{{ reason }}</th>
+				<th scope="col">{{ operator }}</th>
+				<th scope="col">{{ date }}</th>
+				<th scope="col">{{ expires }}</th>
+				<th scope="col" class="text-right">{{ status }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- punishments -->
+		</tbody>
+	</table>
+</div>
+<nav aria-label="Page navigation pages">
+	<ul class="pagination justify-content-center">
+		<!-- pagination -->
+	</ul>
+</nav>
