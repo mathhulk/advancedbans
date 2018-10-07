@@ -80,7 +80,7 @@ use AdvancedBan\Configuration;
 						if(Configuration::get(["player_count", "enabled"]) === true) {
 							
 							?>
-							<li class="nav-item clipboard" data-clipboard-text="<?= Configuration::get(["player_count, server_ip"]) ?>">
+							<li class="nav-item clipboard" data-clipboard-text="<?= Configuration::get(["player_count", "server_ip"]) ?>">
 								<a class="nav-link"><span class="badge badge-primary players"><?= Language::get("error_not_evaluated", "N/A") ?></span> <?= Language::get("players", "Players") ?></a>
 							</li>
 							<?php
