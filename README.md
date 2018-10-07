@@ -30,7 +30,7 @@ Simple and sleek website panel for AdvancedBan.
 * PHP v7.2.8 recommended
 * mysqlnd PHP module
 * nd_mysqli PHP module
-* Apache mod_rewrite (optional, can be disabled)
+* Apache mod_rewrite (optional, can be enabled)
 
 ## Installation
 Clone `advancedban-panel` to a local file location. Navigate to the `database.php` file, which should be located at `static\database.php`. Open the file with a text editor, such as Notepad++ for desktop or Nano for command-line. Enter the credentials for your database in the appropriate place and continue.
@@ -122,8 +122,6 @@ Consider translating AdvancedBan Panel into a language you are fluent in. Create
 Like translating AdvancedBan Panel, theming AdvancedBan Panel is also simple. However, AdvancedBan Panel will always load the core files for Bootstrap and will follow a Bootstrap HTML structure. Themes are stored in `static\themes` and the following is an example of the file structure for a theme.
 ```
 themes /
-| - cerulean
-| - ...
 \ - photon /
     | - css /
         \ - photon.css
@@ -142,7 +140,7 @@ The `configuration.json` file for your theme should follow this template.
 ```
 
 ## Icons
-To change the icons for AdvancedBan Panel, replace the icon files located in `assets\img` and `assets\img\icons` and the `favicon.ico` file using a tool like https://www.favicon-generator.org.
+To change the icons for AdvancedBan Panel, replace the icon files located in `static\assets\img` and `static\assets\img\icons` and the `favicon.ico` file using a tool like https://www.favicon-generator.org.
 
 ## Credit
 The author of AdvancedBan is Leoko. Find AdvancedBan on [SpigotMC](https://www.spigotmc.org/resources/advancedban.8695/).
