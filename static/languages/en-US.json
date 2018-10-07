@@ -1,7 +1,6 @@
 {
-	"name": "English",
-	"author": "mathhulk",
-	"terms": {
+	"locale": "English",
+	"collection": {
 		"punishments": "Punishments",
 		"support": "Support",
 		"contact": "Contact",

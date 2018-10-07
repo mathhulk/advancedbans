@@ -1,24 +1,21 @@
 <?php
 
-// Change to E_ALL for debug purposes.
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
-ob_start( );
+require_once "include/functions/parseLink.php";
+require_once "include/functions/cleanPath.php";
 
-// CONFIGURATION
-$__public = json_decode(file_get_contents("include/public.json"), true);
-$__language = json_decode(file_get_contents("include/languages/" . (isset($_COOKIE["advancedban-panel_language"]) ? $_COOKIE["advancedban-panel_language"] : $__public["default"]["language"]) . ".json"), true);
+require_once "static/database.php";
 
-require("include/private.php");
+require_once "AdvancedBan/User/Language.class.php";
+require_once "AdvancedBan/User/Theme.class.php";
 
-// REQUIREMENTS
-require("include/require/functions.php");
+require_once "AdvancedBan/Storage/Cookie.class.php";
 
-// DATABASE
-$__connection = new PDO("mysql:host=" . $__private["connection"]["host"] . ";dbname=" . $__private["connection"]["database"] . ";port=3306;charset=utf8mb4", $__private["connection"]["user"], $__private["connection"]["password"]);
-$__connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+require_once "AdvancedBan/Database.class.php";
+require_once "AdvancedBan/Configuration.class.php";
+require_once "AdvancedBan/Template.class.php";
 
-// REQUEST
-if(empty($_GET["path"])) require("pages/index.php");
-else if(file_exists("pages/" . cleanPath($_GET["path"]) . ".php")) require("pages/" . cleanPath($_GET["path"]) . ".php");
-else http_response_code(404);
+require_once "AdvancedBan/AdvancedBan.class.php";
+
+AdvancedBan::initialize(__DIR__);

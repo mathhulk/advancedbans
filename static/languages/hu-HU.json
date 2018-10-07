@@ -1,7 +1,6 @@
 {
-	"name": "Hungarian",
-	"author": "montlikadani",
-	"terms": {
+	"locale": "Hungarian",
+	"collection": {
 		"punishments": "Büntetések",
 		"support": "Támogatás",
 		"contact": "Kapcsolatba lépés",

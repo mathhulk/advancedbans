@@ -1,9 +1,15 @@
 <?php
 
-if(!empty($_GET["set"]) && file_exists("include/themes/" . $_GET["set"])) {
-	setcookie("advancedban-panel_theme", $_GET["set"], time( ) + (30 * 60 * 60 * 24), "/");
+use AdvancedBan\Storage\Cookie;
+
+use AdvancedBan\Configuration;
+
+// Better method for handling user selection and redirection?
+if(isset($_GET["set"]) && file_exists(AdvancedBan::getRoot( ) . "/static/themes/" . $_GET["set"] . "/configuration.json")) {
+	Cookie::set("theme", $_GET["set"]);
 } elseif(isset($_GET["default"])) {
-	setcookie("advancedban-panel_theme", "", time( ) - (30 * 60 * 60 * 24), "/");
+	Cookie::remove("theme");
 }
 
-header("Location: " . ($__public["mod_rewrite"] === true ? "../../" : "./")); die("Redirecting...");
+header("Location: " . (Configuration::get(["mod_rewrite"]) === true ? "../../" : "./")); 
+die("Redirecting...");

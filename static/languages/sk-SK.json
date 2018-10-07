@@ -1,7 +1,6 @@
 {
-	"name": "Slovak",
-	"author": "andrebas",
-	"terms": {
+	"locale": "Slovak",
+	"collection": {
 		"punishments": "Tresty",
 		"support": "Podpora",
 		"contact": "Kontakt",

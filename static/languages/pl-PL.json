@@ -1,7 +1,6 @@
 {
-	"name": "Polish",
-	"author": "artur9010",
-	"terms": {
+	"locale": "Polish",
+	"collection": {
 		"punishments": "Kary",
 		"support": "Wsparcie",
 		"contact": "Kontakt",

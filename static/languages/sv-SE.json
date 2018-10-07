@@ -1,7 +1,6 @@
 {
-    "name": "Svenska",
-    "author": "TheCactusMonkey",
-    "terms": {
+    "locale": "Svenska",
+    "collection": {
         "punishments": "Straff",
         "support": "Hjälp",
         "contact": "Kontakt",

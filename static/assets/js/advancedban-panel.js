@@ -86,7 +86,7 @@ function setPunishments(page) {
 			let date = new Date(isNaN(value.start) ? parseDate(value.start) : parseInt(value.start));
 			if(value.end && value.end !== "-1") expires = new Date(isNaN(value.end) ? parseDate(value.end) : parseInt(value.end));
 			
-			$("tbody").append(replace(__templates["punishment"], {id: value.id, name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge badge-primary\">" + date.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end && value.end !== "-1" ? expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge badge-primary\">" + expires.toLocaleString(getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
+			$("tbody").append(replace(__templates["punishment"], {id: value.id, name: value.name, reason: value.reason, operator: value.operator, date: date.toLocaleString(getCookie("AdvancedBan_language") ? getCookie("AdvancedBan_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge badge-primary\">" + date.toLocaleString(getCookie("AdvancedBan_language") ? getCookie("AdvancedBan_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>", expires: value.end && value.end !== "-1" ? expires.toLocaleString(getCookie("AdvancedBan_language") ? getCookie("AdvancedBan_language") : __public.default.language, {month: "long", day: "numeric", year: "numeric"}) + " <span class=\"badge badge-primary\">" + expires.toLocaleString(getCookie("AdvancedBan_language") ? getCookie("AdvancedBan_language") : __public.default.language, {hour: "numeric", minute: "numeric"}) + "</span>" : getLocale("error_not_evaluated", "N/A"), type: getLocale(value.punishmentType.toLowerCase( ), value.punishmentType), status: isActive(value.start, value.end) ? getLocale("active", "Active") : getLocale("inactive", "Inactive")}));
 		});
 	}
 	
@@ -125,7 +125,7 @@ function setPagination(page, punishments) {
 
 // EVENTS
 $(document).ready(function( ) {
-	$.getJSON("include/public.json", function(data) {
+	$.getJSON("static/configuration.json", function(data) {
 		__public = data;
 		
 		$("#manifest").attr("href", URL.createObjectURL(new Blob([JSON.stringify({
@@ -138,86 +138,86 @@ $(document).ready(function( ) {
 			lang: "en-US",
 			icons: [
 				{
-					src: "/assets/img/icons/apple-icon-57x57.png",
+					src: "static/assets/img/icons/apple-icon-57x57.png",
 					sizes: "57x57"
 				},
 				{
-					src: "/assets/img/icons/apple-icon-60x60.png",
+					src: "static/assets/img/icons/apple-icon-60x60.png",
 					sizes: "60x60"
 				},
 				{
-					src: "/assets/img/icons/apple-icon-72x72.png",
+					src: "static/assets/img/icons/apple-icon-72x72.png",
 					sizes: "72x72"
 				},
 				{
-					src: "/assets/img/icons/apple-icon-76x76.png",
+					src: "static/assets/img/icons/apple-icon-76x76.png",
 					sizes: "76x76"
 				},
 				{
-					src: "/assets/img/icons/apple-icon-114x114.png",
+					src: "static/assets/img/icons/apple-icon-114x114.png",
 					sizes: "114x114"
 				},
 				{
-					src: "/assets/img/icons/apple-icon-120x120.png",
+					src: "static/assets/img/icons/apple-icon-120x120.png",
 					sizes: "120x120"
 				},
 				{
-					src: "/assets/img/icons/apple-icon-144x144.png",
+					src: "static/assets/img/icons/apple-icon-144x144.png",
 					sizes: "144x144"
 				},
 				{
-					src: "/assets/img/icons/apple-icon-152x152.png",
+					src: "static/assets/img/icons/apple-icon-152x152.png",
 					sizes: "152x152"
 				},
 				{
-					src: "/assets/img/icons/apple-icon-180x180.png",
+					src: "static/assets/img/icons/apple-icon-180x180.png",
 					sizes: "180x180"
 				},
 				{
-					src: "/assets/img/icons/android-icon-192x192.png",
+					src: "static/assets/img/icons/android-icon-192x192.png",
 					sizes: "192x192"
 				},
 				{
-					src: "/assets/img/icons/favicon-32x32.png",
+					src: "static/assets/img/icons/favicon-32x32.png",
 					sizes: "32x32"
 				},
 				{
-					src: "/assets/img/icons/favicon-96x96.png",
+					src: "static/assets/img/icons/favicon-96x96.png",
 					sizes: "96x96"
 				},
 				{
-					src: "/assets/img/icons/favicon-16x16.png",
+					src: "static/assets/img/icons/favicon-16x16.png",
 					sizes: "16x16"
 				}
 			]
 		})]), {type: "application/json"}));
 		
-		$.getJSON("include/languages/" + (getCookie("advancedban-panel_language") ? getCookie("advancedban-panel_language") : __public.default.language) + ".json", function(data) {
-			__language = data.terms;
+		$.getJSON("static/languages/" + (getCookie("AdvancedBan_language") ? getCookie("AdvancedBan_language") : __public.default.language) + ".json", function(data) {
+			__language = data.collection;
 			
 			if(__public.player_count.enabled === true) {
 				new ClipboardJS(".clipboard");
 				updatePlayers( );
 			}
 			
-			$.getJSON(__public.mod_rewrite === true ? "punishments/" : "?path=punishments/", function(data) {
-				__log = data.log, __punishment = data.punishment;
+			$.getJSON(__public.mod_rewrite === true ? "punishments" : "?request=punishments", function(data) {
+				__log = data.PunishmentHistory, __punishment = data.Punishments;
 				
 				if(window.location.pathname.split("/") === "statistics") {
 					
 					// statistics
 					
 				} else {
-					$.get("templates/table.txt", function(data) {
+					$.get("static/templates/table.txt", function(data) {
 						__templates["table"] = data;
 						
-						$.get("templates/no-punishments.txt", function(data) {
+						$.get("static/templates/no-punishments.txt", function(data) {
 							__templates["no-punishments"] = data;
 							
-							$.get("templates/punishment.txt", function(data) {
+							$.get("static/templates/punishment.txt", function(data) {
 								__templates["punishment"] = data;
 								
-								$.get("templates/page.txt", function(data) {
+								$.get("static/templates/page.txt", function(data) {
 									__templates["page"] = data;
 									
 									$(".punishment-wrapper").html(replace(__templates["table"], {type: getLocale("type", "Type"), name: getLocale("name", "Name"), reason: getLocale("reason", "Reason"), operator: getLocale("operator", "Operator"), date: getLocale("date", "Date"), expires: getLocale("expires", "Expires"), status: getLocale("status", "Status")}));

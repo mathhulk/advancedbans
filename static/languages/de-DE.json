@@ -1,7 +1,6 @@
 {
-	"name": "Deutsch",
-	"author": "derrodirik",
-	"terms": {
+	"locale": "Deutsch",
+	"collection": {
 		"punishments": "Strafen",
 		"support": "Support",
 		"contact": "Kontakt",

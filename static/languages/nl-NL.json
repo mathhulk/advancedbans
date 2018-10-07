@@ -1,7 +1,6 @@
 {
-	"name": "Nederlands",
-	"author": "ishandig",
-	"terms": {
+	"locale": "Nederlands",
+	"collection": {
 		"punishments": "Straffen",
 		"support": "Ondersteuning",
 		"contact": "Contact",

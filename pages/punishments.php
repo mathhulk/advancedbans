@@ -1,11 +1,5 @@
 <?php
 
-$query = "SELECT * FROM " . $__private["connection"]["table"]["log"];
-$statement = $__connection->query($query);
-$response["log"] = $statement->fetchAll(PDO::FETCH_ASSOC);
+use AdvancedBan\Database;
 
-$query = "SELECT * FROM " . $__private["connection"]["table"]["punishment"];
-$statement = $__connection->query($query);
-$response["punishment"] = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-die(json_encode($response));
+die(json_encode(["PunishmentHistory" => Database::getData("PunishmentHistory"), "Punishments" => Database::getData("Punishments")]));

@@ -1,3 +1,13 @@
+<?php
+
+use AdvancedBan\User\Language;
+use AdvancedBan\User\Theme;
+
+use AdvancedBan\Storage\Cookie;
+
+use AdvancedBan\Configuration;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -5,25 +15,25 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		
-		<title><?= $__public["messages"]["title"] ?></title>
+		<title><?= Configuration::get(["messages", "title"]) ?></title>
 		
-		<meta name="description" content="<?= $__public["messages"]["description"] ?>">
-		<meta name="application-name" content="<?= $__public["messages"]["title"] ?>">
+		<meta name="description" content="<?= Configuration::get(["messages", "description"]) ?>">
+		<meta name="application-name" content="<?= Configuration::get(["messages", "title"]) ?>">
 		<!--<meta name="theme-color" content="#fafafa">-->
 		<meta name="mobile-web-app-capable" content="yes">
 		
-		<meta property="og:title" content="<?= getLocale("punishments", "Punishments") ?>">
+		<meta property="og:title" content="<?= Language::get("punishments", "Punishments") ?>">
 		<meta property="og:url" content="//<?= $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ?>">
-		<meta property="og:site_name" content="<?= $__public["messages"]["title"] ?>">
-		<meta property="og:image" content="assets/img/logo.png">
-		<meta property="og:description" content="<?= $__public["messages"]["description"] ?>">
+		<meta property="og:site_name" content="<?= Configuration::get(["messages", "title"]) ?>">
+		<meta property="og:image" content="static/assets/img/logo.png">
+		<meta property="og:description" content="<?= Configuration::get(["messages", "description"]) ?>">
 		<meta property="og:type" content="website">
 		
-		<meta name="msapplication-tooltip" content="<?= $__public["messages"]["title"] ?>">
+		<meta name="msapplication-tooltip" content="<?= Configuration::get(["messages", "title"]) ?>">
 		<!--<meta name="msapplication-navbutton-color" content="#fafafa">-->
 		<meta name="msapplication-starturl" content=".">
 		<meta name="msapplication-TileColor" content="#fafafa">
-		<meta name="msapplication-TileImage" content="assets/img/icons/ms-icon-144x144.png">
+		<meta name="msapplication-TileImage" content="static/assets/img/icons/ms-icon-144x144.png">
 		
 		<!-- tasks -->
 		
@@ -31,53 +41,47 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="default">
 		
 		<link rel="manifest" id="manifest">
-		<link rel="apple-touch-icon" sizes="57x57" href="assets/img/icons/apple-icon-57x57.png">
-		<link rel="apple-touch-icon" sizes="60x60" href="assets/img/icons/apple-icon-60x60.png">
-		<link rel="apple-touch-icon" sizes="72x72" href="assets/img/icons/apple-icon-72x72.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="assets/img/icons/apple-icon-76x76.png">
-		<link rel="apple-touch-icon" sizes="114x114" href="assets/img/icons/apple-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="assets/img/icons/apple-icon-120x120.png">
-		<link rel="apple-touch-icon" sizes="144x144" href="assets/img/icons/apple-icon-144x144.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="assets/img/icons/apple-icon-152x152.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="assets/img/icons/apple-icon-180x180.png">
-		<link rel="icon" type="image/png" sizes="192x192"  href="assets/img/icons/android-icon-192x192.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="assets/img/icons/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="96x96" href="assets/img/icons/favicon-96x96.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="assets/img/icons/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="57x57" href="static/assets/img/icons/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="static/assets/img/icons/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="static/assets/img/icons/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="static/assets/img/icons/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="static/assets/img/icons/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="static/assets/img/icons/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="static/assets/img/icons/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="static/assets/img/icons/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="static/assets/img/icons/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192"  href="static/assets/img/icons/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="static/assets/img/icons/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="static/assets/img/icons/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="static/assets/img/icons/favicon-16x16.png">
 		
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" media="screen">
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css" media="screen">
-		<link rel="stylesheet" href="assets/css/advancedban-panel.css" media="screen">
+		<link rel="stylesheet" href="static/assets/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" href="static/assets/css/advancedban-panel.css" media="screen">
 		
 		<?php
 		
-		foreach(glob("include/themes/" . (isset($_COOKIE["advancedban-panel_theme"]) ? $_COOKIE["advancedban-panel_theme"] : $__public["default"]["theme"]) . "/css/*") as $stylesheet) {
-			
-			?>
-			<link rel="stylesheet" href="<?= $stylesheet ?>" media="screen">
-			<?php
-			
-		}
+		Theme::loadStatic("stylesheet", "css");
 		
 		?>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 			<div class="container">
-				<a class="navbar-brand" href="./"><?= $__public["messages"]["title"] ?></a>
+				<a class="navbar-brand" href="./"><?= Configuration::get(["messages", "title"]) ?></a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"><!-- toggle --></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navigation">
 					<ul class="navbar-nav">
-						<li class="nav-item active"><a class="nav-link" href="./"><?= getLocale("punishments", "Punishments") ?></a></li>
+						<li class="nav-item active"><a class="nav-link" href="./"><?= Language::get("punishments", "Punishments") ?></a></li>
 						<?php
 						
-						if($__public["player_count"]["enabled"] === true) {
+						if(Configuration::get(["player_count", "enabled"]) === true) {
 							
 							?>
-							<li class="nav-item clipboard" data-clipboard-text="<?= $__public["player_count"]["server_ip"] ?>">
-								<a class="nav-link"><span class="badge badge-primary players"><?= getLocale("error_not_evaluated", "N/A") ?></span> <?= getLocale("players", "Players") ?></a>
+							<li class="nav-item clipboard" data-clipboard-text="<?= Configuration::get(["player_count, server_ip"]) ?>">
+								<a class="nav-link"><span class="badge badge-primary players"><?= Language::get("error_not_evaluated", "N/A") ?></span> <?= Language::get("players", "Players") ?></a>
 							</li>
 							<?php
 							
@@ -88,18 +92,18 @@
 				
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= getLocale("themes", "Themes") ?> <span class="caret"></span></a>
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("themes", "Themes") ?> <span class="caret"></span></a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="./<?= $__public["mod_rewrite"] === false ? "?path=user/theme&default" : "user/theme?default" ?>"><?= getLocale("default", "Default") ?></a>
+								<a class="dropdown-item" href="./<?= parseLink("user/theme?default") ?>"><?= Language::get("default", "Default") ?></a>
 								<div class="dropdown-divider"><!-- divide --></div>
 								<?php
 								
-								foreach(glob("include/themes/*") as $theme) {
+								foreach(glob(AdvancedBan::getRoot( ) . "/static/themes/*") as $theme) {
 									
-									$configuration = json_decode(file_get_contents($theme . "/configuration.json"), true);
+									$data = json_decode(file_get_contents($theme . "/configuration.json"), true);
 									
 									?>
-									<a class="<?= isset($_COOKIE["advancedban-panel_theme"]) && basename($theme) == $_COOKIE["advancedban-panel_theme"] ? "active " : "" ?>dropdown-item" href="./<?= $__public["mod_rewrite"] === false ? "?path=user/theme&set=" . basename($theme) : "user/theme?set=" . basename($theme) ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge badge-primary"><?= htmlspecialchars($configuration["author"]) ?></span></a>
+									<a class="<?= basename($theme) === Cookie::get("theme") ? "active " : " " ?>dropdown-item" href="./<?= parseLink("user/theme?set=" . basename($theme)) ?>"><?= htmlspecialchars($data["theme"]) ?> <span class="badge badge-primary"><?= htmlspecialchars($data["creator"]) ?></span></a>
 									<?php
 								
 								}
@@ -108,18 +112,18 @@
 							</div>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= getLocale("languages", "Languages") ?> <span class="caret"></span></a>
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("languages", "Languages") ?> <span class="caret"></span></a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="./<?= $__public["mod_rewrite"] === false ? "?path=user/language&default" : "user/language?default" ?>"><?= getLocale("default", "Default") ?></a>
+								<a class="dropdown-item" href="./<?= parseLink("user/language?default") ?>"><?= Language::get("default", "Default") ?></a>
 								<div class="dropdown-divider"><!-- divide --></div>
 								<?php
 								
-								foreach(glob("include/languages/*") as $language) {
+								foreach(glob(AdvancedBan::getRoot( ) . "/static/languages/*") as $language) {
 									
-									$configuration = json_decode(file_get_contents($language), true);
+									$data = json_decode(file_get_contents($language), true);
 									
 									?>
-									<a class="<?= isset($_COOKIE["advancedban-panel_language"]) && basename($language, ".json") == $_COOKIE["advancedban-panel_language"] ? "active " : "" ?>dropdown-item" href="./<?= $__public["mod_rewrite"] === false ? "?path=user/language&set=" . basename($language, ".json") : "user/language?set=" . basename($language, ".json") ?>"><?= htmlspecialchars($configuration["name"]) ?> <span class="badge badge-primary"><?= htmlspecialchars($configuration["author"]) ?></span></a>
+									<a class="<?= basename($language, ".json") === Cookie::get("language") ? "active " : " " ?>dropdown-item" href="./<?= parseLink("user/language?set=" . basename($language, ".json")) ?>"><?= htmlspecialchars($data["locale"]) ?></a>
 									<?php
 									
 								}
@@ -129,26 +133,26 @@
 						</li>
 						<?php
 						
-						if($__public["support"]["contact"]["enabled"] === true || $__public["support"]["appeal"]["enabled"] == true) {
+						if(Configuration::get(["support", "contact", "enabled"]) === true || Configuration::get(["support", "appeal", "enabled"]) == true) {
 						
 							?>
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= getLocale("support", "Support") ?> <span class="caret"></span></a>
+								<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("support", "Support") ?> <span class="caret"></span></a>
 								<div class="dropdown-menu">
 									<?php
 									
-									if($__public["support"]["contact"]["enabled"] === true) {
+									if(Configuration::get(["support", "contact", "enabled"]) === true) {
 										
 										?>
-										<a class="dropdown-item" href="<?= $__public["support"]["contact"]["link"] ?>"><?= getLocale("contact", "Contact") ?></a>
+										<a class="dropdown-item" href="<?= Configuration::get(["support", "contact", "link"]) ?>"><?= Language::get("contact", "Contact") ?></a>
 										<?php
 										
 									}
 									
-									if($__public["support"]["appeal"]["enabled"] === true) {
+									if(Configuration::get(["support", "appeal", "enabled"]) === true) {
 										
 										?>
-										<a class="dropdown-item" href="<?= $__public["support"]["appeal"]["link"] ?>"><?= getLocale("appeal", "Appeal") ?></a>
+										<a class="dropdown-item" href="<?= Configuration::get(["support", "appeal", "link"]) ?>"><?= Language::get("appeal", "Appeal") ?></a>
 										<?php
 										
 									}
@@ -162,7 +166,7 @@
 						
 						?>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= getLocale("credit", "Credit") ?> <span class="caret"></span></a>
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("credit", "Credit") ?> <span class="caret"></span></a>
 							<ul class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" target="_blank" href="https://github.com/mathhulk/advancedban-panel">GitHub</a>
 								<a class="dropdown-item" target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a>
@@ -176,42 +180,42 @@
 		
 		<div class="splash text-center">
 			<div class="container">
-				<h1><?= $__public["messages"]["title"] ?></h1> 
-				<p><?= $__public["messages"]["description"] ?></p>
+				<h1><?= Configuration::get(["messages", "title"]) ?></h1> 
+				<p><?= Configuration::get(["messages", "description"]) ?></p>
 			</div>
 		</div>
 		
 		<div class="content">
 			<div class="search">
 				<div class="container">
-					<input type="text" class="form-control" id="input" placeholder="<?= getLocale("search", "Search") ?>">
+					<input type="text" class="form-control" id="input" placeholder="<?= Language::get("search", "Search") ?>">
 					<div class="text-center">
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("type", "Type") ?> <span class="caret"></span></button>
+							<button class="btn btn-primary dropdown-toggle" type="button" id="type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("type", "Type") ?> <span class="caret"></span></button>
 							<div class="dropdown-menu" aria-labelledby="type">
-								<a class="dropdown-item" data-search="ban"><?= getLocale("ban", "Ban") ?></a>
-								<a class="dropdown-item" data-search="temp_ban"><?= getLocale("temp_ban", "Temp. Ban") ?></a>
-								<a class="dropdown-item" data-search="mute"><?= getLocale("mute", "Mute") ?></a>
-								<a class="dropdown-item" data-search="temp_mute"><?= getLocale("temp_mute", "Temp. Mute") ?></a>
-								<a class="dropdown-item" data-search="warning"><?= getLocale("warning", "Warning") ?></a>
-								<a class="dropdown-item" data-search="temp_warning"><?= getLocale("temp_warning", "Temp. Warning") ?></a>
-								<a class="dropdown-item" data-search="kick"><?= getLocale("kick", "Kick") ?></a>
-								<a class="dropdown-item" data-search="ip_ban"><?= getLocale("ip_ban", "I.P. Ban") ?></a>
+								<a class="dropdown-item" data-search="ban"><?= Language::get("ban", "Ban") ?></a>
+								<a class="dropdown-item" data-search="temp_ban"><?= Language::get("temp_ban", "Temp. Ban") ?></a>
+								<a class="dropdown-item" data-search="mute"><?= Language::get("mute", "Mute") ?></a>
+								<a class="dropdown-item" data-search="temp_mute"><?= Language::get("temp_mute", "Temp. Mute") ?></a>
+								<a class="dropdown-item" data-search="warning"><?= Language::get("warning", "Warning") ?></a>
+								<a class="dropdown-item" data-search="temp_warning"><?= Language::get("temp_warning", "Temp. Warning") ?></a>
+								<a class="dropdown-item" data-search="kick"><?= Language::get("kick", "Kick") ?></a>
+								<a class="dropdown-item" data-search="ip_ban"><?= Language::get("ip_ban", "I.P. Ban") ?></a>
 							</div>
 						</div>
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("status", "Status") ?> <span class="caret"></span></button>
+							<button class="btn btn-primary dropdown-toggle" type="button" id="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("status", "Status") ?> <span class="caret"></span></button>
 							<div class="dropdown-menu" aria-labelledby="status">
-								<a class="dropdown-item" data-search="active"><?= getLocale("active", "Active") ?></a>
-								<a class="dropdown-item" data-search="inactive"><?= getLocale("inactive", "Inactive") ?></a>
+								<a class="dropdown-item" data-search="active"><?= Language::get("active", "Active") ?></a>
+								<a class="dropdown-item" data-search="inactive"><?= Language::get("inactive", "Inactive") ?></a>
 							</div>
 						</div>
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= getLocale("search", "Search") ?> <span class="caret"></span></button>
+							<button class="btn btn-primary dropdown-toggle" type="button" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("search", "Search") ?> <span class="caret"></span></button>
 							<div class="dropdown-menu" aria-labelledby="search">
-								<a class="dropdown-item" data-search="name"><?= getLocale("name", "Name") ?></a>
-								<a class="dropdown-item" data-search="reason"><?= getLocale("reason", "Reason") ?></a>
-								<a class="dropdown-item" data-search="operator"><?= getLocale("operator", "Operator") ?></a>
+								<a class="dropdown-item" data-search="name"><?= Language::get("name", "Name") ?></a>
+								<a class="dropdown-item" data-search="reason"><?= Language::get("reason", "Reason") ?></a>
+								<a class="dropdown-item" data-search="operator"><?= Language::get("operator", "Operator") ?></a>
 							</div>
 						</div>
 					</div>
@@ -220,26 +224,20 @@
 		
 			<div class="punishment-wrapper container">
 				<div class="load text-center">
-					<img src="assets/img/borb.gif">
+					<img src="static/assets/img/borb.gif">
 				</div>
 			</div>
 		</div>
 		
-		<script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="assets/js/popper.min.js"></script>
-		<script type="text/javascript" src="assets/js/clipboard.min.js"></script>
-		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="assets/js/advancedban-panel.js"></script>
+		<script type="text/javascript" src="static/assets/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="static/assets/js/popper.min.js"></script>
+		<script type="text/javascript" src="static/assets/js/clipboard.min.js"></script>
+		<script type="text/javascript" src="static/assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="static/assets/js/advancedban-panel.js"></script>
 		
 		<?php
 		
-		foreach(glob("include/themes/" . (isset($_COOKIE["advancedban-panel_theme"]) ? $_COOKIE["advancedban-panel_theme"] : $__public["default"]["theme"]) . "/js/*") as $script) {
-			
-			?>
-			<script type="text/javascript" src="<?= $script ?>"> </script>
-			<?php
-			
-		}
+		Theme::loadStatic("script", "js");
 		
 		?>
 	</body>

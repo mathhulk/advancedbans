@@ -33,37 +33,24 @@ Simple and sleek website panel for AdvancedBan.
 * Apache mod_rewrite (optional, can be disabled)
 
 ## Installation
-Clone `advancedban-panel` to a local file location. Navigate to the `private.php` file, which should be located at `include\private.php`. Open the file with a text editor, such as Notepad++ for desktop or Nano for command-line. Enter the credentials for your database in the appropriate place and continue.
+Clone `advancedban-panel` to a local file location. Navigate to the `database.php` file, which should be located at `static\database.php`. Open the file with a text editor, such as Notepad++ for desktop or Nano for command-line. Enter the credentials for your database in the appropriate place and continue.
 ```php
 <?php
 
-// PRIVATE
-$__private = array(
-	
-	// DATABASE
-	"connection" => array(
-	
-		"host" => "host",
-		"user" => "user",
-		"password" => "password",
-		"database" => "database",
-		"table" => array(
-			"punishment" => "Punishments",
-			"log" => "PunishmentHistory"
-			)
-		),
-		
-	);
+define("DATABASE_HOST", "host");
+define("DATABASE_USER", "user");
+define("DATABASE_PASSWORD", "password");
+define("DATABASE_DATABASE", "database");
 ```
 
-Configuration options are also available for AdvancedBan Panel. These options allow you to change how AdvancedBan Panel functions. The configuration file for AdvancedBan Panel is located at `include\public.json`. Once you have made changes to the configuration file, I would suggest placing the configuration file in a JSON validator to make sure you have not removed something you should not have.
+Configuration options are also available for AdvancedBan Panel. These options allow you to change how AdvancedBan Panel functions. The configuration file for AdvancedBan Panel is located at `static\configuration.json`. Once you have made changes to the configuration file, I would suggest placing the configuration file in a JSON validator to make sure you have not removed something you should not have.
 ```json
 {
     "default": {
         "theme": "photon",
         "language": "en-US"
     },
-    "mod_rewrite": true,
+    "mod_rewrite": false,
     "messages": {
         "title": "advancedban-panel",
         "description": "Simple and sleek website panel for AdvancedBan."
@@ -86,12 +73,11 @@ Configuration options are also available for AdvancedBan Panel. These options al
 ```
 
 ## Languages
-Translating Advancedban Panel is simple. Languages are located in `include\languages` and all language files follow a simple format. To translate Advancedban Panel for yourself, create a new file for your language. For example, `en-US.json` is used for the English language used in the United States. Then, use the following template to make your translations.
+Translating Advancedban Panel is simple. Languages are located in `static\languages` and all language files follow a simple format. To translate Advancedban Panel for yourself, create a new file for your language. For example, `en-US.json` is used for the English language used in the United States. Then, use the following template to make your translations.
 ```json
 {
-	"name": "English",
-	"author": "mathhulk",
-	"terms": {
+	"locale": "English",
+	"collection": {
 		"punishments": "Punishments",
 		"support": "Support",
 		"contact": "Contact",
@@ -133,7 +119,7 @@ Translating Advancedban Panel is simple. Languages are located in `include\langu
 Consider translating AdvancedBan Panel into a language you are fluent in. Create a pull request and I will merge the language into the master branch.
 
 ## Themes
-Like translating AdvancedBan Panel, theming AdvancedBan Panel is also simple. However, AdvancedBan Panel will always load the core files for Bootstrap and will follow a Bootstrap HTML structure. Themes are stored in `include\themes` and the following is an example of the file structure for a theme.
+Like translating AdvancedBan Panel, theming AdvancedBan Panel is also simple. However, AdvancedBan Panel will always load the core files for Bootstrap and will follow a Bootstrap HTML structure. Themes are stored in `static\themes` and the following is an example of the file structure for a theme.
 ```
 themes /
 | - cerulean
@@ -150,8 +136,8 @@ Static stylesheets and scripts should be placed in the appropriate `css` and `js
 The `configuration.json` file for your theme should follow this template.
 ```json
 {
-	"name": "Photon",
-	"author": "mathhulk"
+	"theme": "Photon",
+	"creator": "mathhulk"
 }
 ```
 
