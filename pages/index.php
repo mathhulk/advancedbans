@@ -25,7 +25,7 @@ use AdvancedBan\Configuration;
 		<meta property="og:title" content="<?= Language::get("punishments", "Punishments") ?>">
 		<meta property="og:url" content="//<?= $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ?>">
 		<meta property="og:site_name" content="<?= Configuration::get(["messages", "title"]) ?>">
-		<meta property="og:image" content="static/assets/img/logo.png">
+		<meta property="og:image" content="static/assets/img/icon.png">
 		<meta property="og:description" content="<?= Configuration::get(["messages", "description"]) ?>">
 		<meta property="og:type" content="website">
 		
