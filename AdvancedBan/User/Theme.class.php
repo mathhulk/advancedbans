@@ -22,12 +22,24 @@ class Theme {
 	}
 	
 	/*
+	public static function setTheme(string $theme) {
+		self::$theme = $theme;
+	}
+	
 	public static function getTheme( ) {
 		return self::$theme;
 	}
 	
+	public static function setCreator(string $creator) {
+		self::$creator = $creator;
+	}
+	
 	public static function getCreator( ) {
 		return self::$creator;
+	}
+	
+	public static function setDiscriminator(string $discriminator) {
+		self::$discriminator = $discriminator;
 	}
 	
 	public static function getDiscriminator( ) {

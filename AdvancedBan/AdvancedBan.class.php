@@ -27,7 +27,6 @@ class AdvancedBan {
 		self::request( );
 	}
 
-	// Better method for handling a request?
 	public static function request( ) {
 		if(isset($_GET["request"])) {
 			if(file_exists(self::$root . "/pages/" . cleanPath($_GET["request"]) . "/index.php")) {
@@ -36,15 +35,17 @@ class AdvancedBan {
 				require_once self::$root . "/pages/" . cleanPath($_GET["request"]) . ".php";
 			} else {
 				http_response_code(404);
-				
-				/*
-				require_once self::$root . "/pages/error.php";
-				*/
 			}
 		} else {
 			require_once self::$root . "/pages/index.php";
 		}
 	}
+	
+	/*
+	public static function setRoot(string $root) {
+		self::$root = $root;
+	}
+	*/
 	
 	public static function getRoot( ) {
 		return self::$root;

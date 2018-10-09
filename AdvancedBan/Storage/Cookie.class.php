@@ -11,6 +11,10 @@ class Cookie {
 	}
 	
 	/*
+	public static function setPrefix(string $prefix) {
+		self::$prefix = $prefix;
+	}
+	
 	public static function getPrefix( ) {
 		return self::$prefix;
 	}

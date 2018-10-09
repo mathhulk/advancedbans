@@ -22,8 +22,16 @@ class Template {
 	}
 	
 	/*
+	public function setTemplate(string $template) {
+		$this->template = $template;
+	}
+	
 	public function getTemplate( ) {
 		return $this->template;
+	}
+	
+	public function setIndices(array $indices) {
+		$this->indices = $indices;
 	}
 	
 	public function getIndices( ) {

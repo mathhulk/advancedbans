@@ -24,29 +24,50 @@ class Database {
 	}
 	
 	/*
+	public static function setHost(string $host) {
+		self::$host = $host;
+	}
+	
 	public static function getHost( ) {
 		return self::$host;
+	}
+	
+	public static function setUser(string $user) {
+		self::$user = $user;
 	}
 	
 	public static function getUser( ) {
 		return self::$user;
 	}
 	
+	public static function setPassword(string $password) {
+		self::$password = $password;
+	}
+	
 	public static function getPassword( ) {
 		return self::$password;
+	}
+	
+	public static function setDatabase(string $database) {
+		self::$database = $database;
 	}
 	
 	public static function getDatabase( ) {
 		return self::$database;
 	}
-	*/
 	
-	public static function getData(string $table) {
-		return self::$connection->query("SELECT * FROM " . $table)->fetchAll(PDO::FETCH_ASSOC);
+	public static function setConnection(PDO $database) {
+		self::$database = $database;
 	}
+	
+	*/
 	
 	public static function getConnection( ) {
 		return self::$connection;
+	}
+	
+	public static function getData(string $table) {
+		return self::$connection->query("SELECT * FROM " . $table)->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 }

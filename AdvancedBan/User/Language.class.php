@@ -21,12 +21,24 @@ class Language {
 	}
 	
 	/*
+	public static function setLanguage(string $language) {
+		self::$language = $language;
+	}
+	
 	public static function getLanguage( ) {
 		return self::$language;
 	}
 	
+	public static function setCollection(array $collection) {
+		self::$collection = $collection;
+	}
+	
 	public static function getCollection( ) {
 		return self::$collection;
+	}
+	
+	public static function setDiscriminator(string $discriminator) {
+		self::$discriminator = $discriminator;
 	}
 	
 	public static function getDiscriminator( ) {

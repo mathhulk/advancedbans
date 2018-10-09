@@ -15,6 +15,10 @@ class Configuration {
 	}
 	
 	/*
+	public static function setCollection(array $collection) {
+		self::$collection = $collection;
+	}
+	
 	public static function getCollection( ) {
 		return self::$collection;
 	}
