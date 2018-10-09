@@ -1,0 +1,1 @@
+ <span class="badge badge-primary copy"><i class="fa fa-clipboard"><!-- icon --></i> {{ copy }}</span>

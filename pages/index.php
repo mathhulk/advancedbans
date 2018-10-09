@@ -25,7 +25,7 @@ use AdvancedBan\Configuration;
 		<meta property="og:title" content="<?= Language::get("punishments", "Punishments") ?>">
 		<meta property="og:url" content="//<?= $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ?>">
 		<meta property="og:site_name" content="<?= Configuration::get(["messages", "title"]) ?>">
-		<meta property="og:image" content="//<?= $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"], "?") ?>static/assets/img/icon.png">
+		<meta property="og:image" content="//<?= $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"], "?") ?>static/resources/images/icon.png">
 		<meta property="og:description" content="<?= Configuration::get(["messages", "description"]) ?>">
 		<meta property="og:type" content="website">
 		
@@ -33,7 +33,7 @@ use AdvancedBan\Configuration;
 		<!--<meta name="msapplication-navbutton-color" content="#fafafa">-->
 		<meta name="msapplication-starturl" content=".">
 		<meta name="msapplication-TileColor" content="#fafafa">
-		<meta name="msapplication-TileImage" content="static/assets/img/icons/ms-icon-144x144.png">
+		<meta name="msapplication-TileImage" content="static/resources/images/icons/ms-icon-144x144.png">
 		
 		<!-- tasks -->
 		
@@ -41,23 +41,23 @@ use AdvancedBan\Configuration;
 		<meta name="apple-mobile-web-app-status-bar-style" content="default">
 		
 		<link rel="manifest" id="manifest">
-		<link rel="apple-touch-icon" sizes="57x57" href="static/assets/img/icons/apple-icon-57x57.png">
-		<link rel="apple-touch-icon" sizes="60x60" href="static/assets/img/icons/apple-icon-60x60.png">
-		<link rel="apple-touch-icon" sizes="72x72" href="static/assets/img/icons/apple-icon-72x72.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="static/assets/img/icons/apple-icon-76x76.png">
-		<link rel="apple-touch-icon" sizes="114x114" href="static/assets/img/icons/apple-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="static/assets/img/icons/apple-icon-120x120.png">
-		<link rel="apple-touch-icon" sizes="144x144" href="static/assets/img/icons/apple-icon-144x144.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="static/assets/img/icons/apple-icon-152x152.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="static/assets/img/icons/apple-icon-180x180.png">
-		<link rel="icon" type="image/png" sizes="192x192"  href="static/assets/img/icons/android-icon-192x192.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="static/assets/img/icons/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="96x96" href="static/assets/img/icons/favicon-96x96.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="static/assets/img/icons/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="57x57" href="static/resources/images/icons/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="static/resources/images/icons/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="static/resources/images/icons/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="static/resources/images/icons/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="static/resources/images/icons/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="static/resources/images/icons/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="static/resources/images/icons/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="static/resources/images/icons/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="static/resources/images/icons/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192"  href="static/resources/images/icons/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="static/resources/images/icons/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="static/resources/images/icons/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="static/resources/images/icons/favicon-16x16.png">
 		
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" media="screen">
-		<link rel="stylesheet" href="static/assets/css/bootstrap.min.css" media="screen">
-		<link rel="stylesheet" href="static/assets/css/advancedban-panel.css" media="screen">
+		<link rel="stylesheet" href="static/resources/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" href="static/resources/css/advancedban-panel.css" media="screen">
 		
 		<?php
 		
@@ -224,16 +224,24 @@ use AdvancedBan\Configuration;
 		
 			<div class="punishment-wrapper container">
 				<div class="load text-center">
-					<img src="static/assets/img/borb.gif">
+					<img src="static/resources/images/borb.gif">
 				</div>
 			</div>
 		</div>
 		
-		<script type="text/javascript" src="static/assets/js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="static/assets/js/popper.min.js"></script>
-		<script type="text/javascript" src="static/assets/js/clipboard.min.js"></script>
-		<script type="text/javascript" src="static/assets/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="static/assets/js/advancedban-panel.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/popper.min.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/clipboard.min.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/bootstrap.min.js"></script>
+		
+		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/User/Language.class.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/Storage/Cookie.class.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/Configuration.class.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/Template.class.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/include/functions/setManifest.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/include/functions/setPlayers.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/AdvancedBan.class.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/advancedban-panel.js"></script>
 		
 		<?php
 		
