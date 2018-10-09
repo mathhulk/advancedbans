@@ -140,7 +140,7 @@ The `configuration.json` file for your theme should follow this template.
 ```
 
 ## Icons
-To change the icons for AdvancedBan Panel, replace the icon files located in `static\assets\img` and `static\assets\img\icons` and the `favicon.ico` file using a tool like https://www.favicon-generator.org.
+To change the icons for AdvancedBan Panel, replace the icon files located in `static\resources\images` and `static\resources\images\icons` and the `favicon.ico` file using a tool like https://www.favicon-generator.org.
 
 ## Credit
 The author of AdvancedBan is Leoko. Find AdvancedBan on [SpigotMC](https://www.spigotmc.org/resources/advancedban.8695/).
