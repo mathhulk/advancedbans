@@ -76,7 +76,7 @@ Configuration options are also available for AdvancedBan Panel. These options al
 Translating Advancedban Panel is simple. Languages are located in `static\languages` and all language files follow a simple format. To translate Advancedban Panel for yourself, create a new file for your language. For example, `en-US.json` is used for the English language used in the United States. Then, use the following template to make your translations.
 ```json
 {
-	"locale": "English",
+	"language": "English",
 	"collection": {
 		"punishments": "Punishments",
 		"support": "Support",

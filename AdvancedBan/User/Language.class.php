@@ -6,23 +6,31 @@ use AdvancedBan;
 
 class Language {
 	
-	private static $locale;
+	private static $language;
 	private static $collection;
 	
-	public static function initialize(string $language) {
-		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . "/static/languages/" . $language . ".json"), true);
+	private static $discriminator;
+	
+	public static function initialize(string $discriminator) {
+		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . "/static/languages/" . $discriminator . ".json"), true);
 		
-		self::$locale = $data["locale"];
+		self::$language = $data["language"];
 		self::$collection = $data["collection"];
+		
+		self::$discriminator = $discriminator;
 	}
 	
 	/*
-	public static function getLocale( ) {
-		return self::$locale;
+	public static function getLanguage( ) {
+		return self::$language;
 	}
 	
 	public static function getCollection( ) {
 		return self::$collection;
+	}
+	
+	public static function getDiscriminator( ) {
+		return self::$discriminator;
 	}
 	*/
 	

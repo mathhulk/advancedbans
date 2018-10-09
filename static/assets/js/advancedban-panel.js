@@ -196,8 +196,16 @@ $(document).ready(function( ) {
 			__language = data.collection;
 			
 			if(__public.player_count.enabled === true) {
-				new ClipboardJS(".clipboard");
-				updatePlayers( );
+				$.get("static/templates/copy.txt", function(data) {
+					__templates["copy"] = data;
+					
+					$.get("static/templates/copied.txt", function(data) {
+						__templates["copied"] = data;
+					
+						new ClipboardJS(".clipboard");
+						updatePlayers( );
+					});
+				});
 			}
 			
 			$.getJSON(__public.mod_rewrite === true ? "punishments" : "?request=punishments", function(data) {
@@ -233,7 +241,7 @@ $(document).ready(function( ) {
 	});
 	
 	$(document).on("mouseenter", ".clipboard", function( ) {
-		if(!$(this).find("a .copy").length) $(this).find("a").append(" <span class=\"badge badge-primary copy\"><i class=\"fa fa-clipboard\"></i> " + getLocale("copy", "Copy") + "</span>");
+		if(!$(this).find("a .copy").length) $(this).find("a").append(replace(__templates["copy"], {locale: getLocale("copy", "Copy")}));
 	});
 
 	$(document).on("mouseleave", ".clipboard", function( ) {
@@ -241,7 +249,7 @@ $(document).ready(function( ) {
 	});
 	
 	$(document).on("click", ".clipboard", function( ) {
-		$(this).find("a .copy").html("<i class=\"fa fa-clipboard\"></i> " + getLocale("copied", "Copied"));
+		$(this).find("a .copy").html(replace(__templates["copied"], {locale: getLocale("copied", "Copied")}));
 	});
 	
 	$(document).on("click", ".pagination li a", function( ) {

@@ -12,13 +12,13 @@ class Theme {
 	
 	private static $discriminator;
 	
-	public static function initialize(string $theme) {
-		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . "/static/themes/" . $theme . "/configuration.json"), true);
+	public static function initialize(string $discriminator) {
+		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . "/static/themes/" . $discriminator . "/configuration.json"), true);
 		
 		self::$theme = $data["theme"];
 		self::$creator = $data["creator"];
 		
-		self::$discriminator = $theme;
+		self::$discriminator = $discriminator;
 	}
 	
 	/*

@@ -92,7 +92,7 @@ use AdvancedBan\Configuration;
 				
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("themes", "Themes") ?> <span class="caret"></span></a>
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("themes", "Themes") ?> <span class="caret"><!-- icon --></span></a>
 							<div class="dropdown-menu">
 								<a class="dropdown-item" href="./<?= parseLink("user/theme?default") ?>"><?= Language::get("default", "Default") ?></a>
 								<div class="dropdown-divider"><!-- divide --></div>
@@ -112,7 +112,7 @@ use AdvancedBan\Configuration;
 							</div>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("languages", "Languages") ?> <span class="caret"></span></a>
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("languages", "Languages") ?> <span class="caret"><!-- icon --></span></a>
 							<div class="dropdown-menu">
 								<a class="dropdown-item" href="./<?= parseLink("user/language?default") ?>"><?= Language::get("default", "Default") ?></a>
 								<div class="dropdown-divider"><!-- divide --></div>
@@ -123,7 +123,7 @@ use AdvancedBan\Configuration;
 									$data = json_decode(file_get_contents($language), true);
 									
 									?>
-									<a class="<?= basename($language, ".json") === Cookie::get("language") ? "active " : " " ?>dropdown-item" href="./<?= parseLink("user/language?set=" . basename($language, ".json")) ?>"><?= htmlspecialchars($data["locale"]) ?></a>
+									<a class="<?= basename($language, ".json") === Cookie::get("language") ? "active " : " " ?>dropdown-item" href="./<?= parseLink("user/language?set=" . basename($language, ".json")) ?>"><?= htmlspecialchars($data["language"]) ?></a>
 									<?php
 									
 								}
@@ -137,7 +137,7 @@ use AdvancedBan\Configuration;
 						
 							?>
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("support", "Support") ?> <span class="caret"></span></a>
+								<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("support", "Support") ?> <span class="caret"><!-- icon --></span></a>
 								<div class="dropdown-menu">
 									<?php
 									
@@ -166,7 +166,7 @@ use AdvancedBan\Configuration;
 						
 						?>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("credit", "Credit") ?> <span class="caret"></span></a>
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("credit", "Credit") ?> <span class="caret"><!-- icon --></span></a>
 							<ul class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" target="_blank" href="https://github.com/mathhulk/advancedban-panel">GitHub</a>
 								<a class="dropdown-item" target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a>
@@ -191,7 +191,7 @@ use AdvancedBan\Configuration;
 					<input type="text" class="form-control" id="input" placeholder="<?= Language::get("search", "Search") ?>">
 					<div class="text-center">
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("type", "Type") ?> <span class="caret"></span></button>
+							<button class="btn btn-primary dropdown-toggle" type="button" id="type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("type", "Type") ?> <span class="caret"><!-- icon --></span></button>
 							<div class="dropdown-menu" aria-labelledby="type">
 								<a class="dropdown-item" data-search="ban"><?= Language::get("ban", "Ban") ?></a>
 								<a class="dropdown-item" data-search="temp_ban"><?= Language::get("temp_ban", "Temp. Ban") ?></a>
@@ -204,14 +204,14 @@ use AdvancedBan\Configuration;
 							</div>
 						</div>
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("status", "Status") ?> <span class="caret"></span></button>
+							<button class="btn btn-primary dropdown-toggle" type="button" id="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("status", "Status") ?> <span class="caret"><!-- icon --></span></button>
 							<div class="dropdown-menu" aria-labelledby="status">
 								<a class="dropdown-item" data-search="active"><?= Language::get("active", "Active") ?></a>
 								<a class="dropdown-item" data-search="inactive"><?= Language::get("inactive", "Inactive") ?></a>
 							</div>
 						</div>
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("search", "Search") ?> <span class="caret"></span></button>
+							<button class="btn btn-primary dropdown-toggle" type="button" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("search", "Search") ?> <span class="caret"><!-- icon --></span></button>
 							<div class="dropdown-menu" aria-labelledby="search">
 								<a class="dropdown-item" data-search="name"><?= Language::get("name", "Name") ?></a>
 								<a class="dropdown-item" data-search="reason"><?= Language::get("reason", "Reason") ?></a>
