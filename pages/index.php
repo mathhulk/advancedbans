@@ -235,12 +235,17 @@ use AdvancedBan\Configuration;
 		<script type="text/javascript" src="static/resources/javascript/bootstrap.min.js"></script>
 		
 		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/User/Language.class.js"></script>
+		
 		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/Storage/Cookie.class.js"></script>
+		
 		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/Configuration.class.js"></script>
 		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/Template.class.js"></script>
+		
+		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/AdvancedBan.class.js"></script>
+		
 		<script type="text/javascript" src="static/resources/javascript/include/functions/setManifest.js"></script>
 		<script type="text/javascript" src="static/resources/javascript/include/functions/setPlayers.js"></script>
-		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/AdvancedBan.class.js"></script>
+		
 		<script type="text/javascript" src="static/resources/javascript/advancedban-panel.js"></script>
 		
 		<?php

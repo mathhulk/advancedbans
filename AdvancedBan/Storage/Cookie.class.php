@@ -26,7 +26,6 @@ class Cookie {
 	
 	public static function set(string $cookie, string $value) {
 		setCookie(self::$prefix . "_" . $cookie, $value, time( ) + 3600 * 3600, "/");
-		var_dump($_COOKIE[self::$prefix . "_" . $cookie]);
 	}
 	
 	public static function remove(string $cookie) {
