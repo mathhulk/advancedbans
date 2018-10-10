@@ -69,15 +69,15 @@ class AdvancedBan {
 				let date = new Date(isNaN(value.start) ? parseDate(value.start) : parseInt(value.start));
 				let expires;
 				
-				if(value.end && value.end !== "-1") expires = new Date(isNaN(value.end) ? parseDate(value.end) : parseInt(value.end));
+				if(value.end && value.end.length > 2) expires = new Date(isNaN(value.end) ? parseDate(value.end) : parseInt(value.end));
 				
-				$("tbody").append(__templates["punishment"].replace([value.id, Language.get(value.punishmentType.toLowerCase( ), value.punishmentType), value.name, value.reason, value.operator, date.toLocaleString(Language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + __templates["time"].replace([date.toLocaleString(Language.discriminator, {hour: "numeric", minute: "numeric"})]), value.end && value.end !== "-1" ? expires.toLocaleString(Language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + __templates["time"].replace([expires.toLocaleString(Language.discriminator, {hour: "numeric", minute: "numeric"})]) : Language.get("error_not_evaluated", "N/A"), AdvancedBan.isActive(value.start, value.end) ? Language.get("active", "Active") : Language.get("inactive", "Inactive")]));
+				$("tbody").append(__templates["punishment"].replace([value.id, Language.get(value.punishmentType.toLowerCase( ), value.punishmentType), value.name, value.reason, value.operator, date.toLocaleString(Language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + __templates["time"].replace([date.toLocaleString(Language.discriminator, {hour: "numeric", minute: "numeric"})]), value.end && value.end.length > 2 ? expires.toLocaleString(Language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + __templates["time"].replace([expires.toLocaleString(Language.discriminator, {hour: "numeric", minute: "numeric"})]) : Language.get("error_not_evaluated", "N/A"), AdvancedBan.isActive(value.start, value.end) ? Language.get("active", "Active") : Language.get("inactive", "Inactive")]));
 			});
 		}
 		
 		let pages = Math.floor(punishments.length / 25);
 		
-		if(punishments.length % 25 !== 0 || punishments.length === 0) pages++;
+		if(punishments.length % 25 > 0 || punishments.length === 0) pages++;
 		
 		if(page > 1) {
 			$(".pagination").append(__templates["page"].replace(["inactive", 1, Language.get("first", "First")])).append(__templates["page"].replace(["inactive", page - 1, Language.get("previous", "Previous")]));
@@ -119,25 +119,46 @@ class AdvancedBan {
 	}
 	
 	static isValid(punishment) {
-		if(__search.type.length > 0 && !__search.type.includes(punishment.punishmentType.toLowerCase( ))) {
+		if(__search.punishmentType.length > 0 && __search.punishmentType.includes(punishment.punishmentType.toLowerCase( )) === false) {
 			return false;
 		}
 		
-		if(__search.status.length > 0 && !__search.status.includes(isActive(punishment.start, punishment.end) ? "active" : "inactive")) {
+		if(__search.punishmentStatus.length > 0 && __search.punishmentStatus.includes(isActive(punishment.start, punishment.end) ? "active" : "inactive") === false) {
 			return false;
 		}
 		
-		if(__search.search.length > 0 && __search.input) {
+		if(__search.inputType.length > 0 && __search.input) {
 			let valid = false;
 			
-			$.each(__search.search, function(index, value) {
-				if(punishment[value].toLowerCase( ).includes(__search.input.toLowerCase( ))) valid = true;
+			$.each(__search.inputType, function(index, value) {
+				if(punishment[value].toLowerCase( ).includes(__search.inputType.toLowerCase( ))) valid = true;
 			});
 			
-			if(!valid) return false;
+			if(valid === false) {
+				return false;
+			}
 		}
 		
-		if(__search.input && !punishment.name.toLowerCase( ).includes(__search.input.toLowerCase( )) && !punishment.reason.toLowerCase( ).includes(__search.input.toLowerCase( )) && !punishment.operator.toLowerCase( ).includes(__search.input.toLowerCase( ))) {
+		/*
+		 * Start and end selection for searching
+		if(__search.punishmentStart.length > 0) {
+			let date = new Date(punishment.start);
+			
+			if(date.getTime( ) > __search.punishmentStart) {
+				return false;
+			}
+		}
+		
+		if(__search.punishmentEnd.length > 0) {
+			let date = new Date(punishment.end);
+			
+			if(date.getTime( ) < __search.punishmentEnd) {
+				return false;
+			}
+		}
+		*/
+		
+		if(__search.input && punishment.name.toLowerCase( ).includes(__search.input.toLowerCase( )) === false && punishment.reason.toLowerCase( ).includes(__search.input.toLowerCase( )) === false && punishment.operator.toLowerCase( ).includes(__search.input.toLowerCase( )) === false) {
 			return false;
 		}
 		

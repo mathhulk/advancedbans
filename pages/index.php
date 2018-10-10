@@ -191,8 +191,8 @@ use AdvancedBan\Configuration;
 					<input type="text" class="form-control" id="input" placeholder="<?= Language::get("search", "Search") ?>">
 					<div class="text-center">
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("type", "Type") ?> <span class="caret"><!-- icon --></span></button>
-							<div class="dropdown-menu" aria-labelledby="type">
+							<button class="btn btn-primary dropdown-toggle" type="button" id="punishmentType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("type", "Type") ?> <span class="caret"><!-- icon --></span></button>
+							<div class="dropdown-menu" aria-labelledby="punishmentType">
 								<a class="dropdown-item" data-search="ban"><?= Language::get("ban", "Ban") ?></a>
 								<a class="dropdown-item" data-search="temp_ban"><?= Language::get("temp_ban", "Temp. Ban") ?></a>
 								<a class="dropdown-item" data-search="mute"><?= Language::get("mute", "Mute") ?></a>
@@ -204,15 +204,15 @@ use AdvancedBan\Configuration;
 							</div>
 						</div>
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("status", "Status") ?> <span class="caret"><!-- icon --></span></button>
-							<div class="dropdown-menu" aria-labelledby="status">
+							<button class="btn btn-primary dropdown-toggle" type="button" id="punishmentStatus" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("status", "Status") ?> <span class="caret"><!-- icon --></span></button>
+							<div class="dropdown-menu" aria-labelledby="punishmentStatus">
 								<a class="dropdown-item" data-search="active"><?= Language::get("active", "Active") ?></a>
 								<a class="dropdown-item" data-search="inactive"><?= Language::get("inactive", "Inactive") ?></a>
 							</div>
 						</div>
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("search", "Search") ?> <span class="caret"><!-- icon --></span></button>
-							<div class="dropdown-menu" aria-labelledby="search">
+							<button class="btn btn-primary dropdown-toggle" type="button" id="inputType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("search", "Search") ?> <span class="caret"><!-- icon --></span></button>
+							<div class="dropdown-menu" aria-labelledby="inputType">
 								<a class="dropdown-item" data-search="name"><?= Language::get("name", "Name") ?></a>
 								<a class="dropdown-item" data-search="reason"><?= Language::get("reason", "Reason") ?></a>
 								<a class="dropdown-item" data-search="operator"><?= Language::get("operator", "Operator") ?></a>

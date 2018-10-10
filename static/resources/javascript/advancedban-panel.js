@@ -1,11 +1,11 @@
 var __PunishmentHistory, __Punishments;
 var __templates = { };
-var __search = {type: [ ], status: [ ], search: [ ]};
+var __search = {punishmentType: [ ], punishmentStatus: [ ], inputType: [ ]};
 
 $(document).ready(function( ) {
 	AdvancedBan.initialize(function( ) {
 		$(document).on("mouseenter", ".clipboard", function( ) {
-			if(!$(this).find("a .copy").length) {
+			if($(this).find("a .copy").length === 0) {
 				$(this).find("a").append(__templates["copy"].replace([Language.get("copy", "Copy")]));
 			}
 		});
