@@ -7,6 +7,7 @@ use AdvancedBan;
 class Template {
 	
 	private $template;
+	
 	private $indices;
 	
 	public function __construct(string $template, array $indices) {
@@ -21,23 +22,13 @@ class Template {
 		$this->indices = $indices;
 	}
 	
-	/*
-	public function setTemplate(string $template) {
-		$this->template = $template;
-	}
-	
 	public function getTemplate( ) {
 		return $this->template;
-	}
-	
-	public function setIndices(array $indices) {
-		$this->indices = $indices;
 	}
 	
 	public function getIndices( ) {
 		return $this->indices;
 	}
-	*/
 	
 	public function replace(array $values) {
 		$template = $this->template;
