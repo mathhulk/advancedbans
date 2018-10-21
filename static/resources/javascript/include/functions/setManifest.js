@@ -1,11 +1,11 @@
 function setManifest( ) {
 	$("#manifest").attr("href", URL.createObjectURL(new Blob([JSON.stringify({
-		name: Configuration.get(["messages", "title"]),
-		short_name: Configuration.get(["messages", "title"]),
+		name: AdvancedBan.configuration.get(["messages", "title"]),
+		short_name: AdvancedBan.configuration.get(["messages", "title"]),
 		start_url: ".",
 		display: "minimal-ui",
 		background_color: "#fff",
-		description: Configuration.get(["messages", "description"]),
+		description: AdvancedBan.configuration.get(["messages", "description"]),
 		lang: "en-US",
 		icons: [
 			{

@@ -1,45 +1,47 @@
 class Language {
 	
-	static initialize(discriminator, callback) {
+	constructor(discriminator, callback) {
+		let pseudo = this;
+		
 		$.getJSON("static/languages/" + discriminator + ".json", function(data) {
-			Language.language = data.language;
-			Language.collection = data.collection;
+			pseudo.language = data.language;
+			pseudo.collection = data.collection;
 			
-			Language.discriminator = discriminator;
+			pseudo.discriminator = discriminator;
 			
 			callback( );
 		});
+		
+		/*
+		return this;
+		*/
 	}
 	
-	static set language(language) {
+	set language(language) {
 		this._language = language;
 	}
 	
-	/*
-	static get language( ) {
+	get language( ) {
 		return this._language;
 	}
-	*/
 	
-	static set collection(collection) {
+	set collection(collection) {
 		this._collection = collection;
 	}
 	
-	/*
-	static get collection( ) {
+	get collection( ) {
 		return this._collection;
 	}
-	*/
 	
-	static set discriminator(discriminator) {
+	set discriminator(discriminator) {
 		this._discriminator = discriminator;
 	}
 	
-	static get discriminator( ) {
+	get discriminator( ) {
 		return this._discriminator;
 	}
 	
-	static get(term, standard) {
+	get(term, standard) {
 		return this._collection[term] ? this._collection[term] : standard;
 	}
 	

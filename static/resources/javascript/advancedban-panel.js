@@ -1,13 +1,9 @@
-var __PunishmentHistory, __Punishments;
-var __templates = { };
-var __search = {punishmentType: [ ], punishmentStatus: [ ], inputType: [ ]};
-
 $(document).ready(function( ) {
+	
 	AdvancedBan.initialize(function( ) {
+		
 		$(document).on("mouseenter", ".clipboard", function( ) {
-			if($(this).find("a .copy").length === 0) {
-				$(this).find("a").append(__templates["copy"].replace([Language.get("copy", "Copy")]));
-			}
+			if($(this).find("a .copy").length === 0) $(this).find("a").append(AdvancedBan.getTemplate("copy").replace([AdvancedBan.language.get("copy", "Copy")]));
 		});
 
 		$(document).on("mouseleave", ".clipboard", function( ) {
@@ -15,38 +11,45 @@ $(document).ready(function( ) {
 		});
 		
 		$(document).on("click", ".clipboard", function( ) {
-			$(this).find("a .copy").html(__templates["copied"].replace([Language.get("copied", "Copied")]));
+			$(this).find("a .copy").html(AdvancedBan.getTemplate("copied").replace([AdvancedBan.language.get("copied", "Copied")]));
 		});
 		
 		$(document).on("click", ".pagination li a", function( ) {
 			$("html, body").animate({scrollTop: 0}, "slow");
 			
-			$("tbody, .pagination").empty( );
-			AdvancedBan.set(parseInt($(this).attr("data-page")));
+			AdvancedBan.load(parseInt($(this).attr("data-page")));
 		});
 		
 		$(document).on("click", ".search .dropdown-menu .dropdown-item", function( ) {
 			if($(this).hasClass("active")) {
 				$(this).removeClass("active");
-				__search[$(this).closest("div").attr("aria-labelledby")].splice(__search[$(this).closest("div").attr("aria-labelledby")].indexOf($(this).attr("data-search")), 1);
+				
+				let search = AdvancedBan.search;
+				search[$(this).closest("div").attr("aria-labelledby")].splice(search[$(this).closest("div").attr("aria-labelledby")].indexOf($(this).attr("data-search")), 1);
+				AdvancedBan.search = search;
 			} else {
 				$(this).addClass("active");
-				__search[$(this).closest("div").attr("aria-labelledby")].push($(this).attr("data-search"));
+				
+				let search = AdvancedBan.search;
+				search[$(this).closest("div").attr("aria-labelledby")].push($(this).attr("data-search"));
+				AdvancedBan.search = search;
 			}
 		
-			$("tbody, .pagination").empty( );
-			AdvancedBan.set(1);
+			AdvancedBan.load(1);
 		});
 		
 		$(document).on("input", ".search input", function( ) {
-			__search.input = $(this).val( );
+			let search = AdvancedBan.search;
+			search.input = $(this).val( );
+			AdvancedBan.search = search;
 			
-			$("tbody, .pagination").empty( );
-			AdvancedBan.set(1);
+			AdvancedBan.load(1);
 		});
 		
 		$(document).on("click", ".search .dropdown-menu", function(event) {
 			event.stopPropagation( );
 		});
+		
 	});
+	
 });

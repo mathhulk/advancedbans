@@ -4,15 +4,9 @@ class Cookie {
 		this._prefix = prefix;
 	}
 	
-	/*
-	static set prefix(prefix) {
-		this._prefix = prefix;
-	}
-	
 	static get prefix( ) {
 		return this._prefix;
 	}
-	*/
 	
 	static get(cookie) {
 		let cookies = decodeURIComponent(document.cookie).split(";");
