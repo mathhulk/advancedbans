@@ -1,11 +1,6 @@
 <?php
 
-use AdvancedBan\User\Language;
-use AdvancedBan\User\Theme;
-
 use AdvancedBan\Storage\Cookie;
-
-use AdvancedBan\Configuration;
 
 ?>
 <!DOCTYPE html>
@@ -15,21 +10,21 @@ use AdvancedBan\Configuration;
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		
-		<title><?= Configuration::get(["messages", "title"]) ?></title>
+		<title><?= (AdvancedBan::getConfiguration( ))->get(["messages", "title"]) ?></title>
 		
-		<meta name="description" content="<?= Configuration::get(["messages", "description"]) ?>">
-		<meta name="application-name" content="<?= Configuration::get(["messages", "title"]) ?>">
+		<meta name="description" content="<?= (AdvancedBan::getConfiguration( ))->get(["messages", "description"]) ?>">
+		<meta name="application-name" content="<?= (AdvancedBan::getConfiguration( ))->get(["messages", "title"]) ?>">
 		<!--<meta name="theme-color" content="#fafafa">-->
 		<meta name="mobile-web-app-capable" content="yes">
 		
-		<meta property="og:title" content="<?= Language::get("punishments", "Punishments") ?>">
+		<meta property="og:title" content="<?= (AdvancedBan::getLanguage( ))->get("punishments", "Punishments") ?>">
 		<meta property="og:url" content="//<?= $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ?>">
-		<meta property="og:site_name" content="<?= Configuration::get(["messages", "title"]) ?>">
+		<meta property="og:site_name" content="<?= (AdvancedBan::getConfiguration( ))->get(["messages", "title"]) ?>">
 		<meta property="og:image" content="//<?= $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"], "?") ?>static/resources/images/icon.png">
-		<meta property="og:description" content="<?= Configuration::get(["messages", "description"]) ?>">
+		<meta property="og:description" content="<?= (AdvancedBan::getConfiguration( ))->get(["messages", "description"]) ?>">
 		<meta property="og:type" content="website">
 		
-		<meta name="msapplication-tooltip" content="<?= Configuration::get(["messages", "title"]) ?>">
+		<meta name="msapplication-tooltip" content="<?= (AdvancedBan::getConfiguration( ))->get(["messages", "title"]) ?>">
 		<!--<meta name="msapplication-navbutton-color" content="#fafafa">-->
 		<meta name="msapplication-starturl" content=".">
 		<meta name="msapplication-TileColor" content="#fafafa">
@@ -61,27 +56,27 @@ use AdvancedBan\Configuration;
 		
 		<?php
 		
-		Theme::loadStatic("stylesheet", "css");
+		(AdvancedBan::getTheme( ))->load("stylesheet", "css");
 		
 		?>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 			<div class="container">
-				<a class="navbar-brand" href="./"><?= Configuration::get(["messages", "title"]) ?></a>
+				<a class="navbar-brand" href="./"><?= (AdvancedBan::getConfiguration( ))->get(["messages", "title"]) ?></a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"><!-- toggle --></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navigation">
 					<ul class="navbar-nav">
-						<li class="nav-item active"><a class="nav-link" href="./"><?= Language::get("punishments", "Punishments") ?></a></li>
+						<li class="nav-item active"><a class="nav-link" href="./"><?= (AdvancedBan::getLanguage( ))->get("punishments", "Punishments") ?></a></li>
 						<?php
 						
-						if(Configuration::get(["player_count", "enabled"]) === true) {
+						if((AdvancedBan::getConfiguration( ))->get(["player_count", "enabled"]) === true) {
 							
 							?>
-							<li class="nav-item clipboard" data-clipboard-text="<?= Configuration::get(["player_count", "server_ip"]) ?>">
-								<a class="nav-link"><span class="badge badge-primary players"><?= Language::get("error_not_evaluated", "N/A") ?></span> <?= Language::get("players", "Players") ?></a>
+							<li class="nav-item clipboard" data-clipboard-text="<?= (AdvancedBan::getConfiguration( ))->get(["player_count", "server_ip"]) ?>">
+								<a class="nav-link"><span class="badge badge-primary players"><?= (AdvancedBan::getLanguage( ))->get("error_not_evaluated", "N/A") ?></span> <?= (AdvancedBan::getLanguage( ))->get("players", "Players") ?></a>
 							</li>
 							<?php
 							
@@ -92,9 +87,9 @@ use AdvancedBan\Configuration;
 				
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("themes", "Themes") ?> <span class="caret"><!-- icon --></span></a>
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= (AdvancedBan::getLanguage( ))->get("themes", "Themes") ?> <span class="caret"><!-- icon --></span></a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="./<?= parseLink("user/theme?default") ?>"><?= Language::get("default", "Default") ?></a>
+								<a class="dropdown-item" href="./<?= parse("user/theme?default") ?>"><?= (AdvancedBan::getLanguage( ))->get("default", "Default") ?></a>
 								<div class="dropdown-divider"><!-- divide --></div>
 								<?php
 								
@@ -103,7 +98,7 @@ use AdvancedBan\Configuration;
 									$data = json_decode(file_get_contents($theme . "/configuration.json"), true);
 									
 									?>
-									<a class="<?= basename($theme) === Cookie::get("theme") ? "active " : " " ?>dropdown-item" href="./<?= parseLink("user/theme?set=" . basename($theme)) ?>"><?= htmlspecialchars($data["theme"]) ?> <span class="badge badge-primary"><?= htmlspecialchars($data["creator"]) ?></span></a>
+									<a class="<?= basename($theme) === Cookie::get("theme") ? "active " : " " ?>dropdown-item" href="./<?= parse("user/theme?set=" . basename($theme)) ?>"><?= htmlspecialchars($data["theme"]) ?> <span class="badge badge-primary"><?= htmlspecialchars($data["creator"]) ?></span></a>
 									<?php
 								
 								}
@@ -112,9 +107,9 @@ use AdvancedBan\Configuration;
 							</div>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("languages", "Languages") ?> <span class="caret"><!-- icon --></span></a>
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= (AdvancedBan::getLanguage( ))->get("languages", "Languages") ?> <span class="caret"><!-- icon --></span></a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="./<?= parseLink("user/language?default") ?>"><?= Language::get("default", "Default") ?></a>
+								<a class="dropdown-item" href="./<?= parse("user/language?default") ?>"><?= (AdvancedBan::getLanguage( ))->get("default", "Default") ?></a>
 								<div class="dropdown-divider"><!-- divide --></div>
 								<?php
 								
@@ -123,7 +118,7 @@ use AdvancedBan\Configuration;
 									$data = json_decode(file_get_contents($language), true);
 									
 									?>
-									<a class="<?= basename($language, ".json") === Cookie::get("language") ? "active " : " " ?>dropdown-item" href="./<?= parseLink("user/language?set=" . basename($language, ".json")) ?>"><?= htmlspecialchars($data["language"]) ?></a>
+									<a class="<?= basename($language, ".json") === Cookie::get("language") ? "active " : " " ?>dropdown-item" href="./<?= parse("user/language?set=" . basename($language, ".json")) ?>"><?= htmlspecialchars($data["language"]) ?></a>
 									<?php
 									
 								}
@@ -133,26 +128,26 @@ use AdvancedBan\Configuration;
 						</li>
 						<?php
 						
-						if(Configuration::get(["support", "contact", "enabled"]) === true || Configuration::get(["support", "appeal", "enabled"]) == true) {
+						if((AdvancedBan::getConfiguration( ))->get(["support", "contact", "enabled"]) === true || (AdvancedBan::getConfiguration( ))->get(["support", "appeal", "enabled"]) == true) {
 						
 							?>
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("support", "Support") ?> <span class="caret"><!-- icon --></span></a>
+								<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= (AdvancedBan::getLanguage( ))->get("support", "Support") ?> <span class="caret"><!-- icon --></span></a>
 								<div class="dropdown-menu">
 									<?php
 									
-									if(Configuration::get(["support", "contact", "enabled"]) === true) {
+									if((AdvancedBan::getConfiguration( ))->get(["support", "contact", "enabled"]) === true) {
 										
 										?>
-										<a class="dropdown-item" href="<?= Configuration::get(["support", "contact", "link"]) ?>"><?= Language::get("contact", "Contact") ?></a>
+										<a class="dropdown-item" href="<?= (AdvancedBan::getConfiguration( ))->get(["support", "contact", "link"]) ?>"><?= (AdvancedBan::getLanguage( ))->get("contact", "Contact") ?></a>
 										<?php
 										
 									}
 									
-									if(Configuration::get(["support", "appeal", "enabled"]) === true) {
+									if((AdvancedBan::getConfiguration( ))->get(["support", "appeal", "enabled"]) === true) {
 										
 										?>
-										<a class="dropdown-item" href="<?= Configuration::get(["support", "appeal", "link"]) ?>"><?= Language::get("appeal", "Appeal") ?></a>
+										<a class="dropdown-item" href="<?= (AdvancedBan::getConfiguration( ))->get(["support", "appeal", "link"]) ?>"><?= (AdvancedBan::getLanguage( ))->get("appeal", "Appeal") ?></a>
 										<?php
 										
 									}
@@ -166,7 +161,7 @@ use AdvancedBan\Configuration;
 						
 						?>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= Language::get("credit", "Credit") ?> <span class="caret"><!-- icon --></span></a>
+							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= (AdvancedBan::getLanguage( ))->get("credit", "Credit") ?> <span class="caret"><!-- icon --></span></a>
 							<ul class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" target="_blank" href="https://github.com/mathhulk/advancedban-panel">GitHub</a>
 								<a class="dropdown-item" target="_blank" href="https://www.spigotmc.org/resources/advancedban.8695/">AdvancedBan</a>
@@ -180,42 +175,42 @@ use AdvancedBan\Configuration;
 		
 		<div class="splash text-center">
 			<div class="container">
-				<h1><?= Configuration::get(["messages", "title"]) ?></h1> 
-				<p><?= Configuration::get(["messages", "description"]) ?></p>
+				<h1><?= (AdvancedBan::getConfiguration( ))->get(["messages", "title"]) ?></h1> 
+				<p><?= (AdvancedBan::getConfiguration( ))->get(["messages", "description"]) ?></p>
 			</div>
 		</div>
 		
 		<div class="content">
 			<div class="search">
 				<div class="container">
-					<input type="text" class="form-control" id="input" placeholder="<?= Language::get("search", "Search") ?>">
+					<input type="text" class="form-control" id="input" placeholder="<?= (AdvancedBan::getLanguage( ))->get("search", "Search") ?>">
 					<div class="text-center">
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="punishmentType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("type", "Type") ?> <span class="caret"><!-- icon --></span></button>
+							<button class="btn btn-primary dropdown-toggle" type="button" id="punishmentType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= (AdvancedBan::getLanguage( ))->get("type", "Type") ?> <span class="caret"><!-- icon --></span></button>
 							<div class="dropdown-menu" aria-labelledby="punishmentType">
-								<a class="dropdown-item" data-search="ban"><?= Language::get("ban", "Ban") ?></a>
-								<a class="dropdown-item" data-search="temp_ban"><?= Language::get("temp_ban", "Temp. Ban") ?></a>
-								<a class="dropdown-item" data-search="mute"><?= Language::get("mute", "Mute") ?></a>
-								<a class="dropdown-item" data-search="temp_mute"><?= Language::get("temp_mute", "Temp. Mute") ?></a>
-								<a class="dropdown-item" data-search="warning"><?= Language::get("warning", "Warning") ?></a>
-								<a class="dropdown-item" data-search="temp_warning"><?= Language::get("temp_warning", "Temp. Warning") ?></a>
-								<a class="dropdown-item" data-search="kick"><?= Language::get("kick", "Kick") ?></a>
-								<a class="dropdown-item" data-search="ip_ban"><?= Language::get("ip_ban", "I.P. Ban") ?></a>
+								<a class="dropdown-item" data-search="ban"><?= (AdvancedBan::getLanguage( ))->get("ban", "Ban") ?></a>
+								<a class="dropdown-item" data-search="temp_ban"><?= (AdvancedBan::getLanguage( ))->get("temp_ban", "Temp. Ban") ?></a>
+								<a class="dropdown-item" data-search="mute"><?= (AdvancedBan::getLanguage( ))->get("mute", "Mute") ?></a>
+								<a class="dropdown-item" data-search="temp_mute"><?= (AdvancedBan::getLanguage( ))->get("temp_mute", "Temp. Mute") ?></a>
+								<a class="dropdown-item" data-search="warning"><?= (AdvancedBan::getLanguage( ))->get("warning", "Warning") ?></a>
+								<a class="dropdown-item" data-search="temp_warning"><?= (AdvancedBan::getLanguage( ))->get("temp_warning", "Temp. Warning") ?></a>
+								<a class="dropdown-item" data-search="kick"><?= (AdvancedBan::getLanguage( ))->get("kick", "Kick") ?></a>
+								<a class="dropdown-item" data-search="ip_ban"><?= (AdvancedBan::getLanguage( ))->get("ip_ban", "I.P. Ban") ?></a>
 							</div>
 						</div>
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="punishmentStatus" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("status", "Status") ?> <span class="caret"><!-- icon --></span></button>
+							<button class="btn btn-primary dropdown-toggle" type="button" id="punishmentStatus" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= (AdvancedBan::getLanguage( ))->get("status", "Status") ?> <span class="caret"><!-- icon --></span></button>
 							<div class="dropdown-menu" aria-labelledby="punishmentStatus">
-								<a class="dropdown-item" data-search="active"><?= Language::get("active", "Active") ?></a>
-								<a class="dropdown-item" data-search="inactive"><?= Language::get("inactive", "Inactive") ?></a>
+								<a class="dropdown-item" data-search="active"><?= (AdvancedBan::getLanguage( ))->get("active", "Active") ?></a>
+								<a class="dropdown-item" data-search="inactive"><?= (AdvancedBan::getLanguage( ))->get("inactive", "Inactive") ?></a>
 							</div>
 						</div>
 						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="inputType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= Language::get("search", "Search") ?> <span class="caret"><!-- icon --></span></button>
+							<button class="btn btn-primary dropdown-toggle" type="button" id="inputType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?= (AdvancedBan::getLanguage( ))->get("search", "Search") ?> <span class="caret"><!-- icon --></span></button>
 							<div class="dropdown-menu" aria-labelledby="inputType">
-								<a class="dropdown-item" data-search="name"><?= Language::get("name", "Name") ?></a>
-								<a class="dropdown-item" data-search="reason"><?= Language::get("reason", "Reason") ?></a>
-								<a class="dropdown-item" data-search="operator"><?= Language::get("operator", "Operator") ?></a>
+								<a class="dropdown-item" data-search="name"><?= (AdvancedBan::getLanguage( ))->get("name", "Name") ?></a>
+								<a class="dropdown-item" data-search="reason"><?= (AdvancedBan::getLanguage( ))->get("reason", "Reason") ?></a>
+								<a class="dropdown-item" data-search="operator"><?= (AdvancedBan::getLanguage( ))->get("operator", "Operator") ?></a>
 							</div>
 						</div>
 					</div>
@@ -250,7 +245,7 @@ use AdvancedBan\Configuration;
 		
 		<?php
 		
-		Theme::loadStatic("script", "js");
+		(AdvancedBan::getTheme( ))->load("script", "js");
 		
 		?>
 	</body>

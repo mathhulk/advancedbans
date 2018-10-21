@@ -8,47 +8,50 @@ use AdvancedBan\Storage\Cookie;
 use AdvancedBan\Database;
 use AdvancedBan\Configuration;
 use AdvancedBan\Template;
+use AdvancedBan\Request;
 
 class AdvancedBan {
 	
 	private static $root;
 	
+	private static $database;
+	private static $configuration;
+	
+	private static $language;
+	private static $theme;
+	
 	public static function initialize(string $root) {
 		self::$root = $root;
 		
-		Database::initialize(DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_DATABASE);
-		Configuration::initialize( );
+		self::$database = new Database(DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_DATABASE);
+		self::$configuration = new Configuration("/static/configuration.json");
 		
 		Cookie::initialize("AdvancedBan");
 		
-		Language::initialize(Cookie::get("language") ? Cookie::get("language") : Configuration::get(["default", "language"]));
-		Theme::initialize(Cookie::get("theme") ? Cookie::get("theme") : Configuration::get(["default", "theme"]));
+		self::$language = new Language(Cookie::get("language") ? Cookie::get("language") : self::$configuration->get(["default", "language"]));
+		self::$theme = new Theme(Cookie::get("theme") ? Cookie::get("theme") : self::$configuration->get(["default", "theme"]));
 		
-		self::request( );
+		Request::initialize(isset($_GET["request"]) ? $_GET["request"] : "/");
 	}
-
-	public static function request( ) {
-		if(isset($_GET["request"])) {
-			if(file_exists(self::$root . "/pages/" . cleanPath($_GET["request"]) . "/index.php")) {
-				require_once self::$root . "/pages/" . cleanPath($_GET["request"]) . "/index.php";
-			} else if(file_exists(self::$root . "/pages/" . cleanPath($_GET["request"]) . ".php")) {
-				require_once self::$root . "/pages/" . cleanPath($_GET["request"]) . ".php";
-			} else {
-				http_response_code(404);
-			}
-		} else {
-			require_once self::$root . "/pages/index.php";
-		}
-	}
-	
-	/*
-	public static function setRoot(string $root) {
-		self::$root = $root;
-	}
-	*/
 	
 	public static function getRoot( ) {
 		return self::$root;
+	}
+	
+	public static function getDatabase( ) {
+		return self::$database;
+	}
+	
+	public static function getConfiguration( ) {
+		return self::$configuration;
+	}
+	
+	public static function getLanguage( ) {
+		return self::$language;
+	}
+	
+	public static function getTheme( ) {
+		return self::$theme;
 	}
 	
 }

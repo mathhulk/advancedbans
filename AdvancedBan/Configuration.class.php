@@ -6,26 +6,22 @@ use AdvancedBan;
 
 class Configuration {
 	
-	private static $collection;
+	private $collection;
 	
-	public static function initialize( ) {
-		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . "/static/configuration.json"), true);
+	public function __construct(string $path) {
+		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . $path), true);
 		
-		self::$collection = $data;
+		$this->collection = $data;
+		
+		return $this;
 	}
 	
-	/*
-	public static function setCollection(array $collection) {
-		self::$collection = $collection;
+	public function getCollection( ) {
+		return $this->collection;
 	}
 	
-	public static function getCollection( ) {
-		return self::$collection;
-	}
-	*/
-	
-	public static function get(array $indices) {
-		$value = self::$collection[array_shift($indices)];
+	public function get(array $indices) {
+		$value = $this->collection[array_shift($indices)];
 		
 		foreach($indices as $index) {
 			$value = $value[$index];

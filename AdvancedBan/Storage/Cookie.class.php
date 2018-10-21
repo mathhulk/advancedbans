@@ -10,15 +10,9 @@ class Cookie {
 		self::$prefix = $prefix;
 	}
 	
-	/*
-	public static function setPrefix(string $prefix) {
-		self::$prefix = $prefix;
-	}
-	
 	public static function getPrefix( ) {
 		return self::$prefix;
 	}
-	*/
 	
 	public static function get(string $cookie) {
 		return isset($_COOKIE[self::$prefix . "_" . $cookie]) ? $_COOKIE[self::$prefix . "_" . $cookie] : false;

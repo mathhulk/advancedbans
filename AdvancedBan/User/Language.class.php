@@ -6,48 +6,36 @@ use AdvancedBan;
 
 class Language {
 	
-	private static $language;
-	private static $collection;
+	private $language;
+	private $collection;
 	
-	private static $discriminator;
+	private $discriminator;
 	
-	public static function initialize(string $discriminator) {
+	public function __construct(string $discriminator) {
 		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . "/static/languages/" . $discriminator . ".json"), true);
 		
-		self::$language = $data["language"];
-		self::$collection = $data["collection"];
+		$this->language = $data["language"];
+		$this->collection = $data["collection"];
 		
-		self::$discriminator = $discriminator;
+		$this->discriminator = $discriminator;
+		
+		return $this;
 	}
 	
-	/*
-	public static function setLanguage(string $language) {
-		self::$language = $language;
+	public function getLanguage( ) {
+		return $this->language;
 	}
 	
-	public static function getLanguage( ) {
-		return self::$language;
+	public function getCollection( ) {
+		return $this->collection;
 	}
 	
-	public static function setCollection(array $collection) {
-		self::$collection = $collection;
+	public function getDiscriminator( ) {
+		return $this->discriminator;
 	}
 	
-	public static function getCollection( ) {
-		return self::$collection;
-	}
-	
-	public static function setDiscriminator(string $discriminator) {
-		self::$discriminator = $discriminator;
-	}
-	
-	public static function getDiscriminator( ) {
-		return self::$discriminator;
-	}
-	*/
-	
-	public static function get(string $term, string $default) {
-		return isset(self::$collection[$term]) ? self::$collection[$term] : $default;
+	public function get(string $term, string $default) {
+		return isset($this->collection[$term]) ? $this->collection[$term] : $default;
 	}
 	
 }

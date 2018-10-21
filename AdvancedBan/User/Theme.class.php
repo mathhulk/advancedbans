@@ -7,51 +7,39 @@ use AdvancedBan;
 
 class Theme {
 	
-	private static $theme;
-	private static $creator;
+	private $theme;
+	private $creator;
 	
-	private static $discriminator;
+	private $discriminator;
 	
-	public static function initialize(string $discriminator) {
+	public function __construct(string $discriminator) {
 		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . "/static/themes/" . $discriminator . "/configuration.json"), true);
 		
-		self::$theme = $data["theme"];
-		self::$creator = $data["creator"];
+		$this->theme = $data["theme"];
+		$this->creator = $data["creator"];
 		
-		self::$discriminator = $discriminator;
+		$this->discriminator = $discriminator;
+		
+		return $this;
 	}
 	
-	/*
-	public static function setTheme(string $theme) {
-		self::$theme = $theme;
+	public function getTheme( ) {
+		return $this->theme;
 	}
 	
-	public static function getTheme( ) {
-		return self::$theme;
+	public function getCreator( ) {
+		return $this->$creator;
 	}
 	
-	public static function setCreator(string $creator) {
-		self::$creator = $creator;
+	public function getDiscriminator( ) {
+		return $this->discriminator;
 	}
 	
-	public static function getCreator( ) {
-		return self::$creator;
-	}
-	
-	public static function setDiscriminator(string $discriminator) {
-		self::$discriminator = $discriminator;
-	}
-	
-	public static function getDiscriminator( ) {
-		return self::$discriminator;
-	}
-	*/
-	
-	public static function loadStatic(string $template, string $type) {
+	public function load(string $template, string $type) {
 		$template = new Template($template, ["file"]);
 		
-		foreach(glob(AdvancedBan::getRoot( ) . "/static/themes/" . self::$discriminator . "/" . $type . "/*") as $file) {
-			echo $template->replace(["static/themes/" . self::$discriminator . "/" . $type . "/" . basename($file)]);
+		foreach(glob(AdvancedBan::getRoot( ) . "/static/themes/" . $this->discriminator . "/" . $type . "/*") as $file) {
+			echo $template->replace(["static/themes/" . $this->discriminator . "/" . $type . "/" . basename($file)]);
 		}
 	}
 	

@@ -1,5 +1,5 @@
 <?php
 
-function cleanPath(string $path) {
+function clean(string $path) {
 	return trim(str_replace(".", "", $path), "/");
 }
