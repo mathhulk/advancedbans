@@ -11,7 +11,7 @@ class AdvancedBan {
 		
 		Cookie.initialize("AdvancedBan");
 		
-		this._configuration = new Configuration("/static/configuration.json", function( ) {
+		this._configuration = new Configuration("static/configuration.json", function( ) {
 			setManifest( );
 			
 			AdvancedBan.language = new Language(Cookie.get("language") ? Cookie.get("language") : AdvancedBan.configuration.get(["default", "language"]), function( ) {
