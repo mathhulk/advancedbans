@@ -147,6 +147,14 @@ class AdvancedBan {
 		return this._template;
 	}
 	
+	static set search(search) {
+		this._search = search;
+	}
+	
+	static get search( ) {
+		return this._search;
+	}
+	
 	static setTemplate(name, template) {
 		this._templates[name] = template;
 	}

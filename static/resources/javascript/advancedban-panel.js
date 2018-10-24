@@ -31,7 +31,13 @@ $(document).ready(function( ) {
 				$(this).addClass("active");
 				
 				let search = AdvancedBan.search;
-				search[$(this).closest("div").attr("aria-labelledby")].push($(this).attr("data-search"));
+				
+				if(search[$(this).closest("div").attr("aria-labelledby")]) {
+					search[$(this).closest("div").attr("aria-labelledby")].push($(this).attr("data-search"));
+				} else {
+					search[$(this).closest("div").attr("aria-labelledby")] = [$(this).attr("data-search")];
+				}
+				
 				AdvancedBan.search = search;
 			}
 		
