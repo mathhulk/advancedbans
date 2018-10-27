@@ -3,7 +3,9 @@ $(document).ready(function( ) {
 	AdvancedBan.initialize(function( ) {
 		
 		$(document).on("mouseenter", ".clipboard", function( ) {
-			if($(this).find("a .copy").length === 0) $(this).find("a").append(AdvancedBan.getTemplate("copy").replace([AdvancedBan.language.get("copy", "Copy")]));
+			if($(this).find("a .copy").length === 0) {
+				$(this).find("a").append(AdvancedBan.getTemplate("copy").replace([AdvancedBan.language.get("copy", "Copy")]));
+			}
 		});
 
 		$(document).on("mouseleave", ".clipboard", function( ) {
@@ -41,6 +43,7 @@ $(document).ready(function( ) {
 				AdvancedBan.search = search;
 			}
 		
+			AdvancedBan.sort( );
 			AdvancedBan.load(1);
 		});
 		
@@ -49,6 +52,7 @@ $(document).ready(function( ) {
 			search.input = $(this).val( );
 			AdvancedBan.search = search;
 			
+			AdvancedBan.sort( );
 			AdvancedBan.load(1);
 		});
 		
