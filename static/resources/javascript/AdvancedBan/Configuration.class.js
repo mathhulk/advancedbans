@@ -9,9 +9,7 @@ class Configuration {
 			callback( );
 		});
 		
-		/*
 		return this;
-		*/
 	}
 	
 	set collection(collection) {

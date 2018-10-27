@@ -12,9 +12,7 @@ class Language {
 			callback( );
 		});
 		
-		/*
 		return this;
-		*/
 	}
 	
 	set language(language) {

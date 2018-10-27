@@ -12,10 +12,8 @@ class Template {
 			
 			callback( );
 		});
-		
-		/*
+	
 		return this;
-		*/
 	}
 	
 	set template(template) {
