@@ -238,8 +238,10 @@ $__cookie = AdvancedBan::getCookie( );
 		
 		<script type="text/javascript" src="static/resources/javascript/AdvancedBan/AdvancedBan.class.js"></script>
 		
-		<script type="text/javascript" src="static/resources/javascript/include/functions/setManifest.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/include/functions/parse.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/include/functions/setPictures.js"></script>
 		<script type="text/javascript" src="static/resources/javascript/include/functions/setPlayers.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/include/functions/setTemplate.js"></script>
 		
 		<script type="text/javascript" src="static/resources/javascript/advancedban-panel.js"></script>
 		
