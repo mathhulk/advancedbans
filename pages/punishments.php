@@ -1,3 +1,10 @@
 <?php
 
-die(json_encode(["PunishmentHistory" => (AdvancedBan::getDatabase( ))->getData("PunishmentHistory"), "Punishments" => (AdvancedBan::getDatabase( ))->getData("Punishments")]));
+$__database = AdvancedBan::getDatabase( );
+
+$response = json_encode([
+	"PunishmentHistory" => $__database->getData("PunishmentHistory"),
+	"Punishments" => $__database->getData("Punishments")
+]);
+
+die($response);

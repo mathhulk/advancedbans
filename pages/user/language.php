@@ -1,12 +1,15 @@
 <?php
 
-use AdvancedBan\Storage\Cookie;
+$__root = AdvancedBan::getRoot( );
+$__cookie = AdvancedBan::getCookie( );
+$__request = AdvancedBan::getRequest( );
 
-if(isset($_GET["set"]) && file_exists(AdvancedBan::getRoot( ) . "/static/languages/" . $_GET["set"] . ".json")) {
-	Cookie::set("language", $_GET["set"]);
-} elseif(isset($_GET["default"])) {
-	Cookie::remove("language");
+if(isset($_GET["set"]) && file_exists($__root . "/static/languages/" . $_GET["set"] . ".json")) {
+	$__cookie->set("language", $_GET["set"]);
+}
+	
+if(isset($_GET["default"])) {
+	$__cookie->remove("language");
 }
 
-header("Location: " . ((AdvancedBan::getConfiguration( ))->get(["mod_rewrite"]) === true ? "../../" : "./")); 
-die("Redirecting...");
+$__request->redirect( );

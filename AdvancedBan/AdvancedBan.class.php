@@ -17,8 +17,12 @@ class AdvancedBan {
 	private static $database;
 	private static $configuration;
 	
+	private static $cookie;
+	
 	private static $language;
 	private static $theme;
+	
+	private static $request;
 	
 	public static function initialize(string $root) {
 		self::$root = $root;
@@ -26,12 +30,18 @@ class AdvancedBan {
 		self::$database = new Database(DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_DATABASE);
 		self::$configuration = new Configuration("/static/configuration.json");
 		
-		Cookie::initialize("AdvancedBan");
+		self::$cookie = new Cookie("AdvancedBan");
 		
-		self::$language = new Language(Cookie::get("language") ? Cookie::get("language") : self::$configuration->get(["default", "language"]));
-		self::$theme = new Theme(Cookie::get("theme") ? Cookie::get("theme") : self::$configuration->get(["default", "theme"]));
+		self::$language = new Language(self::$cookie->get("language") ? self::$cookie->get("language") : self::$configuration->get(["default", "language"]));
+		self::$theme = new Theme(self::$cookie->get("theme") ? self::$cookie->get("theme") : self::$configuration->get(["default", "theme"]));
 		
-		Request::initialize(isset($_GET["request"]) ? $_GET["request"] : "/");
+		self::$request = new Request(isset($_GET["request"]) ? $_GET["request"] : "/");
+		
+		if(self::$request->getAbsolute( )) {
+			require_once self::$request->getAbsolute( );
+		} else {
+			http_response_code(404);
+		}
 	}
 	
 	public static function getRoot( ) {
@@ -46,12 +56,20 @@ class AdvancedBan {
 		return self::$configuration;
 	}
 	
+	public static function getCookie( ) {
+		return self::$cookie;
+	}
+	
 	public static function getLanguage( ) {
 		return self::$language;
 	}
 	
 	public static function getTheme( ) {
 		return self::$theme;
+	}
+	
+	public static function getRequest( ) {
+		return self::$request;
 	}
 	
 }

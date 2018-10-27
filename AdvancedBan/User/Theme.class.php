@@ -13,7 +13,9 @@ class Theme {
 	private $discriminator;
 	
 	public function __construct(string $discriminator) {
-		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . "/static/themes/" . $discriminator . "/configuration.json"), true);
+		$__root = AdvancedBan::getRoot( );
+		
+		$data = json_decode(file_get_contents($__root . "/static/themes/" . $discriminator . "/configuration.json"), true);
 		
 		$this->theme = $data["theme"];
 		$this->creator = $data["creator"];
@@ -35,12 +37,17 @@ class Theme {
 		return $this->discriminator;
 	}
 	
-	public function load(string $template, string $type) {
+	public function get(string $template, string $type) {
+		$__root = AdvancedBan::getRoot( );
+		
+		$response = " ";
 		$template = new Template($template, ["file"]);
 		
-		foreach(glob(AdvancedBan::getRoot( ) . "/static/themes/" . $this->discriminator . "/" . $type . "/*") as $file) {
-			echo $template->replace(["static/themes/" . $this->discriminator . "/" . $type . "/" . basename($file)]);
+		foreach(glob($__root . "/static/themes/" . $this->discriminator . "/" . $type . "/*") as $file) {
+			$response .= $template->replace(["static/themes/" . $this->discriminator . "/" . $type . "/" . basename($file)]);
 		}
+		
+		return $response;
 	}
 	
 }

@@ -1,12 +1,16 @@
 <?php
 
-use AdvancedBan\Storage\Cookie;
+$__root = AdvancedBan::getRoot( );
+$__cookie = AdvancedBan::getCookie( );
+$__request = AdvancedBan::getRequest( );
 
-if(isset($_GET["set"]) && file_exists(AdvancedBan::getRoot( ) . "/static/themes/" . $_GET["set"] . "/configuration.json")) {
-	Cookie::set("theme", $_GET["set"]);
-} elseif(isset($_GET["default"])) {
-	Cookie::remove("theme");
+if(isset($_GET["set"]) && file_exists($__root . "/static/themes/" . $_GET["set"] . "/configuration.json")) {
+	$__cookie->set("theme", $_GET["set"]);
 }
 
-header("Location: " . ((AdvancedBan::getConfiguration( ))->get(["mod_rewrite"]) === true ? "../../" : "./")); 
-die("Redirecting...");
+if(isset($_GET["default"])) {
+	$__cookie->remove("theme");
+}
+
+$__request->redirect( );
+

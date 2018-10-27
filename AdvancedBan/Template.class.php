@@ -10,7 +10,9 @@ class Template {
 	private $indices;
 	
 	public function __construct(string $template, array $indices) {
-		$data = file_get_contents(AdvancedBan::getRoot( ) . "/static/templates/internal/" . $template . ".txt");
+		$__root = AdvancedBan::getRoot( );
+		
+		$data = file_get_contents($__root . "/static/templates/internal/" . $template . ".txt");
 		
 		$this->template = $data;
 		
@@ -19,25 +21,17 @@ class Template {
 		}
 		
 		$this->indices = $indices;
-	}
-	
-	/*
-	public function setTemplate(string $template) {
-		$this->template = $template;
+		
+		return $this;
 	}
 	
 	public function getTemplate( ) {
 		return $this->template;
 	}
 	
-	public function setIndices(array $indices) {
-		$this->indices = $indices;
-	}
-	
 	public function getIndices( ) {
 		return $this->indices;
 	}
-	*/
 	
 	public function replace(array $values) {
 		$template = $this->template;

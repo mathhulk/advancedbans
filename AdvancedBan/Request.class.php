@@ -6,30 +6,59 @@ use AdvancedBan;
 
 class Request {
 	
-	private static $path;
+	private $relative;
 	
-	public static function initialize(string $path) {
+	public function __construct(string $path) {
+		$__root = AdvancedBan::getRoot( );
+		
+		$path = clean($path);
+		
 		if(empty($path)) {
-			require_once AdvancedBan::getRoot( ) . "/pages/index.php";
-			
-			self::$path = "index.php";
-		} else if(file_exists(AdvancedBan::getRoot( ) . "/pages/" . clean($path) . "/index.php")) {
-			require_once AdvancedBan::getRoot( ) . "/pages/" . clean($path) . "/index.php";
-			
-			self::$path = clean($path) . "/index.php";
-		} else if(file_exists(AdvancedBan::getRoot( ) . "/pages/" . clean($path) . ".php")) {
-			require_once AdvancedBan::getRoot( ) . "/pages/" . clean($path) . ".php";
-			
-			self::$path = clean($path) . ".php";
+			$this->relative = "index.php";
+		} else if(file_exists($__root . "/pages/" . $path . "/index.php")) {
+			$this->relative = $path . "/index.php";
+		} else if(file_exists($__root . "/pages/" . $path . ".php")) {
+			$this->relative = $path . ".php";
 		} else {
-			http_response_code(404);
-			
-			self::$path = false;
+			$this->relative = false;
+		}
+		
+		return $this;
+	}
+	
+	public function getRelative( ) {
+		return $this->relative;
+	}
+	
+	public function getAbsolute( ) {
+		if($this->relative) {
+			$__root = AdvancedBan::getRoot( );
+		
+			return $__root . "/pages/" . $this->relative;
+		} else {
+			return false;
 		}
 	}
 	
-	public static function getPath( ) {
-		return self::$path;
+	public function redirect( ) {
+		$__configuration = AdvancedBan::getConfiguration( );
+		
+		if($__configuration->get(["mod_rewrite"]) === true) {
+			$location = "./";
+			$depth = count(explode("/", $this->relative));
+			
+			for($i = 0; $i < $depth; $i++) {
+				$location .= "../";
+			}
+			
+			header("Location: " . $location);
+			die("Redirecting...");
+		} else {
+			header("Location: ./");
+			die("Redirecting...");
+		}
+		
+		return $this;
 	}
 	
 }

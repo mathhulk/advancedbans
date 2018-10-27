@@ -12,7 +12,9 @@ class Language {
 	private $discriminator;
 	
 	public function __construct(string $discriminator) {
-		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . "/static/languages/" . $discriminator . ".json"), true);
+		$__root = AdvancedBan::getRoot( );
+		
+		$data = json_decode(file_get_contents($__root . "/static/languages/" . $discriminator . ".json"), true);
 		
 		$this->language = $data["language"];
 		$this->collection = $data["collection"];

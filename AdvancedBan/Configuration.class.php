@@ -9,7 +9,9 @@ class Configuration {
 	private $collection;
 	
 	public function __construct(string $path) {
-		$data = json_decode(file_get_contents(AdvancedBan::getRoot( ) . $path), true);
+		$__root = AdvancedBan::getRoot( );
+		
+		$data = json_decode(file_get_contents($__root . $path), true);
 		
 		$this->collection = $data;
 		
