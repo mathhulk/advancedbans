@@ -57,8 +57,6 @@ class Request {
 			header("Location: ./");
 			die("Redirecting...");
 		}
-		
-		return $this;
 	}
 	
 }
