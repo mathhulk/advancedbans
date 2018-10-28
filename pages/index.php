@@ -56,7 +56,7 @@ $__cookie = AdvancedBan::getCookie( );
 		
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" media="screen">
 		<link rel="stylesheet" href="static/resources/css/bootstrap.min.css" media="screen">
-		<link rel="stylesheet" href="static/resources/css/advancedban-panel.css" media="screen">
+		<link rel="stylesheet" href="static/resources/css/advancedban.css" media="screen">
 		
 		<?= $__theme->get("stylesheet", "css") ?>
 	</head>
@@ -243,7 +243,7 @@ $__cookie = AdvancedBan::getCookie( );
 		<script type="text/javascript" src="static/resources/javascript/include/functions/setPlayers.js"></script>
 		<script type="text/javascript" src="static/resources/javascript/include/functions/setTemplate.js"></script>
 		
-		<script type="text/javascript" src="static/resources/javascript/advancedban-panel.js"></script>
+		<script type="text/javascript" src="static/resources/javascript/advancedban.js"></script>
 		
 		<?= $__theme->get("script", "js") ?>
 	</body>
