@@ -1,0 +1,236 @@
+/*
+
+Kara for AB-Web
+By: winniepg21
+
+Primary Color - #2C2F33
+Secondary Color - #23272A
+Tertiary - #16191f
+Text - #d0d8e2
+Hover Text - #e5e5e5
+
+*/
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900");
+
+body {
+	font-family: "Roboto", sans-serif;
+	background: url("../img/background.png") no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	color: #d0d8e2;
+}
+
+a, .dropdown {
+	cursor: pointer;
+}
+
+.navbar-brand {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.navbar {
+	box-shadow: 0 0 20px rgba(33, 37, 41, 0.1);
+}
+
+.bg-light {
+    background-color: #2C2F33!important;
+}
+
+.dropdown-menu {
+	border-radius: 0;
+	margin-top: 8px;
+	border-style: solid;
+	border-width: 5px 0 0;
+	border-color: #007bff;
+}
+
+.splash {
+	min-height: 50vh;
+	padding: 22vh 0 9vh;
+	color: #fff;
+	background: rgba(0, 123, 255, 0.1);
+}
+
+.dropdown-item.active, .dropdown-item:active {
+	background: #f8f9fa;
+	color: #212529;
+}
+
+.dropdown-menu[x-placement="top-start"] {
+	margin-top: 0;
+	margin-bottom: 8px;
+}
+
+.splash h1 {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.content {
+	background: #2C2F33;
+	bottom: 0;
+	min-height: 50vh;
+}
+
+.search {
+	background: #23272A;
+	padding: 5vh;
+}
+
+.search input {
+	border-radius: 3rem;
+	padding: 20px;
+	background-color: #16191f;
+	border-color: #16191f;
+}
+
+.form-control:focus {
+	border-color: #16191f;
+	background-color: #16191f;
+	color: #d0d8e2;
+}
+
+.dropdown-menu, .search button:focus, .search button, .search input, .search input:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-primary.dropdown-toggle:focus {
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.search button {
+	border-radius: 2rem;
+	min-width: 100px;
+}
+
+.jumbotron {
+	margin-top: 1rem;
+}
+
+.pagination {
+	margin-bottom: 0;
+	padding: 2rem 0;
+}
+
+.load {
+	padding: 2rem 0;
+}
+
+.table {
+	margin-bottom: 0;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+	background: #f8f9fa;
+}
+
+.table-hover tbody tr:hover {
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.page-item.active .page-link {
+	background: #23272A;
+	border: 1px solid #23272A;
+	color: #d0d8e2;
+}
+
+.page-link:hover {
+	background-color: #23272A;
+	color: #d0d8e2;
+	border: 1px solid #23272A;
+}
+
+.page-link {
+	background-color: #2C2F33;
+	color: #d0d8e2;
+	border: 1px solid #23272A;
+}
+
+.table thead th {
+	border-bottom: none;
+}
+
+.table-hover tbody tr:hover {
+	background: rgba(0, 0, 0, 0.05);
+}
+
+/* Redness */
+.btn-primary {
+	background-color: #FF0004;
+	border-color: #FF0004;
+}
+
+.badge-primary {
+	background-color: #FF0004;
+}
+
+.dropdown-menu {
+	border-color: #FF0004;
+}
+
+.dropdown-divider {
+	border-top: 1px solid #16191f;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle, .btn-primary.focus, .btn-primary:focus, .btn-primary:hover {
+	background-color: #DA0104;
+	border-color: #DA0104;
+}
+
+/* Extra Lightness */
+
+.navbar-light .navbar-brand {
+	color: rgba(255,255,255,.9);
+}
+
+.navbar-light .navbar-nav .active>.nav-link {
+	color: rgba(255,255,255,.9);
+}
+
+.navbar-light .navbar-brand:hover {
+	color: rgb(234, 234, 234);
+}
+
+.navbar-light .navbar-nav .nav-link {
+	color: rgba(255,255,255,.9);
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+	color: rgb(234, 234, 234);
+}
+
+.dropdown-item {
+	color: #d0d8e2;
+}
+.navbar-light .navbar-nav .show>.nav-link {
+	color: #d0d8e2;
+}
+
+.dropdown-item:hover {
+	background-color: #23272A;
+	color: #d0d8e2;
+}
+
+/* Darkness */
+
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+	background-color: #2C2F33;
+}
+
+.dropdown-item.active {
+	background-color: #23272A;
+	color: #d0d8e2;
+}
+
+.table td {
+	background-color: #2C2F33;
+	border-top: 1px solid #23272A;
+}
+
+.dropdown-menu.show {
+	background-color: #2C2F33;
+	color: #d0d8e2;
+}
+
+.table th {
+	border-top: 1px solid #2C2F33;
+}
