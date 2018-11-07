@@ -10,6 +10,32 @@ class AdvancedBan {
 			
 			AdvancedBan.language = new Language(Cookie.get("language") ? Cookie.get("language") : AdvancedBan.configuration.get(["default", "language"]), function( ) {
 				
+				function setTemplate(templates, position, callback) {
+					
+					AdvancedBan.setTemplate(templates[position][0], new Template(templates[position][0], templates[position][1], function( ) {
+						
+						if(position === templates.length - 1) {
+							if(AdvancedBan.configuration.get(["player_count", "enabled"])) {
+								new ClipboardJS(".clipboard");
+								
+								AdvancedBan.query( );
+								setInterval(AdvancedBan.query, 1000 * 10);
+							}
+							
+							AdvancedBan.get(function( ) {
+								AdvancedBan.sort( );
+								AdvancedBan.load(1);
+							});
+							
+							callback( );
+						} else {
+							setTemplate(templates, position + 1, callback);
+						}
+						
+					}));
+					
+				}
+				
 				let templates = [["copied", ["copied"]], ["copy", ["copy"]], ["error-no-punishments", ["error_no_punishments"]], ["page", ["status", "page", "text"]], ["punishment", ["id", "type", "name", "reason", "operator", "date", "expires", "status"]], ["time", ["time"]], ["table", ["type", "name", "reason", "operator", "date", "expires", "status"]]];
 				setTemplate(templates, 0, callback);
 			
@@ -98,8 +124,30 @@ class AdvancedBan {
 		});
 	}
 	
+	static query( ) {
+		$.getJSON("https://use.gameapis.net/mc/query/players/" + this._configuration.get(["player_count", "server_ip"]), function(data) {
+			if(data.status === true) {
+				$(".players").text(data.players.online.toLocaleString( ));
+			} else {
+				$(".players").text(AdvancedBan.language.get("error_not_evaluated", "N/A"));
+			}
+		});
+	}
+	
+	static profile( ) {
+		$("td img").each(function(index) {
+			let profile = $(this); 
+			
+			$.getJSON("https://api.minetools.eu/uuid/" + profile.attr("data-name").replace(new RegExp("[.]", "g"), "_"), function(data) {
+				if(data.id.length > 4) {
+					profile.attr("src", "https://crafatar.com/avatars/" + data.id + "?size=30");
+				}
+			});
+		});
+	}
+	
 	static load(page) {
-		let list = this._cache.splice((page - 1) * 25, 25);
+		let list = this._cache.slice((page - 1) * 25, page * 25);
 		let amount = this._cache.length;
 		
 		let pages = Math.floor(amount / 25);
@@ -129,11 +177,11 @@ class AdvancedBan {
 			$("tbody").html(this.getTemplate("error-no-punishments").replace(AdvancedBan.language.get("error_no_punishments", "No punishments could be listed on this page")));
 		} else {
 			$.each(list, function(index, value) {
-				let date = new Date(isNaN(value.start) ? parse(value.start) : parseInt(value.start)); 
+				let date = new Date(isNaN(value.start) ? parseDate(value.start) : parseInt(value.start)); 
 				let expires;
 				
 				if(value.end && value.end.length > 2) {
-					expires = new Date(isNaN(value.end) ? parse(value.end) : parseInt(value.end));
+					expires = new Date(isNaN(value.end) ? parseDate(value.end) : parseInt(value.end));
 				}
 				
 				$("tbody").append(AdvancedBan.getTemplate("punishment").replace([value.id, AdvancedBan.language.get(value.punishmentType.toLowerCase( ), value.punishmentType), value.name, value.reason, value.operator, date.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([date.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]), value.end && value.end.length > 2 ? expires.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([expires.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]) : AdvancedBan.language.get("error_not_evaluated", "N/A"), AdvancedBan.active(value.start, value.end) ? AdvancedBan.language.get("active", "Active") : AdvancedBan.language.get("inactive", "Inactive")]));
@@ -152,7 +200,7 @@ class AdvancedBan {
 			$(".pagination").append(this.getTemplate("page").replace(["inactive", page + 1, AdvancedBan.language.get("next", "Next")])).append(this.getTemplate("page").replace(["inactive", pages, AdvancedBan.language.get("last", "Last")]));
 		}
 		
-		setPictures( );
+		this.profile( );
 	}
 	
 	static get(callback) {
