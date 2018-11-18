@@ -7,4 +7,5 @@ $response = json_encode([
 	"Punishments" => $__database->getData("Punishments")
 ]);
 
+header("Content-Type: application/json");
 die($response);
