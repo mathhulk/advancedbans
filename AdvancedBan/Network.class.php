@@ -30,7 +30,7 @@ class Network {
 		$request = curl_init("https://" . $this->host . $this->path);
 		
 		curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($request, CURLOPT_POSTFIELDS, "domain=" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		curl_setopt($request, CURLOPT_POSTFIELDS, "website=" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 
 		curl_exec($request);
 		curl_close($request);
