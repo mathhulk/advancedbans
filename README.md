@@ -1,5 +1,5 @@
 Simple and sleek website panel for AdvancedBan.
-* Example can be found at [here](https://mathhulk.me/advancedban-panel).
+* Example can be found at [here](https://mathhulk.me/advancedban/example).
 
 ## Notable Features
 * Self-host
