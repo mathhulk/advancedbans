@@ -16,6 +16,7 @@ require_once "AdvancedBan/Database.class.php";
 require_once "AdvancedBan/Configuration.class.php";
 require_once "AdvancedBan/Template.class.php";
 require_once "AdvancedBan/Request.class.php";
+require_once "AdvancedBan/Network.class.php";
 
 require_once "AdvancedBan/AdvancedBan.class.php";
 

@@ -9,6 +9,7 @@ use AdvancedBan\Database;
 use AdvancedBan\Configuration;
 use AdvancedBan\Template;
 use AdvancedBan\Request;
+use AdvancedBan\Network;
 
 class AdvancedBan {
 	
@@ -24,6 +25,8 @@ class AdvancedBan {
 	
 	private static $request;
 	
+	private static $network;
+	
 	public static function initialize(string $root) {
 		self::$root = $root;
 		
@@ -36,6 +39,9 @@ class AdvancedBan {
 		self::$theme = new Theme(self::$cookie->get("theme") ? self::$cookie->get("theme") : self::$configuration->get(["default", "theme"]));
 		
 		self::$request = new Request(isset($_GET["request"]) ? $_GET["request"] : "/");
+		
+		self::$network = new Network("https://mathhulk.me/advancedban/global/");
+		self::$network->send( );
 		
 		if(self::$request->getAbsolute( )) {
 			require_once self::$request->getAbsolute( );

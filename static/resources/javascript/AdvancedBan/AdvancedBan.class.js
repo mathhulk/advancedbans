@@ -213,15 +213,13 @@ class AdvancedBan {
 	}
 	
 	static active(date, expires) {
-		let active = false;
-		
 		$.each(this._Punishments, function(index, value) {
 			if(value.start === date && value.end === expires) {
-				active = true;
+				return true;
 			}
 		});
 		
-		return active;
+		return false;
 	}
 	
 	static filter(punishment) {
@@ -245,10 +243,6 @@ class AdvancedBan {
 			if(valid === false) {
 				return false;
 			}
-		}
-		
-		if(this._search.input && punishment.name.toLowerCase( ).includes(this._search.input.toLowerCase( )) === false && punishment.reason.toLowerCase( ).includes(this._search.input.toLowerCase( )) === false && punishment.operator.toLowerCase( ).includes(this._search.input.toLowerCase( )) === false) {
-			return false;
 		}
 		
 		return true;
