@@ -15,6 +15,8 @@ class Request {
 		
 		if(empty($path)) {
 			$this->relative = "index.php";
+			
+			AdvancedBan::getNetwork( )->send( );
 		} else if(file_exists($__root . "/pages/" . $path . "/index.php")) {
 			$this->relative = $path . "/index.php";
 		} else if(file_exists($__root . "/pages/" . $path . ".php")) {

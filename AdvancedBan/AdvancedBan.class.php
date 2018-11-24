@@ -23,9 +23,9 @@ class AdvancedBan {
 	private static $language;
 	private static $theme;
 	
-	private static $request;
-	
 	private static $network;
+	
+	private static $request;
 	
 	public static function initialize(string $root) {
 		self::$root = $root;
@@ -38,10 +38,9 @@ class AdvancedBan {
 		self::$language = new Language(self::$cookie->get("language") ? self::$cookie->get("language") : self::$configuration->get(["default", "language"]));
 		self::$theme = new Theme(self::$cookie->get("theme") ? self::$cookie->get("theme") : self::$configuration->get(["default", "theme"]));
 		
-		self::$request = new Request(isset($_GET["request"]) ? $_GET["request"] : "/");
-		
 		self::$network = new Network("https://mathhulk.me/advancedban/global/");
-		self::$network->send( );
+		
+		self::$request = new Request(isset($_GET["request"]) ? $_GET["request"] : "/");
 		
 		if(self::$request->getAbsolute( )) {
 			require_once self::$request->getAbsolute( );
@@ -72,6 +71,10 @@ class AdvancedBan {
 	
 	public static function getTheme( ) {
 		return self::$theme;
+	}
+	
+	public static function getNetwork( ) {
+		return self::$network;
 	}
 	
 	public static function getRequest( ) {
