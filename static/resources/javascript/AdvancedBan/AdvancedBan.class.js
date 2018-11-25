@@ -174,7 +174,7 @@ class AdvancedBan {
 		$("tbody, .pagination").empty( );
 		
 		if(list.length === 0) {
-			$("tbody").html(this.getTemplate("error-no-punishments").replace(AdvancedBan.language.get("error_no_punishments", "No punishments could be listed on this page")));
+			$("tbody").html(this.getTemplate("error-no-punishments").replace([AdvancedBan.language.get("error_no_punishments", "No punishments could be listed on this page")]));
 		} else {
 			$.each(list, function(index, value) {
 				let date = new Date(isNaN(value.start) ? parseDate(value.start) : parseInt(value.start)); 

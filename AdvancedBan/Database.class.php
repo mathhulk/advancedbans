@@ -46,7 +46,13 @@ class Database {
 	}
 	
 	public function getData(string $table) {
-		return $this->connection->query("SELECT * FROM " . $table)->fetchAll(PDO::FETCH_ASSOC);
+		$statement = $this->connection->query("SELECT * FROM " . $table);
+		
+		if($statement) {
+			return $statement->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+			return [ ];
+		}
 	}
 	
 }
