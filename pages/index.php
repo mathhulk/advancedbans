@@ -5,6 +5,13 @@ $__language = AdvancedBan::getLanguage( );
 $__theme = AdvancedBan::getTheme( );
 $__root = AdvancedBan::getRoot( );
 $__cookie = AdvancedBan::getCookie( );
+$__network = AdvancedBan::getNetwork( );
+
+/*
+ *	Do not incorporate into core class due to path issue
+ */
+
+$__network->send( );
 
 ?>
 <!DOCTYPE html>
