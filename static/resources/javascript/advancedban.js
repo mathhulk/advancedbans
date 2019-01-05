@@ -43,8 +43,10 @@ $(document).ready(function( ) {
 				AdvancedBan.search = search;
 			}
 		
-			AdvancedBan.sort( );
-			AdvancedBan.load(1);
+			if($(this).parent( ).attr("aria-labelledby") !== "inputType") {
+				AdvancedBan.sort( );
+				AdvancedBan.load(1);
+			}
 		});
 		
 		$(document).on("input", ".search input", function( ) {

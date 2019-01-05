@@ -285,8 +285,31 @@ class AdvancedBan {
 	
 	static get(callback) {
 		$.getJSON(this._configuration.get(["mod_rewrite"]) === true ? "punishments" : "?request=punishments", function(data) {
-			AdvancedBan.Punishments = data.Punishments;
-			AdvancedBan.PunishmentHistory = data.PunishmentHistory;
+				
+			/*
+			 *	Support legacy version 1.2.5
+			 *	Table `PunishmentHistory` does not exist
+			 */
+			
+			if(AdvancedBan.configuration.get(["version"]) === "legacy") {
+				AdvancedBan.PunishmentHistory = data.Punishments;
+				
+			/*
+			 *	Support beta version 2.1.6
+			 */
+				
+			} else if(AdvancedBan.configuration.get(["version"]) === "beta") {
+				AdvancedBan.Punishments = data.Punishments;
+				AdvancedBan.PunishmentHistory = data.PunishmentHistory;
+				
+			/*
+			 *	Support stable version 2.1.5
+			 */
+			
+			} else if(AdvancedBan.configuration.get(["version"]) === "stable") {
+				AdvancedBan.Punishments = data.Punishments;
+				AdvancedBan.PunishmentHistory = data.PunishmentHistory;
+			}
 			
 			callback( );
 		});
@@ -307,15 +330,42 @@ class AdvancedBan {
 			return false;
 		}
 		
-		if(this._search.punishmentStatus && this._search.punishmentStatus.length > 0 && this._search.punishmentStatus.includes(active(punishment.start, punishment.end) ? "active" : "inactive") === false) {
-			return false;
+		if(this._search.punishmentStatus && this._search.punishmentStatus.length > 0) {
+			let status;
+				
+			/*
+			 *	Support legacy version 1.2.5
+			 *	Table `PunishmentHistory` does not exist
+			 */
+			
+			if(this._configuration.get(["version"]) === "legacy") {
+				status = punishment.status === 1;
+				
+			/*
+			 *	Support beta version 2.1.6
+			 */
+				
+			} else if(this._configuration.get(["version"]) === "beta") {
+				status = active(punishment.start, punishment.end);
+				
+			/*
+			 *	Support stable version 2.1.5
+			 */
+			
+			} else if(this._configuration.get(["version"]) === "stable") {
+				status = active(punishment.start, punishment.end);
+			}
+			
+			if(this._search.punishmentStatus.includes(status ? "active" : "inactive") === false) {
+				return false;
+			}
 		}
 		
-		if(this._search.inputType && this._search.input && this._search.inputType.length > 0 && this._search.input) {
+		if(this._search.inputType && this._search.inputType.length > 0 && this._search.input) {
 			let valid = false;
 			
 			$.each(this._search.inputType, function(index, value) {
-				if(punishment[value].toLowerCase( ).includes(this._search.inputType.toLowerCase( ))) {
+				if(punishment[value].toLowerCase( ).includes(AdvancedBan.search.input.toLowerCase( ))) {
 					valid = true;
 				}
 			});
