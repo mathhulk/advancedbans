@@ -14,21 +14,21 @@ $__cookie = AdvancedBan::getCookie( );
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		
-		<title><?= $__configuration->get(["messages", "title"]) ?></title>
+		<title><?= $__configuration->get(["language", "title"]) ?></title>
 		
-		<meta name="description" content="<?= $__configuration->get(["messages", "description"]) ?>">
-		<meta name="application-name" content="<?= $__configuration->get(["messages", "title"]) ?>">
+		<meta name="description" content="<?= $__configuration->get(["language", "description"]) ?>">
+		<meta name="application-name" content="<?= $__configuration->get(["language", "title"]) ?>">
 		<!--<meta name="theme-color" content="#fafafa">-->
 		<meta name="mobile-web-app-capable" content="yes">
 		
 		<meta property="og:title" content="<?= $__language->get("punishments", "Punishments") ?>">
 		<meta property="og:url" content="//<?= $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ?>">
-		<meta property="og:site_name" content="<?= $__configuration->get(["messages", "title"]) ?>">
+		<meta property="og:site_name" content="<?= $__configuration->get(["language", "title"]) ?>">
 		<meta property="og:image" content="//<?= $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"], "?") ?>static/resources/images/icon.png">
-		<meta property="og:description" content="<?= $__configuration->get(["messages", "description"]) ?>">
+		<meta property="og:description" content="<?= $__configuration->get(["language", "description"]) ?>">
 		<meta property="og:type" content="website">
 		
-		<meta name="msapplication-tooltip" content="<?= $__configuration->get(["messages", "title"]) ?>">
+		<meta name="msapplication-tooltip" content="<?= $__configuration->get(["language", "title"]) ?>">
 		<!--<meta name="msapplication-navbutton-color" content="#fafafa">-->
 		<meta name="msapplication-starturl" content=".">
 		<meta name="msapplication-TileColor" content="#fafafa">
@@ -63,7 +63,7 @@ $__cookie = AdvancedBan::getCookie( );
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 			<div class="container">
-				<a class="navbar-brand" href="./"><?= $__configuration->get(["messages", "title"]) ?></a>
+				<a class="navbar-brand" href="./"><?= $__configuration->get(["language", "title"]) ?></a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"><!-- toggle --></span>
 				</button>
@@ -128,7 +128,7 @@ $__cookie = AdvancedBan::getCookie( );
 						</li>
 						<?php
 						
-						if($__configuration->get(["support", "contact", "enabled"]) === true || $__configuration->get(["support", "appeal", "enabled"]) == true) {
+						if($__configuration->get(["navigation", "contact", "enabled"]) === true || $__configuration->get(["navigation", "appeal", "enabled"]) == true) {
 						
 							?>
 							<li class="nav-item dropdown">
@@ -136,18 +136,18 @@ $__cookie = AdvancedBan::getCookie( );
 								<div class="dropdown-menu">
 									<?php
 									
-									if($__configuration->get(["support", "contact", "enabled"]) === true) {
+									if($__configuration->get(["navigation", "contact", "enabled"]) === true) {
 										
 										?>
-										<a class="dropdown-item" href="<?= $__configuration->get(["support", "contact", "link"]) ?>"><?= $__language->get("contact", "Contact") ?></a>
+										<a class="dropdown-item" href="<?= $__configuration->get(["navigation", "contact", "link"]) ?>"><?= $__language->get("contact", "Contact") ?></a>
 										<?php
 										
 									}
 									
-									if($__configuration->get(["support", "appeal", "enabled"]) === true) {
+									if($__configuration->get(["navigation", "appeal", "enabled"]) === true) {
 										
 										?>
-										<a class="dropdown-item" href="<?= $__configuration->get(["support", "appeal", "link"]) ?>"><?= $__language->get("appeal", "Appeal") ?></a>
+										<a class="dropdown-item" href="<?= $__configuration->get(["navigation", "appeal", "link"]) ?>"><?= $__language->get("appeal", "Appeal") ?></a>
 										<?php
 										
 									}
@@ -175,8 +175,8 @@ $__cookie = AdvancedBan::getCookie( );
 		
 		<div class="splash text-center">
 			<div class="container">
-				<h1><?= $__configuration->get(["messages", "title"]) ?></h1> 
-				<p><?= $__configuration->get(["messages", "description"]) ?></p>
+				<h1><?= $__configuration->get(["language", "title"]) ?></h1> 
+				<p><?= $__configuration->get(["language", "description"]) ?></p>
 			</div>
 		</div>
 		

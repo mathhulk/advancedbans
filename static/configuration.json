@@ -1,18 +1,20 @@
 {
+	"version": "stable",
+	"mod_rewrite": false,
     "default": {
         "theme": "photon",
         "language": "en-US"
     },
-    "mod_rewrite": false,
-    "messages": {
+    "language": {
         "title": "AdvancedBan Panel",
         "description": "Simple and sleek punishment panel for AdvancedBan."
     },
     "player_count": {
         "enabled": true,
-        "server_ip": "mc.hypixel.net"
+        "host": "mc.hypixel.net",
+		"port": "25565"
     },
-    "support": {
+    "navigation": {
         "contact": {
             "enabled": true,
             "link": "http://example.com/contact"

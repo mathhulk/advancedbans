@@ -125,9 +125,9 @@ class AdvancedBan {
 	}
 	
 	static query( ) {
-		$.getJSON("https://use.gameapis.net/mc/query/players/" + AdvancedBan.configuration.get(["player_count", "server_ip"]), function(data) {
-			if(data.status === true) {
-				$(".players").text(data.players.online.toLocaleString( ));
+		$.getJSON("https://mcapi.us/server/status?ip=" + AdvancedBan.configuration.get(["player_count", "host"]) + "&port=" + AdvancedBan.configuration.get(["player_count", "port"]), function(data) {
+			if(data.status === "success") {
+				$(".players").text(data.players.now.toLocaleString( ));
 			} else {
 				$(".players").text(AdvancedBan.language.get("error_not_evaluated", "N/A"));
 			}
@@ -177,14 +177,94 @@ class AdvancedBan {
 			$("tbody").html(this.getTemplate("error-no-punishments").replace([AdvancedBan.language.get("error_no_punishments", "No punishments could be listed on this page")]));
 		} else {
 			$.each(list, function(index, value) {
-				let date = new Date(isNaN(value.start) ? parseDate(value.start) : parseInt(value.start)); 
+				
+				/*
+				 *	Support legacy version 1.2.5
+				 *	Column references are not organized
+				 */
+				
+				if(AdvancedBan.configuration.get(["version"]) === "legacy") {
+					value.punishmentType = "BAN";
+					value.name = value.nick;
+					value.operator = value.adminnick;
+					value.start = parseInt(value.banfrom);
+					
+					
+				/*
+				 *	Support beta version 2.1.6
+				 *	Date and time no longer stored from epoch
+				 */
+					
+				} else if(AdvancedBan.configuration.get(["version"]) === "beta") {
+					value.start = parseDate(value.start);
+					
+				/*
+				 *	Support stable version 2.1.5
+				 */
+				
+				} else if(AdvancedBan.configuration.get(["version"]) === "stable") {
+					value.start = parseInt(value.start);
+				}
+				
+				let date = new Date(value.start);
+				
 				let expires;
 				
 				if(value.end && value.end.length > 2) {
-					expires = new Date(isNaN(value.end) ? parseDate(value.end) : parseInt(value.end));
+				
+					/*
+					 *	Support legacy version 1.2.5
+					 *	Column references are not organized
+					 */
+					 
+					if(AdvancedBan.configuration.get(["version"]) === "legacy") {
+						value.end = parseInt(value.end);
+					
+					/*
+					 *	Support beta version 2.1.6
+					 *	Date and time no longer stored from epoch
+					 */
+						
+					} else if(AdvancedBan.configuration.get(["version"]) === "beta") {
+						value.end = parseDate(value.end);
+						
+					/*
+					 *	Support stable version 2.1.5
+					 */
+					
+					} else if(AdvancedBan.configuration.get(["version"]) === "stable") {
+						value.end = parseInt(value.end);
+					}
+						
+					expires = new Date(value.end);
 				}
 				
-				$("tbody").append(AdvancedBan.getTemplate("punishment").replace([value.id, AdvancedBan.language.get(value.punishmentType.toLowerCase( ), value.punishmentType), value.name, value.reason, value.operator, date.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([date.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]), value.end && value.end.length > 2 ? expires.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([expires.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]) : AdvancedBan.language.get("error_not_evaluated", "N/A"), AdvancedBan.active(value.start, value.end) ? AdvancedBan.language.get("active", "Active") : AdvancedBan.language.get("inactive", "Inactive")]));
+				let status;
+				
+				/*
+				 *	Support legacy version 1.2.5
+				 *	Status saved as integer boolean value
+				 */
+				
+				if(AdvancedBan.configuration.get(["version"]) === "legacy") {
+					status = value.status === 1;
+					
+				/*
+				 *	Support beta version 2.1.6
+				 */
+					
+				} else if(AdvancedBan.configuration.get(["version"]) === "beta") {
+					status = AdvancedBan.active(value.start, value.end);
+					
+				/*
+				 *	Support stable version 2.1.5
+				 */
+				
+				} else if(AdvancedBan.configuration.get(["version"]) === "stable") {
+					status = AdvancedBan.active(value.start, value.end);
+				}
+				
+				$("tbody").append(AdvancedBan.getTemplate("punishment").replace([value.id, AdvancedBan.language.get(value.punishmentType.toLowerCase( ), value.punishmentType), value.name, value.reason, value.operator, date.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([date.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]), value.end && value.end.length > 2 ? expires.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([expires.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]) : AdvancedBan.language.get("error_not_evaluated", "N/A"), status ? AdvancedBan.language.get("active", "Active") : AdvancedBan.language.get("inactive", "Inactive")]));
 			});
 		}
 		
