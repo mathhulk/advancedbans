@@ -76,7 +76,15 @@ $__cookie = AdvancedBan::getCookie( );
 							
 							?>
 							<li class="nav-item clipboard" data-clipboard-text="<?= $__configuration->get(["player_count", "server_ip"]) ?>">
-								<a class="nav-link"><span class="badge badge-primary players"><?= $__language->get("error_not_evaluated", "N/A") ?></span> <?= $__language->get("players", "Players") ?></a>
+								<a class="nav-link"><span class="badge badge-primary players">
+										<?php
+										//Get the status and decode the JSON
+										$status = json_decode(file_get_contents('https://api.mcsrvstat.us/1/' . $__configuration->get(["player_count", "server_ip"])));
+
+										//Show a number of players
+                                        echo $status->players->online;  
+										?>
+								</span> <?= $__language->get("players", "Players") ?></a>
 							</li>
 							<?php
 							
