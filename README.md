@@ -44,22 +44,26 @@ define("DATABASE_DATABASE", "database");
 ```
 
 Configuration options are also available for AdvancedBan Panel. These options allow you to change how AdvancedBan Panel functions. The configuration file for AdvancedBan Panel is located at `static\configuration.json`. Once you have made changes to the configuration file, I would suggest placing the configuration file in a JSON validator to make sure you have not removed something you should not have.
+
+Please note that the **version** must be changed from **stable** to **legacy** or **beta** in order to use AdvancedBan Panel with AdvancedBan version 1.2.5 or 2.1.6. **Stable** denotes use of AdvancedBan version 2.1.5.
 ```json
 {
+    "version": "stable",
+    "mod_rewrite": false,
     "default": {
         "theme": "photon",
         "language": "en-US"
     },
-    "mod_rewrite": false,
-    "messages": {
-        "title": "advancedban-panel",
-        "description": "Simple and sleek website panel for AdvancedBan."
+    "language": {
+        "title": "AdvancedBan Panel",
+        "description": "Simple and sleek punishment panel for AdvancedBan."
     },
     "player_count": {
         "enabled": true,
-        "server_ip": "mc.hypixel.net"
+        "host": "mc.hypixel.net",
+        "port": "25565"
     },
-    "support": {
+    "navigation": {
         "contact": {
             "enabled": true,
             "link": "http://example.com/contact"
