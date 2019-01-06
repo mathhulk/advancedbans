@@ -120,3 +120,12 @@ a, .dropdown {
 .table-hover tbody tr:hover {
 	background: rgba(0, 0, 0, 0.05);
 }
+
+.badge {
+	font-size: 85%;
+	font-weight: 400;
+}
+
+.copy i {
+	margin-right: 2px;
+}

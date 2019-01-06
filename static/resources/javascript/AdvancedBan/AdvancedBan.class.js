@@ -125,7 +125,7 @@ class AdvancedBan {
 	}
 	
 	static query( ) {
-		$.getJSON("https://mcapi.us/server/" + (this._configuration.get(["player_count", "query"]) ? "query" : "status") + "?ip=" + this._configuration.get(["player_count", "host"]) + "&port=" + this._configuration.get(["player_count", "port"]), function(data) {
+		$.getJSON("https://mcapi.us/server/" + (AdvancedBan.configuration.get(["player_count", "query"]) ? "query" : "status") + "?ip=" + AdvancedBan.configuration.get(["player_count", "host"]) + "&port=" + AdvancedBan.configuration.get(["player_count", "port"]), function(data) {
 			if(data.status === "success" && data.online) {
 				$(".players").text(data.players.now.toLocaleString( ));
 			} else {
