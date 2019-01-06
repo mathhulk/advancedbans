@@ -1,6 +1,6 @@
 {
-	"version": "stable",
-	"mod_rewrite": false,
+    "version": "stable",
+    "mod_rewrite": false,
     "default": {
         "theme": "photon",
         "language": "en-US"
@@ -11,6 +11,7 @@
     },
     "player_count": {
         "enabled": true,
+		"query": false,
         "host": "mc.hypixel.net",
 		"port": "25565"
     },

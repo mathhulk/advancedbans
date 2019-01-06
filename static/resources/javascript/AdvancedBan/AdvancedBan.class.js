@@ -125,8 +125,8 @@ class AdvancedBan {
 	}
 	
 	static query( ) {
-		$.getJSON("https://mcapi.us/server/status?ip=" + AdvancedBan.configuration.get(["player_count", "host"]) + "&port=" + AdvancedBan.configuration.get(["player_count", "port"]), function(data) {
-			if(data.status === "success") {
+		$.getJSON("https://mcapi.us/server/" + (this._configuration.get(["player_count", "query"]) ? "query" : "status") + "?ip=" + this._configuration.get(["player_count", "host"]) + "&port=" + this._configuration.get(["player_count", "port"]), function(data) {
+			if(data.status === "success" && data.online) {
 				$(".players").text(data.players.now.toLocaleString( ));
 			} else {
 				$(".players").text(AdvancedBan.language.get("error_not_evaluated", "N/A"));
@@ -186,7 +186,7 @@ class AdvancedBan {
 				if(AdvancedBan.configuration.get(["version"]) === "legacy") {
 					value.punishmentType = "BAN";
 					value.name = value.nick;
-					value.operator = value.adminnick;
+					value.operator = value.adminnick === "*Console*" ? "CONSOLE" : value.adminnick;
 					value.start = parseInt(value.banfrom);
 					
 					
