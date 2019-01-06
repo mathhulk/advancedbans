@@ -3,8 +3,12 @@ Simple and sleek website panel for AdvancedBan.
 
 ## Notable Features
 * Self-host
+* Support multiple AdvancedBan versions
+  * Legacy version 1.2.5
+  * Stable version 2.1.5
+  * Beta version 2.1.6
 * Themes
-  * Beautiful default theme
+  * Beautiful default and contributor themes
   * Create custom themes
   * User theme selection
 * Languages
@@ -18,13 +22,14 @@ Simple and sleek website panel for AdvancedBan.
     * Search punishment through input for name, reason and operator
     * Mix and match multiple queries during each search
 * Players
-  * Updated per 5 seconds
-  * Enable or disable in the configuration
-  * Configure server host address
-* Menu
+  * Updated in a 5 second interval
+  * Configure server host address and port
+  * Optional query for older servers
+  * Enable or disable
+* Navigation
   * Configure custom support link
   * Configure custom appeal link
-  * Enable or disable either or both
+  * Enable or disable one or both
 
 ## Requirements
 * PHP v7.2.8 recommended
@@ -60,6 +65,7 @@ Please note that the **version** must be changed from **stable** to **legacy** o
     },
     "player_count": {
         "enabled": true,
+        "query": false,
         "host": "mc.hypixel.net",
         "port": "25565"
     },
