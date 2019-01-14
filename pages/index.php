@@ -82,7 +82,7 @@ $__network->send( );
 						if($__configuration->get(["player_count", "enabled"]) === true) {
 							
 							?>
-							<li class="nav-item clipboard" data-clipboard-text="<?= $__configuration->get(["player_count", "server_ip"]) ?>">
+							<li class="nav-item clipboard" data-clipboard-text="<?= $__configuration->get(["player_count", "host"]) . ":" . $__configuration->get(["player_count", "port"]) ?>">
 								<a class="nav-link"><span class="badge badge-primary players"><?= $__language->get("error_not_evaluated", "N/A") ?></span> <?= $__language->get("players", "Players") ?></a>
 							</li>
 							<?php

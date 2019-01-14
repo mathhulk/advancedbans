@@ -4,43 +4,28 @@ class AdvancedBan {
 		this._templates = { };
 		this._search = { };
 		
+		this._reference = [[ "copied", ["copied"]], ["copy", ["copy"]], ["error-no-punishments", ["error_no_punishments"]], ["page", ["status", "page", "text"]], ["punishment", ["id", "type", "name", "reason", "operator", "date", "expires", "status"]], ["time", ["time"]], ["table", ["type", "name", "reason", "operator", "date", "expires", "status"]]];
+		
 		Cookie.initialize("AdvancedBan");
 		
 		this._configuration = new Configuration("static/configuration.json", function( ) {
-			
 			AdvancedBan.language = new Language(Cookie.get("language") ? Cookie.get("language") : AdvancedBan.configuration.get(["default", "language"]), function( ) {
-				
-				function setTemplate(templates, position, callback) {
-					
-					AdvancedBan.setTemplate(templates[position][0], new Template(templates[position][0], templates[position][1], function( ) {
+				AdvancedBan.loadTemplates(AdvancedBan.reference, 0, function( ) {
+					if(AdvancedBan.configuration.get(["player_count", "enabled"])) {
+						new ClipboardJS(".clipboard");
 						
-						if(position === templates.length - 1) {
-							if(AdvancedBan.configuration.get(["player_count", "enabled"])) {
-								new ClipboardJS(".clipboard");
-								
-								AdvancedBan.query( );
-								setInterval(AdvancedBan.query, 1000 * 10);
-							}
-							
-							AdvancedBan.get(function( ) {
-								AdvancedBan.sort( );
-								AdvancedBan.load(1);
-							});
-							
-							callback( );
-						} else {
-							setTemplate(templates, position + 1, callback);
-						}
-						
-					}));
+						AdvancedBan.query( );
+						setInterval(AdvancedBan.query, 1000 * 10);
+					}
 					
-				}
-				
-				let templates = [["copied", ["copied"]], ["copy", ["copy"]], ["error-no-punishments", ["error_no_punishments"]], ["page", ["status", "page", "text"]], ["punishment", ["id", "type", "name", "reason", "operator", "date", "expires", "status"]], ["time", ["time"]], ["table", ["type", "name", "reason", "operator", "date", "expires", "status"]]];
-				setTemplate(templates, 0, callback);
-			
+					AdvancedBan.get(function( ) {
+						AdvancedBan.sort( );
+						AdvancedBan.load(1);
+					});
+					
+					callback( );
+				});
 			});
-		
 		});
 	}
 	
@@ -84,12 +69,12 @@ class AdvancedBan {
 		return this._PunishmentHistory;
 	}
 	
-	static set template(template) {
-		this._template = template;
+	static set templates(templates) {
+		this._templates = templates;
 	}
 	
-	static get template( ) {
-		return this._template;
+	static get templates( ) {
+		return this._templates;
 	}
 	
 	static set search(search) {
@@ -100,12 +85,30 @@ class AdvancedBan {
 		return this._search;
 	}
 	
+	static set reference(reference) {
+		this._reference = reference;
+	}
+	
+	static get reference( ) {
+		return this._reference;
+	}
+	
 	static setTemplate(name, template) {
 		this._templates[name] = template;
 	}
 	
 	static getTemplate(template) {
 		return this._templates[template];
+	}
+	
+	static loadTemplates(templates, position, callback) {
+		AdvancedBan.setTemplate(templates[position][0], new Template(templates[position][0], templates[position][1], function( ) {
+			if(position === templates.length - 1) {
+				callback( );
+			} else {
+				AdvancedBan.loadTemplates(templates, position + 1, callback);
+			}
+		}));
 	}
 	
 	static sort( ) {
@@ -180,7 +183,7 @@ class AdvancedBan {
 				
 				/*
 				 *	Support legacy version 1.2.5
-				 *	Column references are not organized
+				 *	Columns have different names
 				 */
 				
 				if(AdvancedBan.configuration.get(["version"]) === "legacy") {
@@ -188,6 +191,12 @@ class AdvancedBan {
 					value.name = value.nick;
 					value.operator = value.adminnick === "*Console*" ? "CONSOLE" : value.adminnick;
 					value.start = parseInt(value.banfrom);
+					
+					/*
+					 *	No longer need to reference banto from legacy version 1.2.5
+					 */
+					
+					value.end = value.banto;
 					
 					
 				/*
@@ -214,7 +223,7 @@ class AdvancedBan {
 				
 					/*
 					 *	Support legacy version 1.2.5
-					 *	Column references are not organized
+					 *	Columns have different names
 					 */
 					 
 					if(AdvancedBan.configuration.get(["version"]) === "legacy") {
@@ -264,7 +273,7 @@ class AdvancedBan {
 					status = AdvancedBan.active(value.start, value.end);
 				}
 				
-				$("tbody").append(AdvancedBan.getTemplate("punishment").replace([value.id, AdvancedBan.language.get(value.punishmentType.toLowerCase( ), value.punishmentType), value.name, value.reason, value.operator, date.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([date.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]), value.end && value.end.length > 2 ? expires.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([expires.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]) : AdvancedBan.language.get("error_not_evaluated", "N/A"), status ? AdvancedBan.language.get("active", "Active") : AdvancedBan.language.get("inactive", "Inactive")]));
+				$("tbody").append(AdvancedBan.getTemplate("punishment").replace([value.id, AdvancedBan.language.get(value.punishmentType.toLowerCase( ), value.punishmentType), value.name, value.reason, value.operator, date.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([date.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]), expires ? expires.toLocaleString(AdvancedBan.language.discriminator, {month: "long", day: "numeric", year: "numeric"}) + " " + AdvancedBan.getTemplate("time").replace([expires.toLocaleString(AdvancedBan.language.discriminator, {hour: "numeric", minute: "numeric"})]) : AdvancedBan.language.get("error_not_evaluated", "N/A"), status ? AdvancedBan.language.get("active", "Active") : AdvancedBan.language.get("inactive", "Inactive")]));
 			});
 		}
 		
@@ -335,7 +344,7 @@ class AdvancedBan {
 				
 			/*
 			 *	Support legacy version 1.2.5
-			 *	Table `PunishmentHistory` does not exist
+			 *	Status saved as integer boolean value
 			 */
 			
 			if(this._configuration.get(["version"]) === "legacy") {
