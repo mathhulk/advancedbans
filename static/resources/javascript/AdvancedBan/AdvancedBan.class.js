@@ -219,7 +219,7 @@ class AdvancedBan {
 				
 				let expires;
 				
-				if(value.end && value.end.length > 2) {
+				if(value.end && String(value.end.length > 2)) {
 				
 					/*
 					 *	Support legacy version 1.2.5
@@ -370,10 +370,15 @@ class AdvancedBan {
 			}
 		}
 		
-		if(this._search.inputType && this._search.inputType.length > 0 && this._search.input) {
+		if(this._search.input) {
 			let valid = false;
+			let inputType = ["name", "reason", "operator"];
 			
-			$.each(this._search.inputType, function(index, value) {
+			if(this._search.inputType && this._search.inputType.length > 0) {
+				inputType = this._search.inputType;
+			}
+			
+			$.each(inputType, function(index, value) {
 				if(punishment[value].toLowerCase( ).includes(AdvancedBan.search.input.toLowerCase( ))) {
 					valid = true;
 				}

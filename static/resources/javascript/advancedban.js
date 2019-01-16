@@ -49,7 +49,7 @@ $(document).ready(function( ) {
 			}
 		});
 		
-		$(document).on("input", ".search input", function( ) {
+		$(document).on("blur", ".search input", function( ) {
 			let search = AdvancedBan.search;
 			search.input = $(this).val( );
 			AdvancedBan.search = search;
