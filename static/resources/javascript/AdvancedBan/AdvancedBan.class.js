@@ -219,7 +219,7 @@ class AdvancedBan {
 				
 				let expires;
 				
-				if(value.end && String(value.end.length > 2)) {
+				if(value.end && String(value.end).length > 2) {
 				
 					/*
 					 *	Support legacy version 1.2.5
