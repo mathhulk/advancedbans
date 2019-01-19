@@ -1,3 +1,5 @@
+let typing;
+
 $(document).ready(function( ) {
 	
 	AdvancedBan.initialize(function( ) {
@@ -49,13 +51,17 @@ $(document).ready(function( ) {
 			}
 		});
 		
-		$(document).on("blur", ".search input", function( ) {
-			let search = AdvancedBan.search;
-			search.input = $(this).val( );
-			AdvancedBan.search = search;
+		$(document).on("input", ".search input", function( ) {
+			clearTimeout(typing);
 			
-			AdvancedBan.sort( );
-			AdvancedBan.load(1);
+			typing = setTimeout(function( ) {
+				let search = AdvancedBan.search;
+				search.input = $(".search input").val( );
+				AdvancedBan.search = search;
+			
+				AdvancedBan.sort( );
+				AdvancedBan.load(1);
+			}, 2000);
 		});
 		
 		$(document).on("click", ".search .dropdown-menu", function(event) {
