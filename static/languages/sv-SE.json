@@ -13,8 +13,8 @@
         "search": "Sök",
         "copy": "Kopiera",
         "copied": "Kopierat",
-        "inactive": "Oaktiv",
-        "active": "Aktiv",
+        "inactive": "Oaktivt",
+        "active": "Aktivt",
         "first": "Första",
         "previous": "Föregående",
         "next": "Nästa",
@@ -28,13 +28,13 @@
         "status": "Status",
         "ban": "Bannlysning",
         "temp_ban": "Tillfällig Bannlysning",
-        "ip_ban": "I.P. Bannlysning",
+        "ip_ban": "IP Bannlysning",
         "mute": "Dämpning",
         "temp_mute": "Tillfällig Dämpning",
         "warning": "Varning",
         "temp_warning": "Tillfällig Varning",
         "kick": "Sparkad",
-        "error_no_punishments": "Inga straff skulle kunna listas på denna sidan",
+        "error_no_punishments": "Inga straff kunde listas på denna sidan",
         "error_not_evaluated": "N/A"
     }
 }
