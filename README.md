@@ -60,7 +60,7 @@ Please note that the **version** must be changed from **stable** to **legacy** o
         "language": "en-US"
     },
     "language": {
-        "title": "AdvancedBan Panel",
+        "title": "AdvancedBans",
         "description": "Simple and sleek punishment panel for AdvancedBan."
     },
     "player_count": {
