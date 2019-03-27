@@ -1,7 +1,7 @@
 <?php
 
-$__configuration = AdvancedBan::getConfiguration( );
-$__database = AdvancedBan::getDatabase( );
+$__configuration = AdvancedBans::getConfiguration( );
+$__database = AdvancedBans::getDatabase( );
 
 /*
  *	Support legacy version 1.2.5
@@ -35,4 +35,4 @@ if($__configuration->get(["version"]) === "legacy") {
 }
 
 header("Content-Type: application/json");
-die(json_encode($response));
+die( json_encode(isset($response) ? $response : [ ]) );

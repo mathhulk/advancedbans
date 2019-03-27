@@ -1,8 +1,8 @@
 <?php
 
-namespace AdvancedBan\User;
+namespace AdvancedBans\User;
 
-use AdvancedBan;
+use AdvancedBans;
 
 class Language {
 	
@@ -12,7 +12,7 @@ class Language {
 	private $discriminator;
 	
 	public function __construct(string $discriminator) {
-		$__root = AdvancedBan::getRoot( );
+		$__root = AdvancedBans::getRoot( );
 		
 		$data = json_decode(file_get_contents($__root . "/static/languages/" . $discriminator . ".json"), true);
 		

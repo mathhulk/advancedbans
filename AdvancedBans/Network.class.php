@@ -1,8 +1,8 @@
 <?php
 
-namespace AdvancedBan;
+namespace AdvancedBans;
 
-use AdvancedBan;
+use AdvancedBans;
 
 class Network {
 	

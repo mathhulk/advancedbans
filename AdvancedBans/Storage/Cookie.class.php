@@ -1,6 +1,6 @@
 <?php
 
-namespace AdvancedBan\Storage;
+namespace AdvancedBans\Storage;
 
 class Cookie {
 	

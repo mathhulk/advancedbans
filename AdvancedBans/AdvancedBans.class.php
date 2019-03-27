@@ -1,17 +1,17 @@
 <?php
 
-use AdvancedBan\User\Language;
-use AdvancedBan\User\Theme;
+use AdvancedBans\User\Language;
+use AdvancedBans\User\Theme;
 
-use AdvancedBan\Storage\Cookie;
+use AdvancedBans\Storage\Cookie;
 
-use AdvancedBan\Database;
-use AdvancedBan\Configuration;
-use AdvancedBan\Template;
-use AdvancedBan\Request;
-use AdvancedBan\Network;
+use AdvancedBans\Database;
+use AdvancedBans\Configuration;
+use AdvancedBans\Template;
+use AdvancedBans\Request;
+use AdvancedBans\Network;
 
-class AdvancedBan {
+class AdvancedBans {
 	
 	private static $root;
 	
@@ -35,18 +35,15 @@ class AdvancedBan {
 		
 		self::$cookie = new Cookie("AdvancedBan");
 		
-		self::$language = new Language(self::$cookie->get("language") ? self::$cookie->get("language") : self::$configuration->get(["default", "language"]));
-		self::$theme = new Theme(self::$cookie->get("theme") ? self::$cookie->get("theme") : self::$configuration->get(["default", "theme"]));
+		self::$language = new Language( self::$cookie->get("language") ? self::$cookie->get("language") : self::$configuration->get(["default", "language"]) );
+		self::$theme = new Theme( self::$cookie->get("theme") ? self::$cookie->get("theme") : self::$configuration->get(["default", "theme"]) );
 		
 		self::$network = new Network("https://mathhulk.me/advancedban/global/");
 		
 		self::$request = new Request(isset($_GET["request"]) ? $_GET["request"] : "/");
 		
-		if(self::$request->getAbsolute( )) {
-			require_once self::$request->getAbsolute( );
-		} else {
-			http_response_code(404);
-		}
+		if( self::$request->getAbsolute( ) ) require_once self::$request->getAbsolute( );
+		else http_response_code(404);
 	}
 	
 	public static function getRoot( ) {

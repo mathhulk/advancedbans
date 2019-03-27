@@ -1,8 +1,8 @@
 <?php
 
-$__root = AdvancedBan::getRoot( );
-$__cookie = AdvancedBan::getCookie( );
-$__request = AdvancedBan::getRequest( );
+$__root = AdvancedBans::getRoot( );
+$__cookie = AdvancedBans::getCookie( );
+$__request = AdvancedBans::getRequest( );
 
 if(isset($_GET["set"]) && file_exists($__root . "/static/languages/" . $_GET["set"] . ".json")) {
 	$__cookie->set("language", $_GET["set"]);

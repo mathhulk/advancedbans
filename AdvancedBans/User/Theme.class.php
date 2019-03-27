@@ -1,9 +1,9 @@
 <?php
 
-namespace AdvancedBan\User;
+namespace AdvancedBans\User;
 
-use AdvancedBan\Template;
-use AdvancedBan;
+use AdvancedBans\Template;
+use AdvancedBans;
 
 class Theme {
 	
@@ -13,7 +13,7 @@ class Theme {
 	private $discriminator;
 	
 	public function __construct(string $discriminator) {
-		$__root = AdvancedBan::getRoot( );
+		$__root = AdvancedBans::getRoot( );
 		
 		$data = json_decode(file_get_contents($__root . "/static/themes/" . $discriminator . "/configuration.json"), true);
 		
@@ -38,14 +38,12 @@ class Theme {
 	}
 	
 	public function get(string $template, string $type) {
-		$__root = AdvancedBan::getRoot( );
+		$__root = AdvancedBans::getRoot( );
 		
 		$response = " ";
 		$template = new Template($template, ["file"]);
 		
-		foreach(glob($__root . "/static/themes/" . $this->discriminator . "/" . $type . "/*") as $file) {
-			$response .= $template->replace(["static/themes/" . $this->discriminator . "/" . $type . "/" . basename($file)]);
-		}
+		foreach(glob($__root . "/static/themes/" . $this->discriminator . "/" . $type . "/*") as $file) $response .= $template->replace(["static/themes/" . $this->discriminator . "/" . $type . "/" . basename($file)]);
 		
 		return $response;
 	}

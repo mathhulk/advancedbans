@@ -1,15 +1,15 @@
 <?php
 
-namespace AdvancedBan;
+namespace AdvancedBans;
 
-use AdvancedBan;
+use AdvancedBans;
 
 class Configuration {
 	
 	private $collection;
 	
 	public function __construct(string $path) {
-		$__root = AdvancedBan::getRoot( );
+		$__root = AdvancedBans::getRoot( );
 		
 		$data = json_decode(file_get_contents($__root . $path), true);
 		
@@ -25,9 +25,7 @@ class Configuration {
 	public function get(array $indices) {
 		$value = $this->collection[array_shift($indices)];
 		
-		foreach($indices as $index) {
-			$value = $value[$index];
-		}
+		foreach($indices as $index) $value = $value[$index];
 		
 		return $value;
 	}

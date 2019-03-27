@@ -7,17 +7,17 @@ require_once "include/functions/clean.php";
 
 require_once "static/database.php";
 
-require_once "AdvancedBan/User/Language.class.php";
-require_once "AdvancedBan/User/Theme.class.php";
+require_once "AdvancedBans/User/Language.class.php";
+require_once "AdvancedBans/User/Theme.class.php";
 
-require_once "AdvancedBan/Storage/Cookie.class.php";
+require_once "AdvancedBans/Storage/Cookie.class.php";
 
-require_once "AdvancedBan/Database.class.php";
-require_once "AdvancedBan/Configuration.class.php";
-require_once "AdvancedBan/Template.class.php";
-require_once "AdvancedBan/Request.class.php";
-require_once "AdvancedBan/Network.class.php";
+require_once "AdvancedBans/Database.class.php";
+require_once "AdvancedBans/Configuration.class.php";
+require_once "AdvancedBans/Template.class.php";
+require_once "AdvancedBans/Request.class.php";
+require_once "AdvancedBans/Network.class.php";
 
-require_once "AdvancedBan/AdvancedBan.class.php";
+require_once "AdvancedBans/AdvancedBans.class.php";
 
-AdvancedBan::initialize(__DIR__);
+AdvancedBans::initialize(__DIR__);

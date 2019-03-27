@@ -1,6 +1,6 @@
 <?php
 
-namespace AdvancedBan;
+namespace AdvancedBans;
 
 use PDO;
 
@@ -48,11 +48,7 @@ class Database {
 	public function getData(string $table) {
 		$statement = $this->connection->query("SELECT * FROM " . $table);
 		
-		if($statement) {
-			return $statement->fetchAll(PDO::FETCH_ASSOC);
-		} else {
-			return [ ];
-		}
+		return $statement ? $statement->fetchAll(PDO::FETCH_ASSOC) : [ ];
 	}
 	
 }
