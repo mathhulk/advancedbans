@@ -359,6 +359,10 @@ class AdvancedBans {
 	static get(callback) {
 		
 		$.getJSON(this._configuration.get(["mod_rewrite"]) === true ? "punishments" : "?request=punishments", function(data) {
+			
+			data.Punishments.sort(function(a, b) {
+				return parseInt(a.id) > parseInt(b.id) ? -1 : parseInt(a.id) < parseInt(b.id) ? 1 : 0;
+			});
 				
 			/*
 			 *	Support legacy version 1.2.5
@@ -373,6 +377,10 @@ class AdvancedBans {
 			 */
 				
 			} else if(AdvancedBans.configuration.get(["version"]) === "beta") {
+				data.PunishmentHistory.sort(function(a, b) {
+					return parseInt(a.id) > parseInt(b.id) ? -1 : parseInt(a.id) < parseInt(b.id) ? 1 : 0;
+				});
+				
 				AdvancedBans.Punishments = data.Punishments;
 				AdvancedBans.PunishmentHistory = data.PunishmentHistory;
 				
@@ -381,6 +389,10 @@ class AdvancedBans {
 			 */
 			
 			} else if(AdvancedBans.configuration.get(["version"]) === "stable") {
+				data.PunishmentHistory.sort(function(a, b) {
+					return parseInt(a.id) > parseInt(b.id) ? -1 : parseInt(a.id) < parseInt(b.id) ? 1 : 0;
+				});
+				
 				AdvancedBans.Punishments = data.Punishments;
 				AdvancedBans.PunishmentHistory = data.PunishmentHistory;
 			}
