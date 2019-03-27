@@ -38,7 +38,7 @@ class AdvancedBans {
 		self::$language = new Language( self::$cookie->get("language") ? self::$cookie->get("language") : self::$configuration->get(["default", "language"]) );
 		self::$theme = new Theme( self::$cookie->get("theme") ? self::$cookie->get("theme") : self::$configuration->get(["default", "theme"]) );
 		
-		self::$network = new Network("https://mathhulk.me/advancedban/global/");
+		self::$network = new Network("https://mathhulk.me/advancedbans/global/");
 		
 		self::$request = new Request(isset($_GET["request"]) ? $_GET["request"] : "/");
 		
