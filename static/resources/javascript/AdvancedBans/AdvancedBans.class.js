@@ -333,6 +333,8 @@ class AdvancedBans {
 		
 			this.loadImages( );
 		}
+		
+		this._page = 1;
 	}
 	
 	static isActive(date, expires) {
